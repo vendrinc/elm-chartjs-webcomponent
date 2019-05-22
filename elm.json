@@ -5,7 +5,20 @@
     "license": "MIT",
     "version": "1.0.0",
     "exposed-modules": [
-        "Chartjs.Chart"
+        "Chartjs.Chart",
+        "Chartjs.Common",
+        "Chartjs.Data",
+        "Chartjs.Options",
+        "Chartjs.DataSets.Bar",
+        "Chartjs.DataSets.DoughnutAndPie",
+        "Chartjs.DataSets.Line",
+        "Chartjs.Options.Animations",
+        "Chartjs.Options.Elements",
+        "Chartjs.Options.Layout",
+        "Chartjs.Options.Legend",
+        "Chartjs.Options.Scales",
+        "Chartjs.Options.Title",
+        "Chartjs.Options.Tooltips"
     ],
     "elm-version": "0.19.0 <= v < 0.20.0",
     "dependencies": {
