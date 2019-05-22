@@ -1,0 +1,20 @@
+{
+    "type": "package",
+    "name": "blissfully/elm-chartjs-webcomponent",
+    "summary": "Elm interface to include Chartjs in your UI via a web component.",
+    "license": "MIT",
+    "version": "0.1.0",
+    "exposed-modules": [
+        "Chartjs.Chartjs"
+    ],
+    "elm-version": "0.19.0 <= v < 0.20.0",
+    "dependencies": {
+        "avh4/elm-color": "1.0.0 <= v < 2.0.0",
+        "elm/core": "1.0.2 <= v < 2.0.0",
+        "elm/html": "1.0.0 <= v < 2.0.0",
+        "elm/json": "1.1.1 <= v < 2.0.0",
+        "elm/time": "1.0.0 <= v < 2.0.0",
+        "rtfeldman/elm-iso8601-date-strings": "1.1.2 <= v < 2.0.0"
+    },
+    "test-dependencies": {}
+}
