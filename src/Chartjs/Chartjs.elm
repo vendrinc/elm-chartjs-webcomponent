@@ -2,6 +2,10 @@ module Chartjs.Chartjs exposing (Chart, ChartType(..), chart, defaultChart)
 
 {-| A type-safe bridge to a Chartjs web component.
 
+Note: this library isn't usable without including Chartjs as a Javascript dependency in your project,
+along with the sister Javascript web component that goes with this library.
+Please see instructions here: https://github.com/Blissfully/elm-chartjs-webcomponent
+
 @docs Chart, ChartType, chart, defaultChart
 
 -}
