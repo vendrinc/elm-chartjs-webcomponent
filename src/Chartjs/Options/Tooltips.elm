@@ -1,8 +1,8 @@
-module Chartjs.Options.Tooltips exposing (Callbacks, Mode(..), PositionMode(..), Tooltips, defaultCallbacks, defaultTooltips, encodeCallbacks, encodeMode, encodePositionMode, encodeTooltips)
+module Chartjs.Options.Tooltips exposing (Callbacks, Mode(..), PositionMode(..), Tooltips, defaultCallbacks, defaultTooltips)
 
 import Color exposing (Color)
-import Json.Encode as Encode
-import Chartjs.Util as Encode
+
+
 type alias Tooltips =
     { enabled : Maybe Bool
     , -- custom,
@@ -102,84 +102,3 @@ defaultCallbacks : Callbacks
 defaultCallbacks =
     { label = Nothing
     }
-
-
-encodeTooltips : Tooltips -> Encode.Value
-encodeTooltips tooltips =
-    Encode.beginObject
-        |> Encode.maybeBoolField "enabled" tooltips.enabled
-        |> Encode.maybeCustomField "mode" encodeMode tooltips.mode
-        |> Encode.maybeBoolField "intersect" tooltips.intersect
-        |> Encode.maybeCustomField "position" encodePositionMode tooltips.position
-        |> Encode.maybeCustomField "callbacks" encodeCallbacks tooltips.callbacks
-        |> Encode.maybeColorField "backgroundColor" tooltips.backgroundColor
-        |> Encode.maybeStringField "titleFontFamily" tooltips.titleFontFamily
-        |> Encode.maybeIntField "titleFontSize" tooltips.titleFontSize
-        |> Encode.maybeStringField "titleFontStyle" tooltips.titleFontStyle
-        |> Encode.maybeColorField "titleFontColor" tooltips.titleFontColor
-        |> Encode.maybeIntField "titleSpacing" tooltips.titleSpacing
-        |> Encode.maybeIntField "titleMarginBottom" tooltips.titleMarginBottom
-        |> Encode.maybeStringField "bodyFontFamily" tooltips.bodyFontFamily
-        |> Encode.maybeIntField "bodyFontSize" tooltips.bodyFontSize
-        |> Encode.maybeStringField "bodyFontStyle" tooltips.bodyFontStyle
-        |> Encode.maybeColorField "bodyFontColor" tooltips.bodyFontColor
-        |> Encode.maybeIntField "bodySpacing" tooltips.bodySpacing
-        |> Encode.maybeStringField "footerFontFamily" tooltips.footerFontFamily
-        |> Encode.maybeIntField "footerFontSize" tooltips.footerFontSize
-        |> Encode.maybeStringField "footerFontStyle" tooltips.footerFontStyle
-        |> Encode.maybeColorField "footerFontColor" tooltips.footerFontColor
-        |> Encode.maybeIntField "footerSpacing" tooltips.footerSpacing
-        |> Encode.maybeIntField "footerMarginTop" tooltips.footerMarginTop
-        |> Encode.maybeIntField "xPadding" tooltips.xPadding
-        |> Encode.maybeIntField "yPadding" tooltips.yPadding
-        |> Encode.maybeIntField "caretPadding" tooltips.caretPadding
-        |> Encode.maybeIntField "carretSize" tooltips.carretSize
-        |> Encode.maybeIntField "cornerRadius" tooltips.cornerRadius
-        |> Encode.maybeColorField "multiKeyBackground" tooltips.multiKeyBackground
-        |> Encode.maybeBoolField "displayColors" tooltips.displayColors
-        |> Encode.maybeBoolField "borderColor" tooltips.borderColor
-        |> Encode.maybeIntField "borderWidth" tooltips.borderWidth
-        |> Encode.toValue
-
-
-encodeMode : Mode -> Encode.Value
-encodeMode mode =
-    (case mode of
-        Point ->
-            "point"
-
-        Nearest ->
-            "nearest"
-
-        Index ->
-            "index"
-
-        DataSet ->
-            "dataset"
-
-        X ->
-            "x"
-
-        Y ->
-            "y"
-    )
-        |> Encode.string
-
-
-encodePositionMode : PositionMode -> Encode.Value
-encodePositionMode positionMode =
-    (case positionMode of
-        PositionModeAverage ->
-            "average"
-
-        PositionModeNearest ->
-            "nearest"
-    )
-        |> Encode.string
-
-
-encodeCallbacks : Callbacks -> Encode.Value
-encodeCallbacks callbacks =
-    Encode.beginObject
-        |> Encode.maybeStringField "label" callbacks.label
-        |> Encode.toValue

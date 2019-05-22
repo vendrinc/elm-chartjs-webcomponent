@@ -1,9 +1,8 @@
-module Chartjs.Options.Legend exposing (Labels, Legend, defaultLabels, defaultLegend, encodeLabels, encodeLegend)
+module Chartjs.Options.Legend exposing (Labels, Legend, defaultLabels, defaultLegend)
 
-import Color exposing (Color)
-import Json.Encode as Encode
 import Chartjs.Common as Common
-import Chartjs.Util as Encode
+import Color exposing (Color)
+
 
 type alias Legend =
     { display : Maybe Bool
@@ -51,29 +50,3 @@ defaultLabels =
       --filter,
       usePointStyle = Nothing
     }
-
-
-encodeLabels : Labels -> Encode.Value
-encodeLabels labels =
-    Encode.beginObject
-        |> Encode.maybeIntField "boxWidth" labels.boxWidth
-        |> Encode.maybeIntField "fontSize" labels.fontSize
-        |> Encode.maybeStringField "fontStyle" labels.fontStyle
-        |> Encode.maybeColorField "fontColor" labels.fontColor
-        |> Encode.maybeStringField "fontFamily" labels.fontFamily
-        |> Encode.maybeIntField "padding" labels.padding
-        |> Encode.maybeBoolField "usePointStyle" labels.usePointStyle
-        |> Encode.toValue
-
-
-encodeLegend : Legend -> Encode.Value
-encodeLegend legend =
-    Encode.beginObject
-        |> Encode.maybeBoolField "display" legend.display
-        |> Encode.maybeCustomField "position" Common.encodePosition legend.position
-        |> Encode.maybeBoolField "fullWidth" legend.fullWidth
-        -- onClick,
-        -- onHover,
-        |> Encode.maybeBoolField "reverse" legend.reverse
-        |> Encode.maybeCustomField "labels" encodeLabels legend.labels
-        |> Encode.toValue

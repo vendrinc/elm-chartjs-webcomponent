@@ -1,9 +1,9 @@
-module Chartjs.DataSets.Line exposing (DataSet, FillBoundary(..), FillMode(..), SteppedLine(..), defaultLineFromLabel, encodeFillMode, encodeLineChartDataSet, encodeSteppedLine)
+module Chartjs.DataSets.Line exposing (DataSet, FillBoundary(..), FillMode(..), SteppedLine(..), defaultLineFromLabel)
 
-import Color exposing (Color)
-import Json.Encode as Encode
 import Chartjs.Common as Common
-import Chartjs.Util as Encode
+import Color exposing (Color)
+
+
 type alias DataSet =
     { label : String
     , -- The label for the dataset which appears in the legend and tooltips.
@@ -112,72 +112,3 @@ defaultLineFromLabel label =
     , spanGaps = Nothing
     , steppedLine = Nothing
     }
-
-
-encodeLineChartDataSet : DataSet -> Encode.Value
-encodeLineChartDataSet lineChartDataSet =
-    Encode.beginObject
-        |> Encode.stringField "label" lineChartDataSet.label
-        |> Encode.listField "data" Encode.float lineChartDataSet.data
-        |> Encode.maybeStringField "xAxisID" lineChartDataSet.xAxisID
-        |> Encode.maybeStringField "yAxisID" lineChartDataSet.yAxisID
-        |> Encode.maybeCustomField "backgroundColor" (Common.encodePointProperty Encode.encodeColor) lineChartDataSet.backgroundColor
-        |> Encode.maybeCustomField "borderColor" (Common.encodePointProperty Encode.encodeColor) lineChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (Common.encodePointProperty Encode.float) lineChartDataSet.borderWidth
-        |> Encode.maybeCustomField "borderDash" (Common.encodePointProperty Encode.float) lineChartDataSet.borderDash
-        |> Encode.maybeFloatField "borderDashOffset" lineChartDataSet.borderDashOffset
-        |> Encode.maybeStringField "borderCapStyle" lineChartDataSet.borderCapStyle
-        |> Encode.maybeStringField "borderJoinStyle" lineChartDataSet.borderJoinStyle
-        |> Encode.maybeStringField "cubicInterpolationMode" lineChartDataSet.cubicInterpolationMode
-        |> Encode.maybeCustomField "fill" encodeFillMode lineChartDataSet.fill
-        |> Encode.maybeFloatField "lineTension" lineChartDataSet.lineTension
-        |> Encode.maybeCustomField "pointBackgroundColor" (Common.encodePointProperty Encode.encodeColor) lineChartDataSet.pointBackgroundColor
-        |> Encode.maybeCustomField "pointBorderWidth" (Common.encodePointProperty Encode.float) lineChartDataSet.pointBorderWidth
-        |> Encode.maybeCustomField "pointRadius" (Common.encodePointProperty Encode.float) lineChartDataSet.pointRadius
-        |> Encode.maybeCustomField "pointStyle" (Common.encodePointProperty Common.encodePointStyle) lineChartDataSet.pointStyle
-        |> Encode.maybeCustomField "pointRotation" (Common.encodePointProperty Encode.float) lineChartDataSet.pointRotation
-        |> Encode.maybeCustomField "pointHitRadius" (Common.encodePointProperty Encode.float) lineChartDataSet.pointHitRadius
-        |> Encode.maybeCustomField "pointHoverBackgroundColor" (Common.encodePointProperty Encode.encodeColor) lineChartDataSet.pointHoverBackgroundColor
-        |> Encode.maybeCustomField "pointHoverBorderColor" (Common.encodePointProperty Encode.encodeColor) lineChartDataSet.pointHoverBorderColor
-        |> Encode.maybeCustomField "pointHoverBorderWidth" (Common.encodePointProperty Encode.float) lineChartDataSet.pointHoverBorderWidth
-        |> Encode.maybeCustomField "pointHoverRadius" (Common.encodePointProperty Encode.float) lineChartDataSet.pointHoverRadius
-        |> Encode.maybeBoolField "showLine" lineChartDataSet.showLine
-        |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
-        |> Encode.maybeCustomField "steppedLine" encodeSteppedLine lineChartDataSet.steppedLine
-        |> Encode.toValue
-
-
-encodeSteppedLine : SteppedLine -> Encode.Value
-encodeSteppedLine steppedLine =
-    case steppedLine of
-        NoInterpolation ->
-            Encode.bool False
-
-        BeforeInterpolation ->
-            Encode.string "before"
-
-        AfterInterpolation ->
-            Encode.string "after"
-
-
-encodeFillMode : FillMode -> Encode.Value
-encodeFillMode fillMode =
-    case fillMode of
-        Absolute i ->
-            Encode.int i
-
-        Relative i ->
-            Encode.int i
-
-        -- BUGBUG, possibly needs to be String, '-1', '-2', '+1', ...
-        Boundary Start ->
-            Encode.string "start"
-
-        Boundary End ->
-            Encode.string "end"
-
-        Boundary Origin ->
-            Encode.string "origin"
-
-        Disabled ->
-            Encode.bool False

@@ -1,9 +1,8 @@
-module Chartjs.DataSets.Bar exposing (DataSet, defaultBarFromLabel, encodeBarChartDataSet)
+module Chartjs.DataSets.Bar exposing (DataSet, defaultBarFromLabel)
 
-import Color exposing (Color)
-import Json.Encode as Encode
 import Chartjs.Common as Common
-import Chartjs.Util as Encode
+import Color exposing (Color)
+
 
 type alias DataSet =
     { label : String
@@ -43,20 +42,3 @@ defaultBarFromLabel label =
     , hoverBorderColor = Nothing
     , hoverBorderWidth = Nothing
     }
-
-
-encodeBarChartDataSet : DataSet -> Encode.Value
-encodeBarChartDataSet barChartDataSet =
-    Encode.beginObject
-        |> Encode.stringField "label" barChartDataSet.label
-        |> Encode.listField "data" Encode.float barChartDataSet.data
-        |> Encode.maybeStringField "xAxisID" barChartDataSet.xAxisID
-        |> Encode.maybeStringField "yAxisID" barChartDataSet.yAxisID
-        |> Encode.maybeCustomField "backgroundColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
-        |> Encode.maybeCustomField "borderColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (Common.encodePointProperty Encode.float) barChartDataSet.borderWidth
-        |> Encode.maybeStringField "borderSkipped" barChartDataSet.borderSkipped
-        |> Encode.maybeCustomField "hoverBackgroundColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
-        |> Encode.maybeCustomField "hoverBorderColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
-        |> Encode.maybeCustomField "hoverBorderWidth" (Common.encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
-        |> Encode.toValue

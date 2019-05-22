@@ -1,9 +1,10 @@
-module Chartjs.Util exposing (beginObject, boolField, colorField, customField, dateField, encodeColor, encodeDate, floatField, intField, listField, maybeBoolField, maybeColorField, maybeCustomField, maybeDateField, maybeField, maybeFloatField, maybeIntField, maybeListField, maybeStringField, stringField, toValue)
+module Chartjs.Internal.Util exposing (beginObject, boolField, colorField, customField, dateField, encodeColor, encodeDate, floatField, intField, listField, maybeBoolField, maybeColorField, maybeCustomField, maybeDateField, maybeField, maybeFloatField, maybeIntField, maybeListField, maybeStringField, stringField, toValue)
 
 import Color exposing (Color)
+import Iso8601
 import Json.Encode as Encode
 import Time
-import Iso8601
+
 
 
 -- Encode pipeline style helpers

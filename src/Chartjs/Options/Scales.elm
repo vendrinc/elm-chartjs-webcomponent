@@ -1,9 +1,8 @@
-module Chartjs.Options.Scales exposing (Axis, GridLines, Scales, Ticks, defaultAxis, defaultGridLines, defaultScales, defaultTicks, encodeAxis, encodeGridLines, encodeScales, encodeTicks)
+module Chartjs.Options.Scales exposing (Axis, GridLines, Scales, Ticks, defaultAxis, defaultGridLines, defaultScales, defaultTicks)
 
-import Color exposing (Color)
-import Json.Encode as Encode
 import Chartjs.Common as Common
-import Chartjs.Util as Encode
+import Color exposing (Color)
+
 
 type alias Scales =
     { xAxes : List Axis
@@ -72,45 +71,3 @@ defaultTicks =
     , suggestedMax = Nothing
     , suggestedMin = Nothing
     }
-
-
-encodeScales : Scales -> Encode.Value
-encodeScales scales =
-    Encode.beginObject
-        |> Encode.listField "xAxes" encodeAxis scales.xAxes
-        |> Encode.listField "yAxes" encodeAxis scales.yAxes
-        |> Encode.toValue
-
-
-encodeAxis : Axis -> Encode.Value
-encodeAxis axis =
-    Encode.beginObject
-        |> Encode.maybeCustomField "position" Common.encodePosition axis.position
-        |> Encode.maybeBoolField "stacked" axis.stacked
-        |> Encode.maybeCustomField "ticks" encodeTicks axis.ticks
-        |> Encode.maybeCustomField "gridLines" encodeGridLines axis.gridLines
-        |> Encode.toValue
-
-
-encodeTicks : Ticks -> Encode.Value
-encodeTicks ticks =
-    Encode.beginObject
-        |> Encode.maybeStringField "fontFamily" ticks.fontFamily
-        |> Encode.maybeStringField "callback" ticks.callback
-        |> Encode.maybeBoolField "beginAtZero" ticks.beginAtZero
-        |> Encode.maybeFloatField "min" ticks.min
-        |> Encode.maybeFloatField "max" ticks.max
-        |> Encode.maybeIntField "maxTicksLimit" ticks.maxTicksLimit
-        |> Encode.maybeIntField "precision" ticks.precision
-        |> Encode.maybeFloatField "stepSize" ticks.stepSize
-        |> Encode.maybeFloatField "suggestedMax" ticks.suggestedMax
-        |> Encode.maybeFloatField "suggestedMin" ticks.suggestedMin
-        |> Encode.toValue
-
-
-encodeGridLines : GridLines -> Encode.Value
-encodeGridLines gridLines =
-    Encode.beginObject
-        |> Encode.maybeBoolField "display" gridLines.display
-        |> Encode.maybeCustomField "color" (Common.encodePointProperty Encode.encodeColor) gridLines.color
-        |> Encode.toValue

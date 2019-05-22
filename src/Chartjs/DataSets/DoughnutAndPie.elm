@@ -1,9 +1,8 @@
-module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultBarFromLabel, encodeDoughnutAndPieDataSet)
+module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultBarFromLabel)
 
-import Color exposing (Color)
-import Json.Encode as Encode
 import Chartjs.Common as Common
-import Chartjs.Util as Encode
+import Color exposing (Color)
+
 
 type alias DataSet =
     { label : String
@@ -43,20 +42,3 @@ defaultBarFromLabel label =
     , rotation = Nothing
     , circumference = Nothing
     }
-
-
-encodeDoughnutAndPieDataSet : DataSet -> Encode.Value
-encodeDoughnutAndPieDataSet barChartDataSet =
-    Encode.beginObject
-        |> Encode.stringField "label" barChartDataSet.label
-        |> Encode.listField "data" Encode.float barChartDataSet.data
-        |> Encode.maybeCustomField "backgroundColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
-        |> Encode.maybeCustomField "borderColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (Common.encodePointProperty Encode.float) barChartDataSet.borderWidth
-        |> Encode.maybeCustomField "hoverBackgroundColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
-        |> Encode.maybeCustomField "hoverBorderColor" (Common.encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
-        |> Encode.maybeCustomField "hoverBorderWidth" (Common.encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
-        |> Encode.maybeIntField "cutoutPercentage" barChartDataSet.cutoutPercentage
-        |> Encode.maybeIntField "rotation" barChartDataSet.rotation
-        |> Encode.maybeIntField "circumference" barChartDataSet.circumference
-        |> Encode.toValue
