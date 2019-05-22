@@ -1,4 +1,10 @@
-module Chartjs.Chartjs exposing (Chart, ChartType(..), chart, defaultChart, encodeChart, encodeChartType)
+module Chartjs.Chartjs exposing (Chart, ChartType(..), chart, defaultChart)
+
+{-| A type-safe bridge to a Chartjs web component.
+
+@docs Chart, ChartType, chart, defaultChart
+
+-}
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -7,7 +13,8 @@ import Chartjs.Data as Data
 import Chartjs.Options as Options
 import Chartjs.Util as Encode
 
-
+{-| Required definition for a Chartjs chart
+-}
 type alias Chart =
     { chartType : ChartType
     , data : Data.Data
@@ -15,13 +22,16 @@ type alias Chart =
     }
 
 
+{-| Basic type of chart
+-}
 type ChartType
     = Bar
     | Line
     | Doughnut
     | Pie
 
-
+{-| Given dimensions and a chart, creates an HMTL node
+-}
 chart : Int -> Int -> Chart -> Html msg
 chart height width chart_ =
     node "chart-component"
@@ -31,7 +41,8 @@ chart height width chart_ =
         ]
         []
 
-
+{-| Given a type, creates a sane Chart config you can update
+-}
 defaultChart : ChartType -> Chart
 defaultChart chartType =
     { chartType = chartType
