@@ -1,9 +1,13 @@
 module Chartjs.Options.Legend exposing (Labels, Legend, defaultLabels, defaultLegend)
 
+{-| Types for managing legend configuration
+@docs Labels, Legend, defaultLabels, defaultLegend
+-} 
+
 import Chartjs.Common as Common
 import Color exposing (Color)
 
-
+{-| Legend |-}
 type alias Legend =
     { display : Maybe Bool
     , position : Maybe Common.Position
@@ -14,7 +18,7 @@ type alias Legend =
     , labels : Maybe Labels
     }
 
-
+{-| Labels |-}
 type alias Labels =
     { boxWidth : Maybe Int
     , fontSize : Maybe Int
@@ -27,7 +31,7 @@ type alias Labels =
       usePointStyle : Maybe Bool
     }
 
-
+{-| defaultLegend |-}
 defaultLegend : Legend
 defaultLegend =
     { display = Nothing
@@ -37,7 +41,7 @@ defaultLegend =
     , labels = Nothing
     }
 
-
+{-| defaultLabels |-}
 defaultLabels : Labels
 defaultLabels =
     { boxWidth = Nothing

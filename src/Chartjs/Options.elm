@@ -1,5 +1,9 @@
 module Chartjs.Options exposing (Options, defaultOptions)
 
+{-| Types for Options
+@docs Options, defaultOptions
+|-}
+
 import Chartjs.Options.Animations as Animations
 import Chartjs.Options.Elements as Elements
 import Chartjs.Options.Layout as Layout
@@ -8,7 +12,7 @@ import Chartjs.Options.Scales as Scales
 import Chartjs.Options.Title as Title
 import Chartjs.Options.Tooltips as Tooltips
 
-
+{-| Options |-}
 type alias Options =
     { animations : Maybe Animations.Animations
     , layout : Maybe Layout.Layout
@@ -20,7 +24,7 @@ type alias Options =
     , maintainAspectRatio : Maybe Bool
     }
 
-
+{-| defaultOptions |-}
 defaultOptions : Options
 defaultOptions =
     { animations = Nothing

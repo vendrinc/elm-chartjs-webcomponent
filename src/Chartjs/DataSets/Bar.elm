@@ -1,9 +1,17 @@
-module Chartjs.DataSets.Bar exposing (DataSet, defaultBarFromLabel)
+module Chartjs.DataSets.Bar exposing (DataSet, defaultFromLabel)
+
+{-| Types for Bar chart
+
+@docs DataSet, defaultFromLabel
+
+-}
 
 import Chartjs.Common as Common
 import Color exposing (Color)
 
 
+{-| DataSet |
+-}
 type alias DataSet =
     { label : String
     , -- The label for the dataset which appears in the legend and tooltips.
@@ -28,8 +36,10 @@ type alias DataSet =
     }
 
 
-defaultBarFromLabel : String -> DataSet
-defaultBarFromLabel label =
+{-| defaultFromLabel |
+-}
+defaultFromLabel : String -> DataSet
+defaultFromLabel label =
     { label = label
     , data = []
     , xAxisID = Nothing

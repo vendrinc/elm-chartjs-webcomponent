@@ -1,9 +1,13 @@
-module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultBarFromLabel)
+module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultFromLabel)
+
+{-| Types for Doughnut & Pie chart
+@docs DataSet, defaultFromLabel
+|-}
 
 import Chartjs.Common as Common
 import Color exposing (Color)
 
-
+{-| DataSet |-}
 type alias DataSet =
     { label : String
     , -- The label for the dataset which appears in the legend and tooltips.
@@ -27,9 +31,9 @@ type alias DataSet =
       circumference : Maybe Int -- Sweep to allow arcs to cover
     }
 
-
-defaultBarFromLabel : String -> DataSet
-defaultBarFromLabel label =
+{-| defaultFromLabel |-}
+defaultFromLabel : String -> DataSet
+defaultFromLabel label =
     { label = label
     , data = []
     , backgroundColor = Nothing

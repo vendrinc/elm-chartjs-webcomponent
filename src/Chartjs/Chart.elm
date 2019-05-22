@@ -9,7 +9,7 @@ Note: this library isn't usable without including Chartjs as a Javascript depend
 along with the sister Javascript web component that goes with this library.
 Please see instructions here: <https://github.com/Blissfully/elm-chartjs-webcomponent>
 
-@docs Chart, ChartType, chart, defaultChart
+@docs Chart, Type, chart, defaultChart
 
 -}
 

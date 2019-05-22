@@ -1,9 +1,13 @@
-module Chartjs.DataSets.Line exposing (DataSet, FillBoundary(..), FillMode(..), SteppedLine(..), defaultLineFromLabel)
+module Chartjs.DataSets.Line exposing (DataSet, FillBoundary(..), FillMode(..), SteppedLine(..), defaultFromLabel)
+
+{-| Types for Line chart
+@docs DataSet, FillBoundary, FillMode, SteppedLine, defaultFromLabel
+|-}
 
 import Chartjs.Common as Common
 import Color exposing (Color)
 
-
+{-| DataSet |-}
 type alias DataSet =
     { label : String
     , -- The label for the dataset which appears in the legend and tooltips.
@@ -61,28 +65,28 @@ type alias DataSet =
       steppedLine : Maybe SteppedLine -- If the line is shown as a stepped line. more...
     }
 
-
+{-| SteppedLine |-}
 type SteppedLine
     = NoInterpolation
     | BeforeInterpolation
     | AfterInterpolation
 
-
+{-| FillMode |-}
 type FillMode
     = Absolute Int
     | Relative Int --possibly needs to be String, '-1', '-2', '+1', ...
     | Boundary FillBoundary
     | Disabled
 
-
+{-| FillBoundary |-}
 type FillBoundary
     = Start
     | End
     | Origin
 
-
-defaultLineFromLabel : String -> DataSet
-defaultLineFromLabel label =
+{-| defaultFromLabel |-}
+defaultFromLabel : String -> DataSet
+defaultFromLabel label =
     { label = label
     , data = []
     , xAxisID = Nothing

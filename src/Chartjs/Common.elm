@@ -1,5 +1,13 @@
 module Chartjs.Common exposing (LineCap(..), LineJoin(..), PointProperty(..), PointStyle(..), Position(..))
 
+{-| Types for managing common configuration
+
+@docs LineCap, LineJoin, PointProperty, PointStyle, Position
+
+|-}
+
+{-| PointStyle |-}
+
 
 type PointStyle
     = Circle
@@ -15,10 +23,18 @@ type PointStyle
     | Image String
 
 
+
+{-| LineCap |-}
+
+
 type LineCap
     = LineCapButt
     | LineCapRound
     | LineCapSquare
+
+
+
+{-| LineJoin |-}
 
 
 type LineJoin
@@ -27,11 +43,19 @@ type LineJoin
     | LineJoinMiter
 
 
+
+{-| Position |-}
+
+
 type Position
     = Top
     | Left
     | Bottom
     | Right
+
+
+
+{-| PointProperty |-}
 
 
 type PointProperty a

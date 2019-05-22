@@ -1,9 +1,13 @@
 module Chartjs.Options.Title exposing (Title, defaultTitle)
 
+{-| Types for managing title configuration
+@docs Title, defaultTitle
+-} 
+
 import Chartjs.Common as Common
 import Color exposing (Color)
 
-
+{-| Title |-}
 type alias Title =
     { display : Maybe Bool
     , position : Maybe Common.Position
@@ -16,7 +20,7 @@ type alias Title =
     , text : Maybe String
     }
 
-
+{-| defaultTitle |-}
 defaultTitle : Title
 defaultTitle =
     { display = Nothing

@@ -1,8 +1,15 @@
 module Chartjs.Options.Tooltips exposing (Callbacks, Mode(..), PositionMode(..), Tooltips, defaultCallbacks, defaultTooltips)
 
+{-| Types for managing tooltip configuration
+
+@docs Tooltips, PositionMode, Mode, Callbacks, defaultCallbacks, defaultTooltips
+|-} 
+
+
 import Color exposing (Color)
 
-
+{-| Tooltips
+|-}
 type alias Tooltips =
     { enabled : Maybe Bool
     , -- custom,
@@ -41,17 +48,21 @@ type alias Tooltips =
     , borderWidth : Maybe Int
     }
 
-
+{-| Callbacks
+|-}
 type alias Callbacks =
     { label : Maybe String
     }
 
 
+{-| PositionMode
+|-}
 type PositionMode
     = PositionModeAverage
     | PositionModeNearest
 
-
+{-| Mode
+|-}
 type Mode
     = Point
     | Nearest
@@ -60,7 +71,8 @@ type Mode
     | X
     | Y
 
-
+{-| Default Tooltips
+|-}
 defaultTooltips : Tooltips
 defaultTooltips =
     { enabled = Nothing
@@ -97,7 +109,8 @@ defaultTooltips =
     , borderWidth = Nothing
     }
 
-
+{-| Default Callbacks
+|-}
 defaultCallbacks : Callbacks
 defaultCallbacks =
     { label = Nothing

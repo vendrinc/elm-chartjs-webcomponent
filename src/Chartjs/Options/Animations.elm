@@ -1,6 +1,12 @@
 module Chartjs.Options.Animations exposing (Animation, Animations, Easing(..), defaultAnimations)
 
+{-|| Types for managing animation configuration
 
+@docs Animation, Animations, Easing, defaultAnimations
+|-} 
+
+{-| Easing
+|-}
 type Easing
     = EaseLinear
     | EaseInQuad
@@ -34,7 +40,8 @@ type Easing
     | EaseOutBounce
     | EaseInOutBounce
 
-
+{-| Animations
+|-}
 type alias Animations =
     { duration : Maybe Int
     , easing : Maybe Easing
@@ -46,6 +53,8 @@ type alias Animations =
     }
 
 
+{-| Animation
+|-}
 type alias Animation =
     { -- not yet implemeted
       ------------------------
@@ -65,7 +74,8 @@ type alias Animation =
       -- onAnimationComplete: Function
     }
 
-
+{-| Default Animation
+|-}
 defaultAnimations : Animations
 defaultAnimations =
     { duration = Nothing

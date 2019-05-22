@@ -1,11 +1,14 @@
 module Chartjs.Options.Elements exposing (Arc, Elements, Line, LineFill(..), Point, Rectangle, defaultElements, defaultPoint)
 
--- https://www.chartjs.org/docs/latest/configuration/elements.html
+{-| Types for managing element configuration, see https://www.chartjs.org/docs/latest/configuration/elements.html
+
+@docs Arc, Elements, Line, LineFill, Point, Rectangle, defaultElements, defaultPoint
+-} 
 
 import Chartjs.Common as Common
 import Color exposing (Color)
 
-
+{-| Elements |-}
 type alias Elements =
     { point : Maybe Point
     , line : Maybe Line
@@ -13,7 +16,7 @@ type alias Elements =
     , arc : Maybe Arc
     }
 
-
+{-| Point |-}
 type alias Point =
     { radius : Maybe Int
     , pointStyle : Maybe Common.PointStyle
@@ -26,7 +29,7 @@ type alias Point =
     , hoverBorderWidth : Maybe Int
     }
 
-
+{-| Line |-}
 type alias Line =
     { tension : Maybe Float
     , backgroundColor : Maybe Color
@@ -41,14 +44,14 @@ type alias Line =
     , stepped : Maybe Bool
     }
 
-
+{-| LineFill |-}
 type LineFill
     = Zero
     | Top
     | Bottom
     | NoFill
 
-
+{-| Rectangle |-}
 type alias Rectangle =
     { backgroundColor : Maybe Color
     , borderWidth : Maybe Int
@@ -56,14 +59,14 @@ type alias Rectangle =
     , borderSkipped : Maybe Common.Position
     }
 
-
+{-| Arc |-}
 type alias Arc =
     { backgroundColor : Maybe Color
     , borderColor : Maybe Color
     , borderWidth : Maybe Int
     }
 
-
+{-| defaultElements |-}
 defaultElements : Elements
 defaultElements =
     { point = Nothing
@@ -72,7 +75,7 @@ defaultElements =
     , arc = Nothing
     }
 
-
+{-| defaultPoint |-}
 defaultPoint : Point
 defaultPoint =
     { radius = Nothing

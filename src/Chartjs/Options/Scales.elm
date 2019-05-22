@@ -1,15 +1,19 @@
 module Chartjs.Options.Scales exposing (Axis, GridLines, Scales, Ticks, defaultAxis, defaultGridLines, defaultScales, defaultTicks)
 
+{-| Types for managing scales configuration
+@docs Axis, GridLines, Scales, Ticks, defaultAxis, defaultGridLines, defaultScales, defaultTicks
+-} 
+
 import Chartjs.Common as Common
 import Color exposing (Color)
 
-
+{-| Scales |-}
 type alias Scales =
     { xAxes : List Axis
     , yAxes : List Axis
     }
 
-
+{-| Axis |-}
 type alias Axis =
     { position : Maybe Common.Position
     , stacked : Maybe Bool
@@ -17,7 +21,7 @@ type alias Axis =
     , gridLines : Maybe GridLines
     }
 
-
+{-| Ticks |-}
 type alias Ticks =
     { fontFamily : Maybe String
     , callback : Maybe String
@@ -31,19 +35,21 @@ type alias Ticks =
     , suggestedMin : Maybe Float
     }
 
-
+{-| GridLines |-}
 type alias GridLines =
     { display : Maybe Bool
     , color : Maybe (Common.PointProperty Color)
     }
 
-
+{-| defaultScales |-}
+defaultScales : Scales
 defaultScales =
     { xAxes = []
     , yAxes = []
     }
 
-
+{-| defaultAxis |-}
+defaultAxis : Axis
 defaultAxis =
     { position = Nothing
     , stacked = Nothing
@@ -51,13 +57,14 @@ defaultAxis =
     , gridLines = Nothing
     }
 
-
+{-| defaultGridLines |-}
+defaultGridLines : GridLines
 defaultGridLines =
     { display = Nothing
     , color = Nothing
     }
 
-
+{-| defaultTicks |-}
 defaultTicks : Ticks
 defaultTicks =
     { fontFamily = Nothing
