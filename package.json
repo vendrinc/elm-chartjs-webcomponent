@@ -1,0 +1,26 @@
+{
+  "name": "@blissfully/elm-chartjs-webcomponent",
+  "version": "1.0.0",
+  "description": "Web component bridge to Chartjs for Elm Chartjs bindings",
+  "main": "src/chart.js",
+  "files": [
+    "/webcomponent/chart.js"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blissfully/elm-chartjs-webcomponent.git"
+  },
+  "keywords": [
+    "elm",
+    "chartjs"
+  ],
+  "author": "Aaron White",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Blissfully/elm-chartjs-webcomponent/issues"
+  },
+  "homepage": "https://github.com/Blissfully/elm-chartjs-webcomponent#readme"
+}
