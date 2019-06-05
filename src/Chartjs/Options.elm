@@ -18,6 +18,7 @@ type alias Options =
     , elements : Maybe Elements.Elements
     , scales : Maybe Scales.Scales
     , maintainAspectRatio : Maybe Bool
+    , responsive : Maybe Bool
     }
 
 
@@ -31,4 +32,5 @@ defaultOptions =
     , elements = Nothing
     , scales = Nothing
     , maintainAspectRatio = Nothing
+    , responsive = Nothing
     }
