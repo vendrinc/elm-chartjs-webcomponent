@@ -283,6 +283,7 @@ encodeOptions options =
         |> Encode.maybeCustomField "elements" encodeElements options.elements
         |> Encode.maybeCustomField "scales" encodeScales options.scales
         |> Encode.maybeBoolField "maintainAspectRatio" options.maintainAspectRatio
+        |> Encode.maybeBoolField "responsive" options.responsive
         |> Encode.toValue
 
 
