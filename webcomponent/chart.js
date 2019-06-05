@@ -95,6 +95,12 @@ customElements.define(
 
       this.appendChild(canvasContainer)
       const canvas = this.getElementsByTagName("canvas")[0]
+
+      // Setup the display size of the canvas to match the requested width/height,
+      // this will normally only work if the option responsive field is set to False.
+      canvas.width = this.getAttribute("chartWidth")
+      canvas.height = this.getAttribute("chartHeight")
+
       const ctx = canvas.getContext("2d")
       this._chart = new Chart(ctx, this._chartConfig)
     }
