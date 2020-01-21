@@ -42,13 +42,10 @@ type Type
 
 {-| Given dimensions and a chart, creates an HMTL node
 -}
-chart : Int -> Int -> Chart -> Html msg
-chart height width chart_ =
+chart : Chart -> Html msg
+chart chart_ =
     node "chart-component"
-        [ property "chartWidth" <| Encode.int height
-        , property "chartHeight" <| Encode.int width
-        , property "chartConfig" <| encodeChart chart_
-        ]
+        [ property "chartConfig" <| encodeChart chart_ ]
         []
 
 
