@@ -3,6 +3,8 @@
  This one properly creates the chart & updates the chart property settings
  However there is no support for setting option functions at this stage
 */
+import Chart from 'chart.js';
+
 class ChartjsChart extends window.HTMLElement {
   constructor() {
     const self = super()
@@ -11,6 +13,9 @@ class ChartjsChart extends window.HTMLElement {
   }
 
   connectedCallback() {
+    this.style.width = "380px"
+    this.style.height = "380px"
+
     let canvas = document.createElement("canvas")
     this._canvas = canvas
     this.appendChild(canvas)
@@ -22,7 +27,10 @@ class ChartjsChart extends window.HTMLElement {
 
   set chartConfig(newValue) {
     this._chartConfig = newValue
+
     if(this._chart) {
+      this._chart.data.datasets[0].data = newValue.data.datasets[0].data
+      this._chart.options = newValue.options
       this._chart.update()
     }
   }
