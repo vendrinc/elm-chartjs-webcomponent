@@ -29,6 +29,7 @@ type alias Ticks =
     , stepSize : Maybe Float
     , suggestedMax : Maybe Float
     , suggestedMin : Maybe Float
+    , fontColor : Maybe Color
     }
 
 
@@ -70,4 +71,5 @@ defaultTicks =
     , stepSize = Nothing
     , suggestedMax = Nothing
     , suggestedMin = Nothing
+    , fontColor = Nothing
     }

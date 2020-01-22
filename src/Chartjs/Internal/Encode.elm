@@ -545,6 +545,7 @@ encodeTicks ticks =
         |> Encode.maybeFloatField "stepSize" ticks.stepSize
         |> Encode.maybeFloatField "suggestedMax" ticks.suggestedMax
         |> Encode.maybeFloatField "suggestedMin" ticks.suggestedMin
+        |> Encode.maybeColorField "fontColor" ticks.fontColor
         |> Encode.toValue
 
 
