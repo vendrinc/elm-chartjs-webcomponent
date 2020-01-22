@@ -35,6 +35,7 @@ type alias Chart =
 -}
 type Type
     = Bar
+    | HorizontalBar
     | Line
     | Doughnut
     | Pie
@@ -73,6 +74,9 @@ encodeChartType chartType =
     (case chartType of
         Bar ->
             "bar"
+
+        HorizontalBar ->
+            "horizontalBar"
 
         Line ->
             "line"
