@@ -29,7 +29,9 @@ class ChartjsChart extends window.HTMLElement {
     this._chartConfig = newValue
 
     if(this._chart) {
+      // Updating the dataset causes the animations to be unsatisfactory
       this._chart.data.datasets[0].data = newValue.data.datasets[0].data
+      this._chart.data.datasets[0].label = newValue.data.datasets[0].label
       this._chart.options = newValue.options
       this._chart.update()
     }
