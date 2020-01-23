@@ -1,4 +1,17 @@
-module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultPieFromData, defaultPieFromLabel)
+module Chartjs.DataSets.DoughnutAndPie exposing
+    ( DataSet
+    , defaultPieFromData
+    , defaultPieFromLabel
+    , setBackgroundColor
+    , setBorderColor
+    , setBorderWidth
+    , setCircumference
+    , setCutoutPercentage
+    , setHoverBackgroundColor
+    , setHoverBorderColor
+    , setHoverBorderWidth
+    , setRotation
+    )
 
 import Chartjs.Common as Common
 import Color exposing (Color)
