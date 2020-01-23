@@ -1,4 +1,4 @@
-module Chartjs.DataSets.Bar exposing (DataSet, defaultBarFromLabel)
+module Chartjs.DataSets.Bar exposing (DataSet, defaultBarFromLabel, defaultBarFromData)
 
 import Chartjs.Common as Common
 import Color exposing (Color)
@@ -30,8 +30,13 @@ type alias DataSet =
 
 defaultBarFromLabel : String -> DataSet
 defaultBarFromLabel label =
+    defaultBarFromData label []
+
+
+defaultBarFromData : String -> List Float -> DataSet
+defaultBarFromData label data =
     { label = label
-    , data = []
+    , data = data
     , xAxisID = Nothing
     , yAxisID = Nothing
     , backgroundColor = Nothing

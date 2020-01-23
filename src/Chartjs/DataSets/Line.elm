@@ -1,4 +1,4 @@
-module Chartjs.DataSets.Line exposing (DataSet, FillBoundary(..), FillMode(..), SteppedLine(..), defaultLineFromLabel)
+module Chartjs.DataSets.Line exposing (DataSet, FillBoundary(..), FillMode(..), SteppedLine(..), defaultLineFromLabel, defaultLineFromData)
 
 import Chartjs.Common as Common
 import Color exposing (Color)
@@ -83,8 +83,12 @@ type FillBoundary
 
 defaultLineFromLabel : String -> DataSet
 defaultLineFromLabel label =
+  defaultLineFromData label []
+
+defaultLineFromData : String -> List Float -> DataSet
+defaultLineFromData label data =
     { label = label
-    , data = []
+    , data = data
     , xAxisID = Nothing
     , yAxisID = Nothing
     , backgroundColor = Nothing

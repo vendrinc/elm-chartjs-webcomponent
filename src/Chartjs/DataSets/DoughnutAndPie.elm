@@ -1,4 +1,4 @@
-module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultBarFromLabel)
+module Chartjs.DataSets.DoughnutAndPie exposing (DataSet, defaultPieFromData, defaultPieFromLabel)
 
 import Chartjs.Common as Common
 import Color exposing (Color)
@@ -28,10 +28,14 @@ type alias DataSet =
     }
 
 
-defaultBarFromLabel : String -> DataSet
-defaultBarFromLabel label =
+defaultPieFromLabel : String -> DataSet
+defaultPieFromLabel label =
+  defaultPieFromData label []
+
+defaultPieFromData : String -> List Float -> DataSet
+defaultPieFromData label data =
     { label = label
-    , data = []
+    , data = data
     , backgroundColor = Nothing
     , borderColor = Nothing
     , borderWidth = Nothing
