@@ -6,6 +6,7 @@ module Chartjs.DataSets.Bar exposing
     , setBorderColor
     , setBorderSkipped
     , setBorderWidth
+    , setData
     , setHoverBackgroundColor
     , setHoverBorderColor
     , setHoverBorderWidth

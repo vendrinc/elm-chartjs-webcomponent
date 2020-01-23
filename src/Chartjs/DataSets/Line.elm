@@ -13,6 +13,7 @@ module Chartjs.DataSets.Line exposing
     , setBorderJoinStyle
     , setBorderWidth
     , setCubicInterpolationMode
+    , setData
     , setFill
     , setLineTension
     , setPointBackgroundColor
@@ -20,6 +21,7 @@ module Chartjs.DataSets.Line exposing
     , setPointBorderWidth
     , setPointHitRadius
     , setPointHoverBackgroundColor
+    , setPointHoverBorderColor
     , setPointHoverBorderWidth
     , setPointHoverRadius
     , setPointRadius

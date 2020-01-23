@@ -17,8 +17,8 @@ import Chartjs.Data as Data
 import Chartjs.Internal.Encode
 import Chartjs.Internal.Util as Encode
 import Chartjs.Options as Options
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (Html, node)
+import Html.Attributes exposing (property)
 import Json.Encode as Encode
 
 
@@ -58,7 +58,7 @@ ChartJs is smart enough to figure out scaling naturally
 To set the size of the chart, use CSS styles (either in a stylesheet or using the attributes)
 
 -}
-chart : List (Attribute msg) -> Chart -> Html msg
+chart : List (Html.Attribute msg) -> Chart -> Html msg
 chart attributes chart_ =
     let
         attributesWithConfig =

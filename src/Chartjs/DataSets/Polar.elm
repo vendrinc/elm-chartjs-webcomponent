@@ -6,6 +6,7 @@ module Chartjs.DataSets.Polar exposing
     , setBorderAlign
     , setBorderColor
     , setBorderWidth
+    , setData
     , setHoverBackgroundColor
     , setHoverBorderColor
     , setHoverBorderWidth

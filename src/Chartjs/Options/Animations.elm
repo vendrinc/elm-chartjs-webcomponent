@@ -1,4 +1,13 @@
-module Chartjs.Options.Animations exposing (Animation, Animations, Easing(..), defaultAnimations)
+module Chartjs.Options.Animations exposing
+    ( Animation
+    , Animations
+    , Easing(..)
+    , defaultAnimations
+    , setAnimateRotate
+    , setAnimateScale
+    , setDuration
+    , setEasing
+    )
 
 
 type Easing

@@ -36,6 +36,7 @@ type alias Scales =
     }
 
 
+defaultScales : Scales
 defaultScales =
     { xAxes = []
     , yAxes = []
@@ -57,6 +58,7 @@ type alias Axis =
     }
 
 
+defaultAxis : Axis
 defaultAxis =
     { position = Nothing
     , stacked = Nothing
@@ -172,6 +174,7 @@ type alias GridLines =
     }
 
 
+defaultGridLines : GridLines
 defaultGridLines =
     { display = Nothing
     , color = Nothing
