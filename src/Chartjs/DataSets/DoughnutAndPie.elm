@@ -5,12 +5,9 @@ module Chartjs.DataSets.DoughnutAndPie exposing
     , setBackgroundColor
     , setBorderColor
     , setBorderWidth
-    , setCircumference
-    , setCutoutPercentage
     , setHoverBackgroundColor
     , setHoverBorderColor
     , setHoverBorderWidth
-    , setRotation
     )
 
 import Chartjs.Common as Common
@@ -32,12 +29,8 @@ type alias DataSet =
       hoverBorderColor : Maybe (Common.PointProperty Color)
     , -- The stroke colour of the arcs when hovered.
       hoverBorderWidth : Maybe (Common.PointProperty Float)
-    , -- The stroke width of the arcs when hovered.
-      cutoutPercentage : Maybe Int
-    , -- The percentage of the chart that is cut out of the middle.
-      rotation : Maybe Int
-    , -- Starting angle to draw arcs from.
-      circumference : Maybe Int -- Sweep to allow arcs to cover
+
+    -- The stroke width of the arcs when hovered.
     }
 
 
@@ -56,9 +49,6 @@ defaultPieFromData label data =
     , hoverBackgroundColor = Nothing
     , hoverBorderColor = Nothing
     , hoverBorderWidth = Nothing
-    , cutoutPercentage = Nothing
-    , rotation = Nothing
-    , circumference = Nothing
     }
 
 
@@ -95,18 +85,3 @@ setHoverBorderColor color dataset =
 setHoverBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
 setHoverBorderWidth width dataset =
     { dataset | hoverBorderWidth = Just width }
-
-
-setCutoutPercentage : Int -> DataSet -> DataSet
-setCutoutPercentage cutout dataset =
-    { dataset | cutoutPercentage = Just cutout }
-
-
-setRotation : Int -> DataSet -> DataSet
-setRotation rotation dataset =
-    { dataset | rotation = Just rotation }
-
-
-setCircumference : Int -> DataSet -> DataSet
-setCircumference circumference dataset =
-    { dataset | circumference = Just circumference }
