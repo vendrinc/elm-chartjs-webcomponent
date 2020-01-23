@@ -276,16 +276,16 @@ encodeData data =
 encodeDataset : Chartjs.Data.DataSet -> Encode.Value
 encodeDataset dataSet =
     case dataSet of
-        Chartjs.Data.BarDataSet barChartDataSet ->
+        Chartjs.Data.BarData barChartDataSet ->
             encodeBarChartDataSet barChartDataSet
 
-        Chartjs.Data.LineDataSet lineChartDataSet ->
+        Chartjs.Data.LineData lineChartDataSet ->
             encodeLineChartDataSet lineChartDataSet
 
-        Chartjs.Data.DoughnutAndPieDataSet doughnutAndPieDataSet ->
+        Chartjs.Data.PieData doughnutAndPieDataSet ->
             encodeDoughnutAndPieDataSet doughnutAndPieDataSet
 
-        Chartjs.Data.PolarDataSet polarDataSet ->
+        Chartjs.Data.PolarData polarDataSet ->
             encodePolarDataSet polarDataSet
 
 

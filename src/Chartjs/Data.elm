@@ -1,4 +1,11 @@
-module Chartjs.Data exposing (Data, DataSet(..), buildData, defaultData)
+module Chartjs.Data exposing
+    ( Data
+    , DataSet(..)
+    , addDataset
+    , buildData
+    , dataFromLabels
+    , defaultData
+    )
 
 import Chartjs.DataSets.Bar as Bar
 import Chartjs.DataSets.DoughnutAndPie as DoughnutAndPie
@@ -7,14 +14,10 @@ import Chartjs.DataSets.Polar as Polar
 
 
 type DataSet
-    = BarDataSet Bar.DataSet
-    | LineDataSet Line.DataSet
-    | DoughnutAndPieDataSet DoughnutAndPie.DataSet
-    | PolarDataSet Polar.DataSet
-
-
-
--- todo: Datasets for Radar, Polar Area, Bubble, Scatter, Area, Mixed
+    = BarData Bar.DataSet
+    | LineData Line.DataSet
+    | PieData DoughnutAndPie.DataSet
+    | PolarData Polar.DataSet
 
 
 type alias Data =
@@ -30,8 +33,22 @@ defaultData =
     }
 
 
+dataFromLabels : List String -> Data
+dataFromLabels labels =
+    buildData labels []
+
+
 buildData : List String -> List DataSet -> Data
 buildData labels datasets =
     { labels = labels
     , datasets = datasets
     }
+
+
+addDataset : DataSet -> Data -> Data
+addDataset dataset data =
+    let
+        newDatasets =
+            dataset :: data.datasets
+    in
+    { data | datasets = newDatasets }

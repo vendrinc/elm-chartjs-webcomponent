@@ -59,12 +59,11 @@ randomData =
 data : Model -> Data.Data
 data model =
     Data.buildData model.labels
-        [ Data.LineDataSet
+        |> Data.addDataset LineData
             (LineData.defaultLineFromData "Example Chart" model.data
                 |> LineData.setBorderColor (Common.All model.color)
                 |> LineData.setShowLine False
             )
-        ]
 
 
 {-| Build a chart config from our model

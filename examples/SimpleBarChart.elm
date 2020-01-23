@@ -29,16 +29,20 @@ init =
     }
 
 
-{-| Build a Chartjs dataset from our model
+{-| Build a Chartjs data object from our model
+
+First we need a Data container which has some basic chart information
+Then we need to make the dataset for our bar chart
+This can be done easily using pipe operators instead of record update syntax
+
 -}
 data : Model -> Data.Data
 data model =
-    Data.buildData model.labels
-        [ Data.BarDataSet
+    Data.dataFromLabels model.labels
+        |> Data.addDataset BarData
             (BarData.defaultBarFromData "Example Chart" model.data
                 |> BarData.setBackgroundColor (Common.All model.color)
             )
-        ]
 
 
 {-| Build the full chart configuration from our model
