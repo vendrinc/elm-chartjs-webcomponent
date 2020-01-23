@@ -75,14 +75,12 @@ encodeDoughnutAndPieDataSet barChartDataSet =
         |> Encode.stringField "label" barChartDataSet.label
         |> Encode.listField "data" Encode.float barChartDataSet.data
         |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
+        |> Encode.maybeStringField "borderAlign" barChartDataSet.borderAlign
         |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
         |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
         |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
         |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
         |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
-        |> Encode.maybeIntField "cutoutPercentage" barChartDataSet.cutoutPercentage
-        |> Encode.maybeIntField "rotation" barChartDataSet.rotation
-        |> Encode.maybeIntField "circumference" barChartDataSet.circumference
         |> Encode.toValue
 
 

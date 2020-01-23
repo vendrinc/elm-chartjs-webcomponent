@@ -3,6 +3,7 @@ module Chartjs.DataSets.DoughnutAndPie exposing
     , defaultPieFromData
     , defaultPieFromLabel
     , setBackgroundColor
+    , setBorderAlign
     , setBorderColor
     , setBorderWidth
     , setHoverBackgroundColor
@@ -20,6 +21,8 @@ type alias DataSet =
       data : List Float
     , backgroundColor : Maybe (Common.PointProperty Color)
     , -- The fill color of the arcs in the dataset.
+      borderAlign : Maybe String
+    , -- Whether the borders of arcs should overlap or not
       borderColor : Maybe (Common.PointProperty Color)
     , -- The border color of the arcs in the dataset.
       borderWidth : Maybe (Common.PointProperty Float)
@@ -44,6 +47,7 @@ defaultPieFromData label data =
     { label = label
     , data = data
     , backgroundColor = Nothing
+    , borderAlign = Nothing
     , borderColor = Nothing
     , borderWidth = Nothing
     , hoverBackgroundColor = Nothing
@@ -60,6 +64,11 @@ setData data dataset =
 setBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
 setBackgroundColor color dataset =
     { dataset | backgroundColor = Just color }
+
+
+setBorderAlign : String -> DataSet -> DataSet
+setBorderAlign align dataset =
+    { dataset | borderAlign = Just align }
 
 
 setBorderColor : Common.PointProperty Color -> DataSet -> DataSet
