@@ -1,4 +1,4 @@
-module Chartjs.Data exposing (Data, DataSet(..), defaultData)
+module Chartjs.Data exposing (Data, DataSet(..), buildData, defaultData)
 
 import Chartjs.DataSets.Bar as Bar
 import Chartjs.DataSets.DoughnutAndPie as DoughnutAndPie
@@ -25,4 +25,11 @@ defaultData : Data
 defaultData =
     { labels = []
     , datasets = []
+    }
+
+
+buildData : List String -> List DataSet -> Data
+buildData labels datasets =
+    { labels = labels
+    , datasets = datasets
     }
