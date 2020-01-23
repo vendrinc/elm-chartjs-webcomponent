@@ -1,4 +1,17 @@
-module Chartjs.DataSets.Bar exposing (DataSet, defaultBarFromLabel, defaultBarFromData)
+module Chartjs.DataSets.Bar exposing
+    ( DataSet
+    , defaultBarFromData
+    , defaultBarFromLabel
+    , setBackgroundColor
+    , setBorderColor
+    , setBorderSkipped
+    , setBorderWidth
+    , setHoverBackgroundColor
+    , setHoverBorderColor
+    , setHoverBorderWidth
+    , setXAxisID
+    , setYAxisID
+    )
 
 import Chartjs.Common as Common
 import Color exposing (Color)
@@ -47,3 +60,48 @@ defaultBarFromData label data =
     , hoverBorderColor = Nothing
     , hoverBorderWidth = Nothing
     }
+
+
+setXAxisID : String -> DataSet -> DataSet
+setXAxisID id dataset =
+    { dataset | xAxisID = Just id }
+
+
+setYAxisID : String -> DataSet -> DataSet
+setYAxisID id dataset =
+    { dataset | yAxisID = Just id }
+
+
+setBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
+setBackgroundColor color dataset =
+    { dataset | backgroundColor = Just color }
+
+
+setBorderColor : Common.PointProperty Color -> DataSet -> DataSet
+setBorderColor color dataset =
+    { dataset | borderColor = Just color }
+
+
+setBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
+setBorderWidth width dataset =
+    { dataset | borderWidth = Just width }
+
+
+setBorderSkipped : String -> DataSet -> DataSet
+setBorderSkipped border dataset =
+    { dataset | borderSkipped = Just border }
+
+
+setHoverBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
+setHoverBackgroundColor color dataset =
+    { dataset | hoverBackgroundColor = Just color }
+
+
+setHoverBorderColor : Common.PointProperty Color -> DataSet -> DataSet
+setHoverBorderColor color dataset =
+    { dataset | hoverBorderColor = Just color }
+
+
+setHoverBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
+setHoverBorderWidth width dataset =
+    { dataset | hoverBorderWidth = Just width }

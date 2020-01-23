@@ -30,7 +30,8 @@ type alias DataSet =
 
 defaultPieFromLabel : String -> DataSet
 defaultPieFromLabel label =
-  defaultPieFromData label []
+    defaultPieFromData label []
+
 
 defaultPieFromData : String -> List Float -> DataSet
 defaultPieFromData label data =
@@ -46,3 +47,48 @@ defaultPieFromData label data =
     , rotation = Nothing
     , circumference = Nothing
     }
+
+
+setBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
+setBackgroundColor color dataset =
+    { dataset | backgroundColor = Just color }
+
+
+setBorderColor : Common.PointProperty Color -> DataSet -> DataSet
+setBorderColor color dataset =
+    { dataset | borderColor = Just color }
+
+
+setBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
+setBorderWidth width dataset =
+    { dataset | borderWidth = Just width }
+
+
+setHoverBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
+setHoverBackgroundColor color dataset =
+    { dataset | hoverBackgroundColor = Just color }
+
+
+setHoverBorderColor : Common.PointProperty Color -> DataSet -> DataSet
+setHoverBorderColor color dataset =
+    { dataset | hoverBorderColor = Just color }
+
+
+setHoverBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
+setHoverBorderWidth width dataset =
+    { dataset | hoverBorderWidth = Just width }
+
+
+setCutoutPercentage : Int -> DataSet -> DataSet
+setCutoutPercentage cutout dataset =
+    { dataset | cutoutPercentage = Just cutout }
+
+
+setRotation : Int -> DataSet -> DataSet
+setRotation rotation dataset =
+    { dataset | rotation = Just rotation }
+
+
+setCircumference : Int -> DataSet -> DataSet
+setCircumference circumference dataset =
+    { dataset | circumference = Just circumference }

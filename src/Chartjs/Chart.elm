@@ -1,6 +1,6 @@
 module Chartjs.Chart exposing
     ( Chart, chart, defaultChart
-    , Type(..)
+    , Type(..), setData, setOptions
     )
 
 {-| A type-safe bridge to a Chartjs web component.
@@ -29,6 +29,16 @@ type alias Chart =
     , data : Data.Data
     , options : Options.Options
     }
+
+
+setData : Data.Data -> Chart -> Chart
+setData data chart_ =
+    { chart_ | data = data }
+
+
+setOptions : Options.Options -> Chart -> Chart
+setOptions options chart_ =
+    { chart_ | options = options }
 
 
 {-| Basic type of chart
