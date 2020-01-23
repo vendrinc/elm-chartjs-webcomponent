@@ -51,13 +51,19 @@ type Type
     | Pie
 
 
-{-| Given dimensions and a chart, creates an HMTL node
+{-| Given attributes and a chart, creates an HTML node using the web component
+
+ChartJs is smart enough to figure out scaling naturally
+To set the size of the chart, use CSS styles (either in a stylesheet or using the attributes)
+
 -}
-chart : Chart -> Html msg
-chart chart_ =
-    node "chart-component"
-        [ property "chartConfig" <| encodeChart chart_ ]
-        []
+chart : List (Attribute msg) -> Chart -> Html msg
+chart attributes chart_ =
+    let
+        attributesWithConfig =
+            (property "chartConfig" <| encodeChart chart_) :: attributes
+    in
+    node "chart-component" attributesWithConfig []
 
 
 {-| Given a type, creates a sane Chart config you can update
