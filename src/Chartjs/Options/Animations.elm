@@ -73,3 +73,23 @@ defaultAnimations =
     , animateRotate = Nothing
     , animateScale = Nothing
     }
+
+
+setDuration : Int -> Animations -> Animations
+setDuration duration animations =
+    { animations | duration = Just duration }
+
+
+setEasing : Easing -> Animations -> Animations
+setEasing easing animations =
+    { animations | easing = Just easing }
+
+
+setAnimateRotate : Bool -> Animations -> Animations
+setAnimateRotate bool animations =
+    { animations | animateRotate = Just bool }
+
+
+setAnimateScale : Bool -> Animations -> Animations
+setAnimateScale bool animations =
+    { animations | animateScale = Just bool }
