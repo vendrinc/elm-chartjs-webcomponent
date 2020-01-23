@@ -39,6 +39,7 @@ import Chartjs.Data
 import Chartjs.DataSets.Bar
 import Chartjs.DataSets.DoughnutAndPie
 import Chartjs.DataSets.Line
+import Chartjs.DataSets.Polar
 import Chartjs.Internal.Util as Encode
 import Chartjs.Options
 import Chartjs.Options.Animations
@@ -115,6 +116,21 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeBoolField "showLine" lineChartDataSet.showLine
         |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
         |> Encode.maybeCustomField "steppedLine" encodeSteppedLine lineChartDataSet.steppedLine
+        |> Encode.toValue
+
+
+encodePolarDataSet : Chartjs.DataSets.Polar.DataSet -> Encode.Value
+encodePolarDataSet polarDataSet =
+    Encode.beginObject
+        |> Encode.stringField "label" polarDataSet.label
+        |> Encode.listField "data" Encode.float polarDataSet.data
+        |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) polarDataSet.backgroundColor
+        |> Encode.maybeStringField "borderAlign" polarDataSet.borderAlign
+        |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) polarDataSet.borderColor
+        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) polarDataSet.borderWidth
+        |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) polarDataSet.hoverBackgroundColor
+        |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) polarDataSet.hoverBorderColor
+        |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) polarDataSet.hoverBorderWidth
         |> Encode.toValue
 
 
@@ -270,6 +286,9 @@ encodeDataset dataSet =
 
         Chartjs.Data.DoughnutAndPieDataSet doughnutAndPieDataSet ->
             encodeDoughnutAndPieDataSet doughnutAndPieDataSet
+
+        Chartjs.Data.PolarDataSet polarDataSet ->
+            encodePolarDataSet polarDataSet
 
 
 encodeOptions : Chartjs.Options.Options -> Encode.Value

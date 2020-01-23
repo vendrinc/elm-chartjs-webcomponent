@@ -3,12 +3,14 @@ module Chartjs.Data exposing (Data, DataSet(..), buildData, defaultData)
 import Chartjs.DataSets.Bar as Bar
 import Chartjs.DataSets.DoughnutAndPie as DoughnutAndPie
 import Chartjs.DataSets.Line as Line
+import Chartjs.DataSets.Polar as Polar
 
 
 type DataSet
     = BarDataSet Bar.DataSet
     | LineDataSet Line.DataSet
     | DoughnutAndPieDataSet DoughnutAndPie.DataSet
+    | PolarDataSet Polar.DataSet
 
 
 
