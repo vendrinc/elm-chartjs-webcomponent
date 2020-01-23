@@ -1,11 +1,19 @@
-module Chartjs.Options.Elements exposing (Arc, Elements, Line, LineFill(..), Point, Rectangle, defaultElements, defaultPoint)
+module Chartjs.Options.Elements exposing (Elements, defaultElements, Point, defaultPoint, Line, LineFill(..), Rectangle, Arc)
 
--- https://www.chartjs.org/docs/latest/configuration/elements.html
+{-| While there is ways to configure the styling of each dataset, sometimes you want custom styles applied to all datasets
+For more information, see <https://www.chartjs.org/docs/latest/configuration/elements.html>
+
+Please note that this module does not have updater functions and you will need to use record update syntax if using this functionality
+
+@docs Elements, defaultElements, Point, defaultPoint, Line, LineFill, Rectangle, Arc
+
+-}
 
 import Chartjs.Common as Common
 import Color exposing (Color)
 
 
+{-| -}
 type alias Elements =
     { point : Maybe Point
     , line : Maybe Line
@@ -14,6 +22,7 @@ type alias Elements =
     }
 
 
+{-| -}
 type alias Point =
     { radius : Maybe Int
     , pointStyle : Maybe Common.PointStyle
@@ -27,6 +36,7 @@ type alias Point =
     }
 
 
+{-| -}
 type alias Line =
     { tension : Maybe Float
     , backgroundColor : Maybe Color
@@ -42,6 +52,7 @@ type alias Line =
     }
 
 
+{-| -}
 type LineFill
     = Zero
     | Top
@@ -49,6 +60,7 @@ type LineFill
     | NoFill
 
 
+{-| -}
 type alias Rectangle =
     { backgroundColor : Maybe Color
     , borderWidth : Maybe Int
@@ -57,6 +69,7 @@ type alias Rectangle =
     }
 
 
+{-| -}
 type alias Arc =
     { backgroundColor : Maybe Color
     , borderColor : Maybe Color
@@ -64,6 +77,7 @@ type alias Arc =
     }
 
 
+{-| -}
 defaultElements : Elements
 defaultElements =
     { point = Nothing
@@ -73,6 +87,7 @@ defaultElements =
     }
 
 
+{-| -}
 defaultPoint : Point
 defaultPoint =
     { radius = Nothing

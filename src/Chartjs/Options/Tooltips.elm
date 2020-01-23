@@ -1,18 +1,32 @@
-module Chartjs.Options.Tooltips exposing (Callbacks, Mode(..), PositionMode(..), Tooltips, defaultCallbacks, defaultTooltips)
+module Chartjs.Options.Tooltips exposing
+    ( Tooltips, defaultTooltips
+    , PositionMode(..), Mode(..)
+    , Callbacks, defaultCallbacks
+    )
+
+{-| Tooltips are displayed when interacting with charts
+
+Please note that this module does not have updater functions and you will need to use record update syntax if using this functionality
+
+@docs Tooltips, defaultTooltips
+
+@docs PositionMode, Mode
+
+@docs Callbacks, defaultCallbacks
+
+-}
 
 import Color exposing (Color)
 
 
+{-| -}
 type alias Tooltips =
     { enabled : Maybe Bool
-    , -- custom,
-      mode : Maybe Mode
+    , mode : Maybe Mode
     , intersect : Maybe Bool
     , position : Maybe PositionMode
     , callbacks : Maybe Callbacks
-    , -- itemSort,
-      -- filter,
-      backgroundColor : Maybe Color
+    , backgroundColor : Maybe Color
     , titleFontFamily : Maybe String
     , titleFontSize : Maybe Int
     , titleFontStyle : Maybe String
@@ -42,16 +56,31 @@ type alias Tooltips =
     }
 
 
+{-| Currently unsupported!
+-}
 type alias Callbacks =
     { label : Maybe String
     }
 
 
+{-| Positioning mode for tooltips
+
+Average will place the tooltip at the average position of the displayed items
+Nearest will place the tooltip at the element closest to the event position
+
+-}
 type PositionMode
     = PositionModeAverage
     | PositionModeNearest
 
 
+{-| Controls what elements are displayed in the tooltip
+Point: finds all items that intersect the point
+Nearest: gets the items that are at the nearest distance to the point
+Index: finds item at the same index
+X: find all items that interesct (based on X axis only)
+Y: find all items that intersect (based on Y axis only)
+-}
 type Mode
     = Point
     | Nearest
@@ -61,6 +90,7 @@ type Mode
     | Y
 
 
+{-| -}
 defaultTooltips : Tooltips
 defaultTooltips =
     { enabled = Nothing
@@ -98,6 +128,8 @@ defaultTooltips =
     }
 
 
+{-| Currently unsupported!
+-}
 defaultCallbacks : Callbacks
 defaultCallbacks =
     { label = Nothing

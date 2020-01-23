@@ -1,15 +1,23 @@
 module Chartjs.Chart exposing
-    ( Chart, chart, defaultChart
-    , Type(..), setData, setOptions
+    ( Chart, Type(..), defaultChart
+    , setData, setOptions
+    , chart
     )
 
 {-| A type-safe bridge to a Chartjs web component.
+
+This library requires both Chart.js and the web component to function properly.
+Check the README.md for this package for more detailed instructions on setting up.
 
 Note: this library isn't usable without including Chartjs as a Javascript dependency in your project,
 along with the sister Javascript web component that goes with this library.
 Please see instructions here: <https://github.com/Blissfully/elm-chartjs-webcomponent>
 
-@docs Chart, ChartType, chart, defaultChart
+@docs Chart, Type, defaultChart
+
+@docs setData, setOptions
+
+@docs chart
 
 -}
 
@@ -22,7 +30,10 @@ import Html.Attributes exposing (property)
 import Json.Encode as Encode
 
 
-{-| Required definition for a Chartjs chart
+{-| Main type helper for a Chartjs chart
+
+Both a Data and an Options object must be specified to help configure this chart.
+
 -}
 type alias Chart =
     { chartType : Type
@@ -31,17 +42,35 @@ type alias Chart =
     }
 
 
+{-| Given a chart type, creates a default chart that can then be updated.
+-}
+defaultChart : Type -> Chart
+defaultChart chartType =
+    { chartType = chartType
+    , data = Data.defaultData
+    , options = Options.defaultOptions
+    }
+
+
+{-| Update the data for a chart.
+-}
 setData : Data.Data -> Chart -> Chart
 setData data chart_ =
     { chart_ | data = data }
 
 
+{-| Update the options for a chart.
+-}
 setOptions : Options.Options -> Chart -> Chart
 setOptions options chart_ =
     { chart_ | options = options }
 
 
-{-| Basic type of chart
+{-| Basic type for a Chart
+
+For charts containing multiple datasets, both a chart type needs to specified
+and a type for each dataset. Default Chart.js parameters will inherit from this type.
+
 -}
 type Type
     = Bar
@@ -65,16 +94,6 @@ chart attributes chart_ =
             (property "chartConfig" <| encodeChart chart_) :: attributes
     in
     node "chart-component" attributesWithConfig []
-
-
-{-| Given a type, creates a sane Chart config you can update
--}
-defaultChart : Type -> Chart
-defaultChart chartType =
-    { chartType = chartType
-    , data = Data.defaultData
-    , options = Options.defaultOptions
-    }
 
 
 encodeChart : Chart -> Encode.Value

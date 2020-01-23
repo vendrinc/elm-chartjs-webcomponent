@@ -1,15 +1,21 @@
 module Chartjs.Options.Animations exposing
-    ( Animation
-    , Animations
-    , Easing(..)
-    , defaultAnimations
-    , setAnimateRotate
-    , setAnimateScale
-    , setDuration
-    , setEasing
+    ( Animations, defaultAnimations
+    , Easing(..), setEasing
+    , setDuration, setAnimateRotate, setAnimateScale
     )
 
+{-| These options are provided to help configure how the animation functions
+By default, the chart should automatically animate updates good enough for most use cases
 
+@docs Animations, defaultAnimations
+@docs Easing, setEasing
+@docs setDuration, setAnimateRotate, setAnimateScale
+
+-}
+
+
+{-| <https://easings.net>
+-}
 type Easing
     = EaseLinear
     | EaseInQuad
@@ -44,6 +50,8 @@ type Easing
     | EaseInOutBounce
 
 
+{-| todo
+-}
 type alias Animations =
     { duration : Maybe Int
     , easing : Maybe Easing
@@ -55,26 +63,30 @@ type alias Animations =
     }
 
 
-type alias Animation =
-    { -- not yet implemeted
-      ------------------------
-      -- // Chart object
-      -- chart: Chart,
-      -- // Current Animation frame number
-      -- currentStep: Number,
-      -- // Number of animation frames
-      -- numSteps: Number,
-      -- // Animation easing to use
-      -- easing: String,
-      -- // Function that renders the chart
-      -- render: Function,
-      -- // User callback
-      -- onAnimationProgress: Function,
-      -- // User callback
-      -- onAnimationComplete: Function
-    }
+
+{-
+   type alias Animation =
+       { -- not yet implemeted
+         ------------------------
+         -- // Chart object
+         -- chart: Chart,
+         -- // Current Animation frame number
+         -- currentStep: Number,
+         -- // Number of animation frames
+         -- numSteps: Number,
+         -- // Animation easing to use
+         -- easing: String,
+         -- // Function that renders the chart
+         -- render: Function,
+         -- // User callback
+         -- onAnimationProgress: Function,
+         -- // User callback
+         -- onAnimationComplete: Function
+       }
+-}
 
 
+{-| -}
 defaultAnimations : Animations
 defaultAnimations =
     { duration = Nothing
@@ -84,21 +96,29 @@ defaultAnimations =
     }
 
 
+{-| Time (in milliseconds) an animation takes
+-}
 setDuration : Int -> Animations -> Animations
 setDuration duration animations =
     { animations | duration = Just duration }
 
 
+{-| Easing function to use
+-}
 setEasing : Easing -> Animations -> Animations
 setEasing easing animations =
     { animations | easing = Just easing }
 
 
+{-| Used for Pie charts
+-}
 setAnimateRotate : Bool -> Animations -> Animations
 setAnimateRotate bool animations =
     { animations | animateRotate = Just bool }
 
 
+{-| Used for Pie charts
+-}
 setAnimateScale : Bool -> Animations -> Animations
 setAnimateScale bool animations =
     { animations | animateScale = Just bool }
