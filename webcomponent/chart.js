@@ -1,7 +1,7 @@
 /*
  This is a major stripped down version of the original web component
  This one properly creates the chart & updates the chart property settings
- However there is no support for setting option functions at this stage
+ However there is no support for setting callback functions at this stage
 */
 import Chart from 'chart.js';
 
@@ -13,9 +13,6 @@ class ChartjsChart extends window.HTMLElement {
   }
 
   connectedCallback() {
-    this.style.width = "380px"
-    this.style.height = "380px"
-
     let canvas = document.createElement("canvas")
     this._canvas = canvas
     this.appendChild(canvas)
@@ -29,9 +26,17 @@ class ChartjsChart extends window.HTMLElement {
     this._chartConfig = newValue
 
     if(this._chart) {
-      // Updating the dataset causes the animations to be unsatisfactory
-      this._chart.data.datasets[0].data = newValue.data.datasets[0].data
-      this._chart.data.datasets[0].label = newValue.data.datasets[0].label
+      const newDatasets = newValue.data.datasets
+      const oldDatasets = this._chart.data.datasets
+
+      // Update all datasets
+      for(let i=0; i < newDatasets.length; i++) {
+        // Copying the meta will keep the animations between them smooth
+        newDatasets[i]._meta = oldDatasets[i]._meta
+        oldDatasets[i] = newDatasets[i]
+      }
+
+      // Update options and then call ChartJs update
       this._chart.options = newValue.options
       this._chart.update()
     }
