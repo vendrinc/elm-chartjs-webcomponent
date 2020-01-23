@@ -3,7 +3,7 @@ module Chartjs.Options.Title exposing
     , setDisplay, setPosition, setFontSize, setFontFamily, setFontColor, setFontStyle, setPadding, setLineHeight, setText
     )
 
-{-| Todo
+{-| For more information, see <https://www.chartjs.org/docs/latest/configuration/title.html>
 
 @docs Title, defaultTitle
 @docs setDisplay, setPosition, setFontSize, setFontFamily, setFontColor, setFontStyle, setPadding, setLineHeight, setText

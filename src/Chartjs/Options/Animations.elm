@@ -7,6 +7,8 @@ module Chartjs.Options.Animations exposing
 {-| These options are provided to help configure how the animation functions
 By default, the chart should automatically animate updates good enough for most use cases
 
+For more information, see <https://www.chartjs.org/docs/latest/configuration/animations.html>
+
 @docs Animations, defaultAnimations
 @docs Easing, setEasing
 @docs setDuration, setAnimateRotate, setAnimateScale
@@ -14,7 +16,8 @@ By default, the chart should automatically animate updates good enough for most 
 -}
 
 
-{-| <https://easings.net>
+{-| Different easings for animations
+To see examples of these easings, see <https://easings.net>
 -}
 type Easing
     = EaseLinear

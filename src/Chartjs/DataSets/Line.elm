@@ -9,7 +9,11 @@ module Chartjs.DataSets.Line exposing
     , setShowLine, setSpanGaps, setSteppedLine
     )
 
-{-| Todo
+{-| A line chart plots data points on a line. Often used to show trend data or compare data sets.
+
+This dataset class can handle categorical scatter charts and area charts as well as standard line charts.
+For categorical scatter charts, set showLine to be False
+For area datasets, ensure that the fill mode is enabled and a background color is set
 
 @docs DataSet, defaultLineFromLabel, defaultLineFromData
 @docs SteppedLine, FillMode, FillBoundary
@@ -26,7 +30,17 @@ import Chartjs.Common as Common
 import Color exposing (Color)
 
 
-{-| Todo
+{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/line.html>
+
+You should not use the dataset type directly
+Instead use the updater pipeline functions:
+
+    defaultBarFromLabel "Example"
+        |> setBackgroundColor (Common.All Color.red)
+        |> setBorderColor (Common.All Color.white)
+        |> setBorderCapStyle "round"
+        |> setFill Disabled
+
 -}
 type alias DataSet =
     { label : String

@@ -4,7 +4,7 @@ module Chartjs.Options.Legend exposing
     , Labels, defaultLabels, setBoxWidth, setFontSize, setFontStyle, setFontColor, setFontFamily, setPadding, setUsePointStyle
     )
 
-{-| The Legend type is one of the properties in the chart Options
+{-| For more information, see <https://www.chartjs.org/docs/latest/configuration/legend.html>
 
 @docs Legend, defaultLegend
 

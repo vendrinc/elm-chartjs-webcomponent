@@ -1,6 +1,6 @@
 module Chartjs.Options.Layout exposing (Layout(..))
 
-{-| todo
+{-| For more information, see <https://www.chartjs.org/docs/latest/configuration/layout.html>
 
 @docs Layout
 

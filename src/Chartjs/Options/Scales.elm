@@ -9,7 +9,12 @@ module Chartjs.Options.Scales exposing
     , setDisplay, setColor
     )
 
-{-| todo
+{-| Axes are an integral part of a chart.
+
+So far, this module only implements simple axis properties.
+Planned features soon will include implementing the Cartesian & Radial axes listed in the Chart.js documentation
+
+For more information, see <https://www.chartjs.org/docs/latest/axes/>
 
 @docs Scales, defaultScales, scalesFromAxes
 @docs Axis, defaultAxis
@@ -82,26 +87,33 @@ setPosition position axis =
     { axis | position = Just position }
 
 
-{-| ¯\_(ツ)\_/¯
+{-| ¯\\\_(ツ)\_/¯
 -}
 setStacked : Bool -> Axis -> Axis
 setStacked bool axis =
     { axis | stacked = Just bool }
 
 
-{-| -}
+{-| Tick configuration
+-}
 setTicks : Ticks -> Axis -> Axis
 setTicks ticks axis =
     { axis | ticks = Just ticks }
 
 
-{-| -}
+{-| Grid line configuration
+-}
 setGridLines : GridLines -> Axis -> Axis
 setGridLines gridLines axis =
     { axis | gridLines = Just gridLines }
 
 
-{-| -}
+{-| Type structure for a single axes
+This currently only supports standard linear Cartesian axes.
+
+For more information, see <https://www.chartjs.org/docs/latest/axes/cartesian/>
+
+-}
 type alias Ticks =
     { fontFamily : Maybe String
     , callback : Maybe String
@@ -135,67 +147,81 @@ defaultTicks =
     }
 
 
-{-| -}
+{-| Font family to use for ticks
+-}
 setFontFamily : String -> Ticks -> Ticks
 setFontFamily family ticks =
     { ticks | fontFamily = Just family }
 
 
-{-| -}
+{-| If true, scale will include 0 (if it is not already included)
+-}
 setBeginAtZero : Bool -> Ticks -> Ticks
 setBeginAtZero bool ticks =
     { ticks | beginAtZero = Just bool }
 
 
-{-| -}
+{-| Defined minimum value,
+overrides value from data
+-}
 setMin : Float -> Ticks -> Ticks
 setMin min ticks =
     { ticks | min = Just min }
 
 
-{-| -}
+{-| Defined maximum value,
+overrides value from data
+-}
 setMax : Float -> Ticks -> Ticks
 setMax max ticks =
     { ticks | max = Just max }
 
 
-{-| -}
+{-| Maximum number of ticks and grid lines to show
+-}
 setMaxTicksLimit : Int -> Ticks -> Ticks
 setMaxTicksLimit maxTicks ticks =
     { ticks | maxTicksLimit = Just maxTicks }
 
 
-{-| -}
+{-| If defined and stepSize is not specified,
+then the step size will be rounded to this many decimal places
+-}
 setPrecision : Int -> Ticks -> Ticks
 setPrecision precision ticks =
     { ticks | precision = Just precision }
 
 
-{-| -}
+{-| Set a defined fixed step size for the scale
+-}
 setStepSize : Float -> Ticks -> Ticks
 setStepSize step ticks =
     { ticks | stepSize = Just step }
 
 
-{-| -}
+{-| Adjustment used when calculating the maximum data value
+-}
 setSuggestedMax : Float -> Ticks -> Ticks
 setSuggestedMax max ticks =
     { ticks | suggestedMax = Just max }
 
 
-{-| -}
+{-| Adjust used when calculating the minimum data value
+-}
 setSuggestedMin : Float -> Ticks -> Ticks
 setSuggestedMin min ticks =
     { ticks | suggestedMin = Just min }
 
 
-{-| -}
+{-| Font color to use for ticks
+-}
 setFontColor : Color -> Ticks -> Ticks
 setFontColor color ticks =
     { ticks | fontColor = Just color }
 
 
 {-| Create an empty grid lines object
+For more information, see <https://www.chartjs.org/docs/latest/axes/styling.html#grid-line-configuration>
 -}
 type alias GridLines =
     { display : Maybe Bool
@@ -203,7 +229,8 @@ type alias GridLines =
     }
 
 
-{-| -}
+{-| Create an empty grid lines object
+-}
 defaultGridLines : GridLines
 defaultGridLines =
     { display = Nothing
@@ -211,13 +238,15 @@ defaultGridLines =
     }
 
 
-{-| -}
+{-| Whether grid lines should be displayed
+-}
 setDisplay : Bool -> GridLines -> GridLines
 setDisplay bool gridLines =
     { gridLines | display = Just bool }
 
 
-{-| -}
+{-| Color to use for grid lines
+-}
 setColor : Common.PointProperty Color -> GridLines -> GridLines
 setColor color gridLines =
     { gridLines | color = Just color }

@@ -4,7 +4,10 @@ module Chartjs.DataSets.DoughnutAndPie exposing
     , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
     )
 
-{-|
+{-| Pie and doughnut charts are divided into segments, where the arc of each segment shows the proportion of each data.
+
+In Chart.js, these two charts are essentially the same. The only different value is the cutoutPercentage.
+This dataset class will work for either pie or doughtnut charts interchangably
 
 @docs DataSet, defaultPieFromLabel, defaultPieFromData
 @docs setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
@@ -16,7 +19,15 @@ import Chartjs.Common as Common
 import Color exposing (Color)
 
 
-{-| Todo
+{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/doughnut.html>
+
+You should not use the dataset type directly
+Instead use the updater pipeline functions:
+
+    defaultBarFromLabel "Example"
+        |> setBackgroundColor (Common.All Color.red)
+        |> setBorderColor (Common.All Color.white)
+
 -}
 type alias DataSet =
     { label : String

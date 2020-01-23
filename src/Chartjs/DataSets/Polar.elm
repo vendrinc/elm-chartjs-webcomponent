@@ -3,7 +3,9 @@ module Chartjs.DataSets.Polar exposing
     , setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth, setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
     )
 
-{-| Todo
+{-| Polar charts are similar to pie charts, but each segment has the same angle
+
+  - the radius of the segment differs depending on the value.
 
 @docs DataSet, defaultPolarFromLabel, defaultPolarFromData
 @docs setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth, setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
@@ -14,7 +16,15 @@ import Chartjs.Common as Common
 import Color exposing (Color)
 
 
-{-| Todo
+{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/polar.html>
+
+You should not use the dataset type directly
+Instead use the updater pipeline functions:
+
+    defaultBarFromLabel "Example"
+        |> setBackgroundColor (Common.All Color.red)
+        |> setBorderColor (Common.All Color.white)
+
 -}
 type alias DataSet =
     { label : String

@@ -70,8 +70,8 @@ buildData labels datasets =
 This is very useful for use with the |> operator
 
     defaultData
-        |> addDataset (dataset1)
-        |> addDataset (dataset2)
+        |> addDataset dataset1
+        |> addDataset dataset2
 
 -}
 addDataset : DataSet -> Data -> Data

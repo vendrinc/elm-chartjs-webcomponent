@@ -4,7 +4,7 @@ module Chartjs.Options.Tooltips exposing
     , Callbacks, defaultCallbacks
     )
 
-{-| Tooltips are displayed when interacting with charts
+{-| For more information, see <https://www.chartjs.org/docs/latest/configuration/tooltip.html>
 
 Please note that this module does not have updater functions and you will need to use record update syntax if using this functionality
 
@@ -19,7 +19,8 @@ Please note that this module does not have updater functions and you will need t
 import Color exposing (Color)
 
 
-{-| -}
+{-| Tooltips are displayed when interacting with charts
+-}
 type alias Tooltips =
     { enabled : Maybe Bool
     , mode : Maybe Mode
@@ -90,7 +91,8 @@ type Mode
     | Y
 
 
-{-| -}
+{-| Create a blank tooltips object
+-}
 defaultTooltips : Tooltips
 defaultTooltips =
     { enabled = Nothing

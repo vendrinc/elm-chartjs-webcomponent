@@ -7,7 +7,7 @@ module Chartjs.Common exposing (PointStyle(..), LineCap(..), LineJoin(..), Posit
 -}
 
 
-{-| <https://www.chartjs.org/samples/latest/charts/line/point-styles.html>
+{-| For more information, see <https://www.chartjs.org/samples/latest/charts/line/point-styles.html>
 -}
 type PointStyle
     = Circle
@@ -23,14 +23,16 @@ type PointStyle
     | Image String
 
 
-{-| -}
+{-| For more information, see <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineCap>
+-}
 type LineCap
     = LineCapButt
     | LineCapRound
     | LineCapSquare
 
 
-{-| -}
+{-| For more information, see <https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/lineJoin>
+-}
 type LineJoin
     = LineJoinBevel
     | LineJoinRound
