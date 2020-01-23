@@ -62,6 +62,11 @@ defaultPieFromData label data =
     }
 
 
+setData : List Float -> DataSet -> DataSet
+setData data dataset =
+    { dataset | data = data }
+
+
 setBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
 setBackgroundColor color dataset =
     { dataset | backgroundColor = Just color }

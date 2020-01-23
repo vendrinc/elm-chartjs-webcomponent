@@ -62,6 +62,11 @@ defaultBarFromData label data =
     }
 
 
+setData : List Float -> DataSet -> DataSet
+setData data dataset =
+    { dataset | data = data }
+
+
 setXAxisID : String -> DataSet -> DataSet
 setXAxisID id dataset =
     { dataset | xAxisID = Just id }
