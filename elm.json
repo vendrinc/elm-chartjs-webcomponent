@@ -1,7 +1,7 @@
 {
     "type": "package",
-    "name": "blissfully/elm-chartjs-webcomponent",
-    "summary": "Elm interface to include Chartjs in your UI via a web component.",
+    "name": "indicatrix/elm-chartjs-webcomponent",
+    "summary": "Elm types and pipeline functions to easily work with Chartjs",
     "license": "MIT",
     "version": "1.0.0",
     "exposed-modules": [
