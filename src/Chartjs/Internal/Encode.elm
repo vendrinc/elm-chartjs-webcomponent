@@ -300,6 +300,9 @@ encodeOptions options =
         |> Encode.maybeCustomField "scales" encodeScales options.scales
         |> Encode.maybeBoolField "maintainAspectRatio" options.maintainAspectRatio
         |> Encode.maybeBoolField "responsive" options.responsive
+        |> Encode.maybeIntField "cutoutPercentage" options.cutoutPercentage
+        |> Encode.maybeFloatField "rotation" options.rotation
+        |> Encode.maybeFloatField "circumfernece" options.circumference
         |> Encode.toValue
 
 

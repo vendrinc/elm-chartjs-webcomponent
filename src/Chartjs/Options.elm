@@ -33,6 +33,9 @@ type alias Options =
     , scales : Maybe Scales.Scales
     , maintainAspectRatio : Maybe Bool
     , responsive : Maybe Bool
+    , cutoutPercentage : Maybe Int
+    , rotation : Maybe Float
+    , circumference : Maybe Float
     }
 
 
@@ -49,6 +52,9 @@ defaultOptions =
     , scales = Nothing
     , maintainAspectRatio = Nothing
     , responsive = Nothing
+    , cutoutPercentage = Nothing
+    , rotation = Nothing
+    , circumference = Nothing
     }
 
 
@@ -115,3 +121,25 @@ I strongly recommend sizing the parent web component and leaving this option ena
 setResponsive : Bool -> Options -> Options
 setResponsive responsive options =
     { options | responsive = Just responsive }
+
+
+{-| Set the cutout percentage of this chart.
+By default, Doughnuts are 50 and Pies are 0
+-}
+setCutoutPercentage : Int -> Options -> Options
+setCutoutPercentage percentage options =
+    { options | cutoutPercentage = Just percentage }
+
+
+{-| Set the starting angle (in radians) to draw arcs from
+-}
+setRotation : Float -> Options -> Options
+setRotation rotation options =
+    { options | rotation = Just rotation }
+
+
+{-| Set the sweep (in radians) that arcs are allowed to cover
+-}
+setCircumference : Float -> Options -> Options
+setCircumference circumference options =
+    { options | circumference = Just circumference }
