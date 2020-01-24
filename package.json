@@ -1,8 +1,8 @@
 {
-  "name": "@blissfully/elm-chartjs-webcomponent",
+  "name": "@indicatrix/elm-chartjs-webcomponent",
   "version": "1.0.0",
   "description": "Web component bridge to Chartjs for Elm Chartjs bindings",
-  "main": "src/chart.js",
+  "main": "webcomponent/chart.js",
   "files": [
     "/webcomponent/chart.js"
   ],
@@ -11,16 +11,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Blissfully/elm-chartjs-webcomponent.git"
+    "url": "git+https://github.com/indicatrix/elm-chartjs-webcomponent.git"
   },
   "keywords": [
     "elm",
     "chartjs"
   ],
-  "author": "Aaron White",
+  "author": "Indicatrix",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Blissfully/elm-chartjs-webcomponent/issues"
+    "url": "https://github.com/indicatrix/elm-chartjs-webcomponent/issues"
   },
-  "homepage": "https://github.com/Blissfully/elm-chartjs-webcomponent#readme"
+  "homepage": "https://github.com/indicatrix/elm-chartjs-webcomponent#readme",
+  "directories": {
+    "example": "examples"
+  }
 }
