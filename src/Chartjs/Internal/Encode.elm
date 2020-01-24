@@ -3,7 +3,6 @@ module Chartjs.Internal.Encode exposing
     , encodeArc
     , encodeAxis
     , encodeBarChartDataSet
-    , encodeCallbacks
     , encodeData
     , encodeDataset
     , encodeDoughnutAndPieDataSet
@@ -39,6 +38,7 @@ import Chartjs.Data
 import Chartjs.DataSets.Bar
 import Chartjs.DataSets.DoughnutAndPie
 import Chartjs.DataSets.Line
+import Chartjs.DataSets.Polar
 import Chartjs.Internal.Util as Encode
 import Chartjs.Options
 import Chartjs.Options.Animations
@@ -74,14 +74,12 @@ encodeDoughnutAndPieDataSet barChartDataSet =
         |> Encode.stringField "label" barChartDataSet.label
         |> Encode.listField "data" Encode.float barChartDataSet.data
         |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
+        |> Encode.maybeStringField "borderAlign" barChartDataSet.borderAlign
         |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
         |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
         |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
         |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
         |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
-        |> Encode.maybeIntField "cutoutPercentage" barChartDataSet.cutoutPercentage
-        |> Encode.maybeIntField "rotation" barChartDataSet.rotation
-        |> Encode.maybeIntField "circumference" barChartDataSet.circumference
         |> Encode.toValue
 
 
@@ -115,6 +113,21 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeBoolField "showLine" lineChartDataSet.showLine
         |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
         |> Encode.maybeCustomField "steppedLine" encodeSteppedLine lineChartDataSet.steppedLine
+        |> Encode.toValue
+
+
+encodePolarDataSet : Chartjs.DataSets.Polar.DataSet -> Encode.Value
+encodePolarDataSet polarDataSet =
+    Encode.beginObject
+        |> Encode.stringField "label" polarDataSet.label
+        |> Encode.listField "data" Encode.float polarDataSet.data
+        |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) polarDataSet.backgroundColor
+        |> Encode.maybeStringField "borderAlign" polarDataSet.borderAlign
+        |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) polarDataSet.borderColor
+        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) polarDataSet.borderWidth
+        |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) polarDataSet.hoverBackgroundColor
+        |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) polarDataSet.hoverBorderColor
+        |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) polarDataSet.hoverBorderWidth
         |> Encode.toValue
 
 
@@ -262,14 +275,17 @@ encodeData data =
 encodeDataset : Chartjs.Data.DataSet -> Encode.Value
 encodeDataset dataSet =
     case dataSet of
-        Chartjs.Data.BarDataSet barChartDataSet ->
+        Chartjs.Data.BarData barChartDataSet ->
             encodeBarChartDataSet barChartDataSet
 
-        Chartjs.Data.LineDataSet lineChartDataSet ->
+        Chartjs.Data.LineData lineChartDataSet ->
             encodeLineChartDataSet lineChartDataSet
 
-        Chartjs.Data.DoughnutAndPieDataSet doughnutAndPieDataSet ->
+        Chartjs.Data.PieData doughnutAndPieDataSet ->
             encodeDoughnutAndPieDataSet doughnutAndPieDataSet
+
+        Chartjs.Data.PolarData polarDataSet ->
+            encodePolarDataSet polarDataSet
 
 
 encodeOptions : Chartjs.Options.Options -> Encode.Value
@@ -284,6 +300,9 @@ encodeOptions options =
         |> Encode.maybeCustomField "scales" encodeScales options.scales
         |> Encode.maybeBoolField "maintainAspectRatio" options.maintainAspectRatio
         |> Encode.maybeBoolField "responsive" options.responsive
+        |> Encode.maybeIntField "cutoutPercentage" options.cutoutPercentage
+        |> Encode.maybeFloatField "rotation" options.rotation
+        |> Encode.maybeFloatField "circumfernece" options.circumference
         |> Encode.toValue
 
 
@@ -545,6 +564,7 @@ encodeTicks ticks =
         |> Encode.maybeFloatField "stepSize" ticks.stepSize
         |> Encode.maybeFloatField "suggestedMax" ticks.suggestedMax
         |> Encode.maybeFloatField "suggestedMin" ticks.suggestedMin
+        |> Encode.maybeColorField "fontColor" ticks.fontColor
         |> Encode.toValue
 
 
@@ -578,7 +598,7 @@ encodeTooltips tooltips =
         |> Encode.maybeCustomField "mode" encodeMode tooltips.mode
         |> Encode.maybeBoolField "intersect" tooltips.intersect
         |> Encode.maybeCustomField "position" encodePositionMode tooltips.position
-        |> Encode.maybeCustomField "callbacks" encodeCallbacks tooltips.callbacks
+        --|> Encode.maybeCustomField "callbacks" encodeCallbacks tooltips.callbacks
         |> Encode.maybeColorField "backgroundColor" tooltips.backgroundColor
         |> Encode.maybeStringField "titleFontFamily" tooltips.titleFontFamily
         |> Encode.maybeIntField "titleFontSize" tooltips.titleFontSize
@@ -645,8 +665,11 @@ encodePositionMode positionMode =
         |> Encode.string
 
 
-encodeCallbacks : Chartjs.Options.Tooltips.Callbacks -> Encode.Value
-encodeCallbacks callbacks =
-    Encode.beginObject
-        |> Encode.maybeStringField "label" callbacks.label
-        |> Encode.toValue
+
+{-
+   encodeCallbacks : Chartjs.Options.Tooltips.Callbacks -> Encode.Value
+   encodeCallbacks callbacks =
+       Encode.beginObject
+           |> Encode.maybeStringField "label" callbacks.label
+           |> Encode.toValue
+-}

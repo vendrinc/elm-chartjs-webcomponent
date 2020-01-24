@@ -1,17 +1,14 @@
-module Chartjs.DataSets.DoughnutAndPie exposing
-    ( DataSet, defaultPieFromLabel, defaultPieFromData
-    , setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
-    , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
+module Chartjs.DataSets.Polar exposing
+    ( DataSet, defaultPolarFromLabel, defaultPolarFromData
+    , setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth, setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
     )
 
-{-| Pie and doughnut charts are divided into segments, where the arc of each segment shows the proportion of each data.
+{-| Polar charts are similar to pie charts, but each segment has the same angle
 
-In Chart.js, these two charts are essentially the same. The only different value is the cutoutPercentage.
-This dataset class will work for either pie or doughtnut charts interchangably
+  - the radius of the segment differs depending on the value.
 
-@docs DataSet, defaultPieFromLabel, defaultPieFromData
-@docs setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
-@docs setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
+@docs DataSet, defaultPolarFromLabel, defaultPolarFromData
+@docs setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth, setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
 
 -}
 
@@ -19,7 +16,7 @@ import Chartjs.Common as Common
 import Color exposing (Color)
 
 
-{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/doughnut.html>
+{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/polar.html>
 
 You should not use the dataset type directly
 Instead use the updater pipeline functions:
@@ -42,17 +39,17 @@ type alias DataSet =
     }
 
 
-{-| Create a Pie dataset with just a label
+{-| Create a Polar dataset with just a label
 -}
-defaultPieFromLabel : String -> DataSet
-defaultPieFromLabel label =
-    defaultPieFromData label []
+defaultPolarFromLabel : String -> DataSet
+defaultPolarFromLabel label =
+    defaultPolarFromData label []
 
 
-{-| Create a Pie dataset with a label and data
+{-| Create a Polar dataset with a label and data
 -}
-defaultPieFromData : String -> List Float -> DataSet
-defaultPieFromData label data =
+defaultPolarFromData : String -> List Float -> DataSet
+defaultPolarFromData label data =
     { label = label
     , data = data
     , backgroundColor = Nothing
@@ -66,21 +63,21 @@ defaultPieFromData label data =
 
 
 {-| Set the data displayed by this dataset
-This is a list of floats, where each float is represented as an arc
+This is a list of floats, where each float is represented as a segment on the chart
 -}
 setData : List Float -> DataSet -> DataSet
 setData data dataset =
     { dataset | data = data }
 
 
-{-| Fill color of the arcs
+{-| Fill color of the segments
 -}
 setBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
 setBackgroundColor color dataset =
     { dataset | backgroundColor = Just color }
 
 
-{-| Whether the borders of each arc should overlap or not
+{-| Whether the borders of each segment should overlap or not
 Set to 'center' to overlap
 Set to 'inner' to not overlap
 -}
@@ -103,14 +100,14 @@ setBorderWidth width dataset =
     { dataset | borderWidth = Just width }
 
 
-{-| Fill color of the arcs when hovered
+{-| Fill color of the segments when hovered
 -}
 setHoverBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
 setHoverBackgroundColor color dataset =
     { dataset | hoverBackgroundColor = Just color }
 
 
-{-| Border color of the arcs when hovered
+{-| Border color of the segements when hovered
 -}
 setHoverBorderColor : Common.PointProperty Color -> DataSet -> DataSet
 setHoverBorderColor color dataset =

@@ -12,6 +12,7 @@
         "Chartjs.DataSets.Bar",
         "Chartjs.DataSets.DoughnutAndPie",
         "Chartjs.DataSets.Line",
+        "Chartjs.DataSets.Polar",
         "Chartjs.Options.Animations",
         "Chartjs.Options.Elements",
         "Chartjs.Options.Layout",

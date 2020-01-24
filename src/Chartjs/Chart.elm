@@ -1,15 +1,19 @@
 module Chartjs.Chart exposing
-    ( Chart, chart, defaultChart
-    , Type(..)
+    ( Chart, Type(..), defaultChart
+    , setData, setOptions
+    , chart
     )
 
 {-| A type-safe bridge to a Chartjs web component.
 
-Note: this library isn't usable without including Chartjs as a Javascript dependency in your project,
-along with the sister Javascript web component that goes with this library.
-Please see instructions here: <https://github.com/Blissfully/elm-chartjs-webcomponent>
+This library requires both Chart.js and the web component to function properly.
+Check the README.md for this package for more detailed instructions on setting up.
 
-@docs Chart, ChartType, chart, defaultChart
+@docs Chart, Type, defaultChart
+
+@docs setData, setOptions
+
+@docs chart
 
 -}
 
@@ -17,12 +21,15 @@ import Chartjs.Data as Data
 import Chartjs.Internal.Encode
 import Chartjs.Internal.Util as Encode
 import Chartjs.Options as Options
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Html exposing (Html, node)
+import Html.Attributes exposing (property)
 import Json.Encode as Encode
 
 
-{-| Required definition for a Chartjs chart
+{-| Main type helper for a Chartjs chart
+
+Both a Data and an Options object must be specified to help configure this chart.
+
 -}
 type alias Chart =
     { chartType : Type
@@ -31,28 +38,7 @@ type alias Chart =
     }
 
 
-{-| Basic type of chart
--}
-type Type
-    = Bar
-    | Line
-    | Doughnut
-    | Pie
-
-
-{-| Given dimensions and a chart, creates an HMTL node
--}
-chart : Int -> Int -> Chart -> Html msg
-chart height width chart_ =
-    node "chart-component"
-        [ property "chartWidth" <| Encode.int height
-        , property "chartHeight" <| Encode.int width
-        , property "chartConfig" <| encodeChart chart_
-        ]
-        []
-
-
-{-| Given a type, creates a sane Chart config you can update
+{-| Given a chart type, creates a default chart that can then be updated.
 -}
 defaultChart : Type -> Chart
 defaultChart chartType =
@@ -60,6 +46,50 @@ defaultChart chartType =
     , data = Data.defaultData
     , options = Options.defaultOptions
     }
+
+
+{-| Update the data for a chart.
+-}
+setData : Data.Data -> Chart -> Chart
+setData data chart_ =
+    { chart_ | data = data }
+
+
+{-| Update the options for a chart.
+-}
+setOptions : Options.Options -> Chart -> Chart
+setOptions options chart_ =
+    { chart_ | options = options }
+
+
+{-| Basic type for a Chart
+
+For charts containing multiple datasets, both a chart type needs to specified
+and a type for each dataset. Default Chart.js parameters will inherit from this type.
+
+-}
+type Type
+    = Bar
+    | HorizontalBar
+    | Line
+    | Doughnut
+    | Pie
+    | Polar
+
+
+{-| Given attributes and a chart, creates an HTML node using the web component
+
+ChartJs is smart enough to figure out scaling naturally
+To set the size of the chart, use CSS styles (either in a stylesheet or using the attributes)
+
+-}
+chart : List (Html.Attribute msg) -> Chart -> Html msg
+chart attributes chart_ =
+    let
+        attributesWithConfig =
+            (property "chartConfig" <| encodeChart chart_) :: attributes
+    in
+    node "chart-component" attributesWithConfig []
 
 
 encodeChart : Chart -> Encode.Value
@@ -77,6 +107,9 @@ encodeChartType chartType =
         Bar ->
             "bar"
 
+        HorizontalBar ->
+            "horizontalBar"
+
         Line ->
             "line"
 
@@ -85,5 +118,8 @@ encodeChartType chartType =
 
         Pie ->
             "pie"
+
+        Polar ->
+            "polarArea"
     )
         |> Encode.string
