@@ -86,7 +86,7 @@ type SteppedLine
     | AfterInterpolation
 
 
-{-| FIll modes handle how area charts should be displayed
+{-| Fill modes handle how area charts should be displayed
 Can be:
 
   - an absolute dataset index

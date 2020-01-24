@@ -3,7 +3,6 @@ module Chartjs.Internal.Encode exposing
     , encodeArc
     , encodeAxis
     , encodeBarChartDataSet
-    , encodeCallbacks
     , encodeData
     , encodeDataset
     , encodeDoughnutAndPieDataSet
@@ -596,7 +595,7 @@ encodeTooltips tooltips =
         |> Encode.maybeCustomField "mode" encodeMode tooltips.mode
         |> Encode.maybeBoolField "intersect" tooltips.intersect
         |> Encode.maybeCustomField "position" encodePositionMode tooltips.position
-        |> Encode.maybeCustomField "callbacks" encodeCallbacks tooltips.callbacks
+        --|> Encode.maybeCustomField "callbacks" encodeCallbacks tooltips.callbacks
         |> Encode.maybeColorField "backgroundColor" tooltips.backgroundColor
         |> Encode.maybeStringField "titleFontFamily" tooltips.titleFontFamily
         |> Encode.maybeIntField "titleFontSize" tooltips.titleFontSize
@@ -663,8 +662,11 @@ encodePositionMode positionMode =
         |> Encode.string
 
 
-encodeCallbacks : Chartjs.Options.Tooltips.Callbacks -> Encode.Value
-encodeCallbacks callbacks =
-    Encode.beginObject
-        |> Encode.maybeStringField "label" callbacks.label
-        |> Encode.toValue
+
+{-
+   encodeCallbacks : Chartjs.Options.Tooltips.Callbacks -> Encode.Value
+   encodeCallbacks callbacks =
+       Encode.beginObject
+           |> Encode.maybeStringField "label" callbacks.label
+           |> Encode.toValue
+-}

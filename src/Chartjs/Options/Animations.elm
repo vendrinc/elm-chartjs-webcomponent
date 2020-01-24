@@ -53,7 +53,12 @@ type Easing
     | EaseInOutBounce
 
 
-{-| todo
+{-| Animations structure
+These settings will apply to all the animations in the chart
+
+The default settings should work fine for most cases, but if needed,
+you can use this object to fine-tune them
+
 -}
 type alias Animations =
     { duration : Maybe Int
@@ -89,7 +94,8 @@ type alias Animations =
 -}
 
 
-{-| -}
+{-| Create a blank animations object
+-}
 defaultAnimations : Animations
 defaultAnimations =
     { duration = Nothing
@@ -114,13 +120,15 @@ setEasing easing animations =
 
 
 {-| Used for Pie charts
+Should the rotation of the chart be animated?
 -}
 setAnimateRotate : Bool -> Animations -> Animations
 setAnimateRotate bool animations =
     { animations | animateRotate = Just bool }
 
 
-{-| Used for Pie charts
+{-| Used for Pie/Polar charts
+Should the scaling of the chart be animated?
 -}
 setAnimateScale : Bool -> Animations -> Animations
 setAnimateScale bool animations =

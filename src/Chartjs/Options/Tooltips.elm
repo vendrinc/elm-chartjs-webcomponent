@@ -1,7 +1,6 @@
 module Chartjs.Options.Tooltips exposing
     ( Tooltips, defaultTooltips
     , PositionMode(..), Mode(..)
-    , Callbacks, defaultCallbacks
     )
 
 {-| For more information, see <https://www.chartjs.org/docs/latest/configuration/tooltip.html>
@@ -11,8 +10,6 @@ Please note that this module does not have updater functions and you will need t
 @docs Tooltips, defaultTooltips
 
 @docs PositionMode, Mode
-
-@docs Callbacks, defaultCallbacks
 
 -}
 
@@ -26,7 +23,8 @@ type alias Tooltips =
     , mode : Maybe Mode
     , intersect : Maybe Bool
     , position : Maybe PositionMode
-    , callbacks : Maybe Callbacks
+
+    --, callbacks : Maybe Callbacks
     , backgroundColor : Maybe Color
     , titleFontFamily : Maybe String
     , titleFontSize : Maybe Int
@@ -99,7 +97,8 @@ defaultTooltips =
     , mode = Nothing
     , intersect = Nothing
     , position = Nothing
-    , callbacks = Nothing
+
+    --, callbacks = Nothing
     , backgroundColor = Nothing
     , titleFontFamily = Nothing
     , titleFontSize = Nothing

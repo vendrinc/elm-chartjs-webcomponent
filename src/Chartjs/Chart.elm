@@ -9,10 +9,6 @@ module Chartjs.Chart exposing
 This library requires both Chart.js and the web component to function properly.
 Check the README.md for this package for more detailed instructions on setting up.
 
-Note: this library isn't usable without including Chartjs as a Javascript dependency in your project,
-along with the sister Javascript web component that goes with this library.
-Please see instructions here: <https://github.com/Blissfully/elm-chartjs-webcomponent>
-
 @docs Chart, Type, defaultChart
 
 @docs setData, setOptions
