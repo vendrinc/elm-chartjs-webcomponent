@@ -7,7 +7,7 @@
 The first step is to add the webcomponent.
 Grab this from npm:
 
-```npm install [TBD]```
+```npm install indicatrix/elm-chartjs-webcomponent```
 
 then include `webcomponent/chartjs.js` as part of your JS build pipeline. Keep in mind that web components are still relatively new web technologies - for best compatibility, you'll need to use a [polyfill](https://github.com/webcomponents/polyfills).
 

@@ -12,7 +12,7 @@ class ChartjsChart extends window.HTMLElement {
     this._chartConfig = {}
     return self
   }
-
+  
   connectedCallback () {
     const canvas = document.createElement('canvas')
     this._canvas = canvas
@@ -33,7 +33,9 @@ class ChartjsChart extends window.HTMLElement {
       // Update all datasets
       for (let i = 0; i < newDatasets.length; i++) {
         // Copying the meta will keep the animations between them smooth
-        newDatasets[i]._meta = oldDatasets[i]._meta
+        if(oldDatasets[i]._meta) {
+          newDatasets[i]._meta = oldDatasets[i]._meta
+        }
         oldDatasets[i] = newDatasets[i]
       }
 
