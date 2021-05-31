@@ -15,6 +15,16 @@ Once the web component is setup, you're pretty much good to go! Don't forget to 
 
 ```elm install indicatrix/elm-chartjs-webcomponent```
 
+## Examples
+An example setup is provided in **examples/**. This example uses [Parcel](https://github.com/parcel-bundler/parcel) for building, however any similar system should work fine.
+
+To get started:
+```
+cd examples
+npm install
+npm run start
+```
+
 ## Documentation
 When in doubt, consult the [Chart.js documentation](https://www.chartjs.org/docs/latest/).
 
@@ -36,5 +46,3 @@ An example:
                 |> LineData.setBorderColor (Common.All Color.white)
             )
 ```
-
-Some basic examples are included in this repository under the **examples/** directory. However, adding the web component to these is left as an exercise for the reader. Good luck.

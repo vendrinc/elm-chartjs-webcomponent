@@ -1,0 +1,20 @@
+{
+    "name": "elm-chartjs-webcomponent-examples",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "author": "Indicatrix",
+    "license": "MIT",
+    "scripts": {
+        "start": "parcel index.html"
+    },
+    "dependencies": {
+        "@indicatrix/elm-chartjs-webcomponent": "^1.1.1",
+        "chart.js": "^3.3.2"
+    },
+    "devDependencies": {
+        "@parcel/transformer-elm": "^2.0.0-beta.3.1",
+        "elm": "^0.19.1-5",
+        "parcel": "^2.0.0-beta.3.1"
+    }
+}

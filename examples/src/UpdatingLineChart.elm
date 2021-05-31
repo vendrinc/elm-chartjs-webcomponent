@@ -2,8 +2,8 @@ module UpdatingLineChart exposing (main)
 
 import Browser
 import Chartjs.Chart as Chart
-import Chartjs.Common as Common
-import Chartjs.Data as Data
+import Chartjs.Common as ChartCommon
+import Chartjs.Data as ChartData
 import Chartjs.DataSets.Line as LineData
 import Color
 import Html exposing (Html, div)
@@ -56,14 +56,16 @@ randomData =
 
 {-| Turn the model into a Chartjs dataset object
 -}
-data : Model -> Data.Data
+data : Model -> ChartData.Data
 data model =
-    Data.buildData model.labels
-        |> Data.addDataset LineData
-            (LineData.defaultLineFromData "Example Chart" model.data
-                |> LineData.setBorderColor (Common.All model.color)
+    let 
+        dataset =
+            LineData.defaultLineFromData "Example Chart" model.data
+                |> LineData.setBorderColor (ChartCommon.All model.color)
                 |> LineData.setShowLine False
-            )
+    in
+    ChartData.dataFromLabels model.labels
+        |> ChartData.addDataset (ChartData.LineData dataset)
 
 
 {-| Build a chart config from our model
