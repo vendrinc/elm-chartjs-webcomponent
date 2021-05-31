@@ -1,7 +1,9 @@
 module Chartjs.DataSets.DoughnutAndPie exposing
     ( DataSet, defaultPieFromLabel, defaultPieFromData
-    , setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
+    , setLabel, setData, setHidden, setOrder
+    , setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
     , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
+    , setCircumference, setCutout, setOffset, setRotation, setWeight
     )
 
 {-| Pie and doughnut charts are divided into segments, where the arc of each segment shows the proportion of each data.
@@ -10,8 +12,10 @@ In Chart.js, these two charts are essentially the same. The only different value
 This dataset class will work for either pie or doughtnut charts interchangably
 
 @docs DataSet, defaultPieFromLabel, defaultPieFromData
-@docs setData, setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
+@docs setLabel, setData, setHidden, setOrder
+@docs setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
 @docs setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
+@docs setCircumference, setCutout, setOffset, setRotation, setWeight
 
 -}
 
@@ -32,13 +36,20 @@ Instead use the updater pipeline functions:
 type alias DataSet =
     { label : String
     , data : List Float
+    , hidden : Maybe Bool
+    , order : Maybe Int
     , backgroundColor : Maybe (Common.PointProperty Color)
     , borderAlign : Maybe String
     , borderColor : Maybe (Common.PointProperty Color)
     , borderWidth : Maybe (Common.PointProperty Float)
+    , circumference : Maybe Int
+    , cutout : Maybe Int
     , hoverBackgroundColor : Maybe (Common.PointProperty Color)
     , hoverBorderColor : Maybe (Common.PointProperty Color)
     , hoverBorderWidth : Maybe (Common.PointProperty Float)
+    , offset : Maybe (Common.PointProperty Int)
+    , rotation : Maybe Int
+    , weight : Maybe Float
     }
 
 
@@ -55,14 +66,28 @@ defaultPieFromData : String -> List Float -> DataSet
 defaultPieFromData label data =
     { label = label
     , data = data
+    , hidden = Nothing
+    , order = Nothing
     , backgroundColor = Nothing
     , borderAlign = Nothing
     , borderColor = Nothing
     , borderWidth = Nothing
+    , circumference = Nothing
+    , cutout = Nothing
     , hoverBackgroundColor = Nothing
     , hoverBorderColor = Nothing
     , hoverBorderWidth = Nothing
+    , offset = Nothing
+    , rotation = Nothing
+    , weight = Nothing
     }
+
+
+{-| Set the label for this dataset
+-}
+setLabel : String -> DataSet -> DataSet
+setLabel label dataset =
+    { dataset | label = label }
 
 
 {-| Set the data displayed by this dataset
@@ -71,6 +96,21 @@ This is a list of floats, where each float is represented as an arc
 setData : List Float -> DataSet -> DataSet
 setData data dataset =
     { dataset | data = data }
+
+
+{-| Set whether this dataset should be hidden from the chart
+-}
+setHidden : Bool -> DataSet -> DataSet
+setHidden hidden dataset =
+    { dataset | hidden = Just hidden }
+
+
+{-| Set the drawing order of the dataset
+This also affects stacking, tooltips, and legends
+-}
+setOrder : Int -> DataSet -> DataSet
+setOrder order dataset =
+    { dataset | order = Just order }
 
 
 {-| Fill color of the arcs
@@ -103,6 +143,20 @@ setBorderWidth width dataset =
     { dataset | borderWidth = Just width }
 
 
+{-| Total sweep, in degrees, to allow arcs to cover
+-}
+setCircumference : Int -> DataSet -> DataSet
+setCircumference deg dataset =
+    { dataset | circumference = Just deg }
+
+
+{-| Cutout, in pixels
+-}
+setCutout : Int -> DataSet -> DataSet
+setCutout cutout dataset =
+    { dataset | cutout = Just cutout }
+
+
 {-| Fill color of the arcs when hovered
 -}
 setHoverBackgroundColor : Common.PointProperty Color -> DataSet -> DataSet
@@ -122,3 +176,25 @@ setHoverBorderColor color dataset =
 setHoverBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
 setHoverBorderWidth width dataset =
     { dataset | hoverBorderWidth = Just width }
+
+
+{-| Offset for each arc, in pixels
+-}
+setOffset : Common.PointProperty Int -> DataSet -> DataSet
+setOffset off dataset =
+    { dataset | offset = Just off }
+
+
+{-| Starting angle, in degrees, to draw dataset from
+-}
+setRotation : Int -> DataSet -> DataSet
+setRotation deg dataset =
+    { dataset | rotation = Just deg }
+
+
+{-| The relative thickness of this dataset
+If specified, then this dataset will be drawn with a thickness relative to the sum of all dataset weights
+-}
+setWeight : Float -> DataSet -> DataSet
+setWeight weight dataset =
+    { dataset | weight = Just weight }

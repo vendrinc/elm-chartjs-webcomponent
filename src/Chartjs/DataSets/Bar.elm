@@ -1,16 +1,20 @@
 module Chartjs.DataSets.Bar exposing
     ( DataSet, defaultBarFromLabel, defaultBarFromData
-    , setData, setXAxisID, setYAxisID, setBackgroundColor, setBorderColor, setBorderWidth, setBorderSkipped
+    , setData, setLabel, setHidden, setOrder, setStack
+    , setIndexAxis, setXAxisID, setYAxisID
+    , setBackgroundColor, setBorderColor, setBorderRadius, setBorderSkipped, setBorderWidth
     , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
-    , setStack
+    , setBarPercentage, setBarThickness, setCategoryPercentage, setMaxBarThickness, setMinBarLength
     )
 
 {-| A bar chart provides a way of showing data values represented as vertical bars.
 
 @docs DataSet, defaultBarFromLabel, defaultBarFromData
-@docs setData, setXAxisID, setYAxisID, setBackgroundColor, setBorderColor, setBorderWidth, setBorderSkipped
+@docs setData, setLabel, setHidden, setOrder, setStack
+@docs setIndexAxis, setXAxisID, setYAxisID
+@docs setBackgroundColor, setBorderColor, setBorderRadius, setBorderSkipped, setBorderWidth
 @docs setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
-@docs setStack
+@docs setBarPercentage, setBarThickness, setCategoryPercentage, setMaxBarThickness, setMinBarLength
 
 -}
 
@@ -31,16 +35,25 @@ Instead use the updater pipeline functions:
 type alias DataSet =
     { label : String
     , data : List Float
+    , hidden : Maybe Bool
+    , order : Maybe Int
+    , stack : Maybe String
+    , indexAxis : Maybe Common.IndexAxis
     , xAxisID : Maybe String
     , yAxisID : Maybe String
     , backgroundColor : Maybe (Common.PointProperty Color)
+    , barPercentage : Maybe Float
+    , barThickness : Maybe Int
     , borderColor : Maybe (Common.PointProperty Color)
-    , borderWidth : Maybe (Common.PointProperty Float)
+    , borderRadius : Maybe (Common.PointProperty Int)
     , borderSkipped : Maybe String
+    , borderWidth : Maybe (Common.PointProperty Float)
+    , categoryPercentage : Maybe Float
     , hoverBackgroundColor : Maybe (Common.PointProperty Color)
     , hoverBorderColor : Maybe (Common.PointProperty Color)
     , hoverBorderWidth : Maybe (Common.PointProperty Float)
-    , stack : Maybe String
+    , maxBarThickness : Maybe Int
+    , minBarLength : Maybe Int
     }
 
 
@@ -57,17 +70,33 @@ defaultBarFromData : String -> List Float -> DataSet
 defaultBarFromData label data =
     { label = label
     , data = data
+    , hidden = Nothing
+    , order = Nothing
+    , stack = Nothing
+    , indexAxis = Nothing
     , xAxisID = Nothing
     , yAxisID = Nothing
     , backgroundColor = Nothing
+    , barPercentage = Nothing
+    , barThickness = Nothing
     , borderColor = Nothing
-    , borderWidth = Nothing
+    , borderRadius = Nothing
     , borderSkipped = Nothing
+    , borderWidth = Nothing
+    , categoryPercentage = Nothing
     , hoverBackgroundColor = Nothing
     , hoverBorderColor = Nothing
     , hoverBorderWidth = Nothing
-    , stack = Nothing
+    , maxBarThickness = Nothing
+    , minBarLength = Nothing
     }
+
+
+{-| Set the label for this dataset
+-}
+setLabel : String -> DataSet -> DataSet
+setLabel label dataset =
+    { dataset | label = label }
 
 
 {-| Set the data displayed by this dataset
@@ -76,6 +105,37 @@ This is a list of floats, where each float is represented as a bar
 setData : List Float -> DataSet -> DataSet
 setData data dataset =
     { dataset | data = data }
+
+
+{-| Set whether this dataset should be hidden from the chart
+-}
+setHidden : Bool -> DataSet -> DataSet
+setHidden hidden dataset =
+    { dataset | hidden = Just hidden }
+
+
+{-| Set the drawing order of the dataset
+This also affects stacking, tooltips, and legends
+-}
+setOrder : Int -> DataSet -> DataSet
+setOrder order dataset =
+    { dataset | order = Just order }
+
+
+{-| ID of the group, used for stacking datasets
+eg. two datasets with the same field for stack will be stacked together
+-}
+setStack : String -> DataSet -> DataSet
+setStack stack dataset =
+    { dataset | stack = Just stack }
+
+
+{-| Which axis to use for indexing
+Set to XAxis for a vertical chart, set to YAxis for a horizontal chart
+-}
+setIndexAxis : Common.IndexAxis -> DataSet -> DataSet
+setIndexAxis indexAxis dataset =
+    { dataset | indexAxis = Just indexAxis }
 
 
 {-| The ID of the X axis to plot the dataset on
@@ -99,11 +159,32 @@ setBackgroundColor color dataset =
     { dataset | backgroundColor = Just color }
 
 
+{-| 0-1 percentage of the available width each bar should be within the category width.
+-}
+setBarPercentage : Float -> DataSet -> DataSet
+setBarPercentage percentage dataset =
+    { dataset | barPercentage = Just percentage }
+
+
+{-| Manually force the width (in pixels) of each bar
+-}
+setBarThickness : Int -> DataSet -> DataSet
+setBarThickness thickness dataset =
+    { dataset | barThickness = Just thickness }
+
+
 {-| Border color of the bar
 -}
 setBorderColor : Common.PointProperty Color -> DataSet -> DataSet
 setBorderColor color dataset =
     { dataset | borderColor = Just color }
+
+
+{-| Border radius for each bar
+-}
+setBorderRadius : Common.PointProperty Int -> DataSet -> DataSet
+setBorderRadius radius dataset =
+    { dataset | borderRadius = Just radius }
 
 
 {-| Stroke width of the bar in pixels
@@ -119,6 +200,13 @@ One of: 'bottom' 'left' 'top' 'right'
 setBorderSkipped : String -> DataSet -> DataSet
 setBorderSkipped border dataset =
     { dataset | borderSkipped = Just border }
+
+
+{-| Percent (0-1) of the available width each category should be within the sample width.
+-}
+setCategoryPercentage : Float -> DataSet -> DataSet
+setCategoryPercentage percentage dataset =
+    { dataset | categoryPercentage = Just percentage }
 
 
 {-| Fill color of the bar when hovered
@@ -142,9 +230,17 @@ setHoverBorderWidth width dataset =
     { dataset | hoverBorderWidth = Just width }
 
 
-{-| ID of the group, used for stacking bars
-eg. two datasets with the same field for stack will be stacked togethed
+{-| Max bar thickness, in pixels
+If set, bars will not be thicker than this value
 -}
-setStack : String -> DataSet -> DataSet
-setStack stack dataset =
-    { dataset | stack = Just stack }
+setMaxBarThickness : Int -> DataSet -> DataSet
+setMaxBarThickness thickness dataset =
+    { dataset | maxBarThickness = Just thickness }
+
+
+{-| Minimum bar length, in pixels
+If set, bars will not be shorter than this value
+-}
+setMinBarLength : Int -> DataSet -> DataSet
+setMinBarLength length dataset =
+    { dataset | minBarLength = Just length }

@@ -58,31 +58,48 @@ encodeBarChartDataSet barChartDataSet =
         |> Encode.stringField "label" barChartDataSet.label
         |> Encode.stringField "type" "bar"
         |> Encode.listField "data" Encode.float barChartDataSet.data
+        |> Encode.maybeBoolField "hidden" barChartDataSet.hidden
+        |> Encode.maybeIntField "order" barChartDataSet.order
+        |> Encode.maybeStringField "stack" barChartDataSet.stack
+        |> Encode.maybeCustomField "indexAxis" encodeIndexAxis barChartDataSet.indexAxis
         |> Encode.maybeStringField "xAxisID" barChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" barChartDataSet.yAxisID
         |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
+        |> Encode.maybeFloatField "barPercentage" barChartDataSet.barPercentage
+        |> Encode.maybeIntField "barThickness" barChartDataSet.barThickness
         |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
+        |> Encode.maybeCustomField "borderRadius" (encodePointProperty Encode.int) barChartDataSet.borderRadius
         |> Encode.maybeStringField "borderSkipped" barChartDataSet.borderSkipped
+        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
+        |> Encode.maybeFloatField "categoryPercentage" barChartDataSet.categoryPercentage
         |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
         |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
         |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
-        |> Encode.maybeStringField "stack" barChartDataSet.stack
+        |> Encode.maybeIntField "maxBarThickness" barChartDataSet.maxBarThickness
+        |> Encode.maybeIntField "minBarLength" barChartDataSet.minBarLength
         |> Encode.toValue
 
 
 encodeDoughnutAndPieDataSet : Chartjs.DataSets.DoughnutAndPie.DataSet -> Encode.Value
-encodeDoughnutAndPieDataSet barChartDataSet =
+encodeDoughnutAndPieDataSet pieChartDataSet =
     Encode.beginObject
-        |> Encode.stringField "label" barChartDataSet.label
-        |> Encode.listField "data" Encode.float barChartDataSet.data
-        |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
-        |> Encode.maybeStringField "borderAlign" barChartDataSet.borderAlign
-        |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
-        |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
-        |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
-        |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
+        |> Encode.stringField "label" pieChartDataSet.label
+        |> Encode.stringField "type" "pie"
+        |> Encode.listField "data" Encode.float pieChartDataSet.data
+        |> Encode.maybeBoolField "hidden" pieChartDataSet.hidden
+        |> Encode.maybeIntField "order" pieChartDataSet.order
+        |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.backgroundColor
+        |> Encode.maybeStringField "borderAlign" pieChartDataSet.borderAlign
+        |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.borderColor
+        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) pieChartDataSet.borderWidth
+        |> Encode.maybeIntField "circumference" pieChartDataSet.circumference
+        |> Encode.maybeIntField "cutout" pieChartDataSet.cutout
+        |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.hoverBackgroundColor
+        |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.hoverBorderColor
+        |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) pieChartDataSet.hoverBorderWidth
+        |> Encode.maybeCustomField "offset" (encodePointProperty Encode.int) pieChartDataSet.offset
+        |> Encode.maybeIntField "rotation" pieChartDataSet.rotation
+        |> Encode.maybeFloatField "weight" pieChartDataSet.weight
         |> Encode.toValue
 
 
@@ -200,6 +217,18 @@ encodeAlign align =
 
         Common.Center ->
             "center"
+    )
+        |> Encode.string
+
+
+encodeIndexAxis : Common.IndexAxis -> Encode.Value
+encodeIndexAxis axis =
+    (case axis of
+        Common.XAxis ->
+            "x"
+
+        Common.YAxis ->
+            "y"
     )
         |> Encode.string
 

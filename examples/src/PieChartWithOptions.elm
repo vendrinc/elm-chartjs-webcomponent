@@ -41,6 +41,8 @@ data model =
         dataset =
             PieData.defaultPieFromData "Example Chart" model.data
                 |> PieData.setBackgroundColor (ChartCommon.PerPoint ChartCommon.defaultColors)
+                |> PieData.setOffset (ChartCommon.All 10)
+                |> PieData.setCutout 100
     in
     ChartData.dataFromLabels model.labels
         |> ChartData.addDataset (ChartData.PieData dataset)
