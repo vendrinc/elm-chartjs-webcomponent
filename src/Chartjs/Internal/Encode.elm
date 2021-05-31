@@ -55,6 +55,7 @@ encodeBarChartDataSet : Chartjs.DataSets.Bar.DataSet -> Encode.Value
 encodeBarChartDataSet barChartDataSet =
     Encode.beginObject
         |> Encode.stringField "label" barChartDataSet.label
+        |> Encode.stringField "type" "bar"
         |> Encode.listField "data" Encode.float barChartDataSet.data
         |> Encode.maybeStringField "xAxisID" barChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" barChartDataSet.yAxisID
@@ -87,6 +88,7 @@ encodeLineChartDataSet : Chartjs.DataSets.Line.DataSet -> Encode.Value
 encodeLineChartDataSet lineChartDataSet =
     Encode.beginObject
         |> Encode.stringField "label" lineChartDataSet.label
+        |> Encode.stringField "type" "line"
         |> Encode.listField "data" Encode.float lineChartDataSet.data
         |> Encode.maybeStringField "xAxisID" lineChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" lineChartDataSet.yAxisID
