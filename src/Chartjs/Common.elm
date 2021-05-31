@@ -1,11 +1,11 @@
 module Chartjs.Common exposing
-    ( PointStyle(..), LineCap(..), LineJoin(..), Position(..), PointProperty(..)
+    ( PointStyle(..), LineCap(..), LineJoin(..), Position(..), Align(..), PointProperty(..)
     , defaultColors
     )
 
 {-| Common types used for various configuration properties
 
-@docs PointStyle, LineCap, LineJoin, Position, PointProperty
+@docs PointStyle, LineCap, LineJoin, Position, Align, PointProperty
 
 @docs defaultColors
 
@@ -53,6 +53,14 @@ type Position
     | Left
     | Bottom
     | Right
+
+
+{-| Alignment for certain text properties, such as title
+-}
+type Align
+    = Start
+    | End
+    | Center
 
 
 {-| Many properties that apply to datasets

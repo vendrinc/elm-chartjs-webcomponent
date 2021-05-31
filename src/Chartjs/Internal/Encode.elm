@@ -43,6 +43,7 @@ import Chartjs.Internal.Util as Encode
 import Chartjs.Options
 import Chartjs.Options.Animations
 import Chartjs.Options.Elements
+import Chartjs.Options.Font
 import Chartjs.Options.Layout
 import Chartjs.Options.Legend
 import Chartjs.Options.Scales
@@ -187,6 +188,21 @@ encodePosition position =
         |> Encode.string
 
 
+encodeAlign : Common.Align -> Encode.Value
+encodeAlign align =
+    (case align of
+        Common.Start ->
+            "start"
+
+        Common.End ->
+            "end"
+
+        Common.Center ->
+            "center"
+    )
+        |> Encode.string
+
+
 encodePointProperty : (a -> Encode.Value) -> Common.PointProperty a -> Encode.Value
 encodePointProperty valueEncoder value =
     case value of
@@ -293,11 +309,9 @@ encodeDataset dataSet =
 encodeOptions : Chartjs.Options.Options -> Encode.Value
 encodeOptions options =
     Encode.beginObject
+        |> Encode.customField "plugins" encodeOptionsPlugins options
         |> Encode.maybeCustomField "animations" encodeAnimations options.animations
         |> Encode.maybeCustomField "layout" encodeLayout options.layout
-        |> Encode.maybeCustomField "legend" encodeLegend options.legend
-        |> Encode.maybeCustomField "title" encodeTitle options.title
-        |> Encode.maybeCustomField "tooltips" encodeTooltips options.tooltips
         |> Encode.maybeCustomField "elements" encodeElements options.elements
         |> Encode.maybeCustomField "scales" encodeScales options.scales
         |> Encode.maybeBoolField "maintainAspectRatio" options.maintainAspectRatio
@@ -305,6 +319,15 @@ encodeOptions options =
         |> Encode.maybeIntField "cutoutPercentage" options.cutoutPercentage
         |> Encode.maybeFloatField "rotation" options.rotation
         |> Encode.maybeFloatField "circumfernece" options.circumference
+        |> Encode.toValue
+
+
+encodeOptionsPlugins : Chartjs.Options.Options -> Encode.Value
+encodeOptionsPlugins options =
+    Encode.beginObject
+        |> Encode.maybeCustomField "legend" encodeLegend options.legend
+        |> Encode.maybeCustomField "title" encodeTitle options.title
+        |> Encode.maybeCustomField "tooltips" encodeTooltips options.tooltips
         |> Encode.toValue
 
 
@@ -415,6 +438,17 @@ encodeEasing easing =
             "easeInOutBounce "
     )
         |> Encode.string
+
+
+encodeFont : Chartjs.Options.Font.FontSpec -> Encode.Value
+encodeFont font =
+    Encode.beginObject
+        |> Encode.maybeStringField "family" font.family
+        |> Encode.maybeFloatField "lineHeight" font.lineHeight
+        |> Encode.maybeIntField "size" font.size
+        |> Encode.maybeStringField "style" font.style
+        |> Encode.maybeStringField "weight" font.weight
+        |> Encode.toValue
 
 
 encodeElements : Chartjs.Options.Elements.Elements -> Encode.Value
@@ -582,14 +616,12 @@ encodeTitle : Chartjs.Options.Title.Title -> Encode.Value
 encodeTitle title =
     Encode.beginObject
         |> Encode.maybeBoolField "display" title.display
+        |> Encode.maybeCustomField "align" encodeAlign title.align
         |> Encode.maybeCustomField "position" encodePosition title.position
-        |> Encode.maybeIntField "fontSize" title.fontSize
-        |> Encode.maybeStringField "fontFamily" title.fontFamily
-        |> Encode.maybeColorField "fontColor" title.fontColor
-        |> Encode.maybeStringField "fontStyle" title.fontStyle
         |> Encode.maybeIntField "padding" title.padding
-        |> Encode.maybeStringField "lineHeight" title.lineHeight
         |> Encode.maybeStringField "text" title.text
+        |> Encode.maybeCustomField "font" encodeFont title.font
+        |> Encode.maybeColorField "color" title.color
         |> Encode.toValue
 
 
