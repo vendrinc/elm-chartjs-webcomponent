@@ -6,15 +6,15 @@
     "author": "Indicatrix",
     "license": "MIT",
     "scripts": {
-        "start": "parcel index.html"
+        "start": "PARCEL_ELM_NO_DEBUG=true parcel serve index.html"
     },
     "dependencies": {
         "@indicatrix/elm-chartjs-webcomponent": "^1.1.1",
-        "chart.js": "^3.3.2"
+        "chart.js": "^3.3.2",
+        "elm": "^0.19.1-5"
     },
     "devDependencies": {
         "@parcel/transformer-elm": "^2.0.0-beta.3.1",
-        "elm": "^0.19.1-5",
         "parcel": "^2.0.0-beta.3.1"
     }
 }
