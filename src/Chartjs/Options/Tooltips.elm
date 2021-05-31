@@ -55,13 +55,6 @@ type alias Tooltips =
     }
 
 
-{-| Currently unsupported!
--}
-type alias Callbacks =
-    { label : Maybe String
-    }
-
-
 {-| Positioning mode for tooltips
 
 Average will place the tooltip at the average position of the displayed items
@@ -126,12 +119,4 @@ defaultTooltips =
     , displayColors = Nothing
     , borderColor = Nothing
     , borderWidth = Nothing
-    }
-
-
-{-| Currently unsupported!
--}
-defaultCallbacks : Callbacks
-defaultCallbacks =
-    { label = Nothing
     }
