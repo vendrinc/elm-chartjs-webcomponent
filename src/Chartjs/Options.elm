@@ -1,6 +1,6 @@
 module Chartjs.Options exposing
     ( Options, defaultOptions
-    , setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, setTitle, setTooltips
+    , setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, setTitle, setTooltips, setCircumference, setCutoutPercentage, setRotation
     )
 
 {-| The Options type is used for configuring how the chart behaves
@@ -8,7 +8,7 @@ This contains properties to control things like styling, fonts, etc.
 
 @docs Options, defaultOptions
 
-@docs setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, setTitle, setTooltips
+@docs setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, setTitle, setTooltips, setCircumference, setCutoutPercentage, setRotation
 
 -}
 

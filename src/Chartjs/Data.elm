@@ -1,6 +1,6 @@
 module Chartjs.Data exposing
     ( DataSet(..), Data, defaultData
-    , dataFromLabels, buildData, addDataset
+    , dataFromLabels, buildData, addDataset, setDatasets
     )
 
 {-| The Data type is used as a basic container for all the chart datasets,
@@ -8,7 +8,7 @@ along with the corresponding labels
 
 @docs DataSet, Data, defaultData
 
-@docs dataFromLabels, buildData, addDataset
+@docs dataFromLabels, buildData, addDataset, setDatasets
 
 -}
 
@@ -81,3 +81,10 @@ addDataset dataset data =
             dataset :: data.datasets
     in
     { data | datasets = newDatasets }
+
+
+{-| Set all the datasets for a Data object
+-}
+setDatasets : List DataSet -> Data -> Data
+setDatasets datasets data =
+    { data | datasets = datasets }
