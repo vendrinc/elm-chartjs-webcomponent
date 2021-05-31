@@ -67,6 +67,7 @@ encodeBarChartDataSet barChartDataSet =
         |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
         |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
         |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
+        |> Encode.maybeStringField "stack" barChartDataSet.stack
         |> Encode.toValue
 
 

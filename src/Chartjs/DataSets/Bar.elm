@@ -2,6 +2,7 @@ module Chartjs.DataSets.Bar exposing
     ( DataSet, defaultBarFromLabel, defaultBarFromData
     , setData, setXAxisID, setYAxisID, setBackgroundColor, setBorderColor, setBorderWidth, setBorderSkipped
     , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
+    , setStack
     )
 
 {-| A bar chart provides a way of showing data values represented as vertical bars.
@@ -9,6 +10,7 @@ module Chartjs.DataSets.Bar exposing
 @docs DataSet, defaultBarFromLabel, defaultBarFromData
 @docs setData, setXAxisID, setYAxisID, setBackgroundColor, setBorderColor, setBorderWidth, setBorderSkipped
 @docs setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
+@docs setStack
 
 -}
 
@@ -38,6 +40,7 @@ type alias DataSet =
     , hoverBackgroundColor : Maybe (Common.PointProperty Color)
     , hoverBorderColor : Maybe (Common.PointProperty Color)
     , hoverBorderWidth : Maybe (Common.PointProperty Float)
+    , stack : Maybe String
     }
 
 
@@ -63,6 +66,7 @@ defaultBarFromData label data =
     , hoverBackgroundColor = Nothing
     , hoverBorderColor = Nothing
     , hoverBorderWidth = Nothing
+    , stack = Nothing
     }
 
 
@@ -136,3 +140,11 @@ setHoverBorderColor color dataset =
 setHoverBorderWidth : Common.PointProperty Float -> DataSet -> DataSet
 setHoverBorderWidth width dataset =
     { dataset | hoverBorderWidth = Just width }
+
+
+{-| ID of the group, used for stacking bars
+eg. two datasets with the same field for stack will be stacked togethed
+-}
+setStack : String -> DataSet -> DataSet
+setStack stack dataset =
+    { dataset | stack = Just stack }
