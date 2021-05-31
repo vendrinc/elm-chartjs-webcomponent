@@ -8,6 +8,7 @@
         body {
             width: 60%;
             max-width: 800px;
+            max-height: 800px;
 
             margin: 0 auto;
             font-family: sans-serif;
@@ -16,6 +17,23 @@
         div {
             margin-bottom: 48px;
         }
+
+        button {
+            margin: 0 4px;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+
+            background-color: #37a2eb;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.25s;
+        }
+
+        button:hover {
+            cursor: pointer;
+            background-color: #1586d1;
+        }
     </style>
 </head>
 
@@ -23,8 +41,17 @@
     <h1>Simple Bar Chart</h1>
     <div id="example1"></div>
 
-    <h1>Updating Datasets</h1>
+    <h1>Setting Chart Options</h1>
     <div id="example2"></div>
+
+    <h1>Stacked Bar Charts</h1>
+    <div id="example3"></div>
+
+    <h1>Mixed Charts</h1>
+    <div id="example4"></div>
+
+    <h1>Updating Datasets</h1>
+    <div id="example5"></div>
 
     <script src="index.js"></script>
 </body>
