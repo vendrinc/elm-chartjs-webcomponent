@@ -15,6 +15,7 @@
         "Chartjs.DataSets.Polar",
         "Chartjs.Options.Animations",
         "Chartjs.Options.Elements",
+        "Chartjs.Options.Font",
         "Chartjs.Options.Layout",
         "Chartjs.Options.Legend",
         "Chartjs.Options.Scales",

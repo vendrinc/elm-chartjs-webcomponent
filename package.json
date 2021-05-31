@@ -25,5 +25,11 @@
   "homepage": "https://github.com/indicatrix/elm-chartjs-webcomponent#readme",
   "directories": {
     "example": "examples"
+  },
+  "devDependencies": {
+    "elm-format": "^0.8.5"
+  },
+  "dependencies": {
+    "chart.js": "^3.3.2"
   }
 }
