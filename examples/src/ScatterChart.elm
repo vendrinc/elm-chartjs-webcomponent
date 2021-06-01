@@ -19,7 +19,7 @@ type alias Model =
 -}
 init : Model
 init =
-    { data = [ (4, 10), (5, 12), (6, 8), (3, 80), (4, 50), (5, 72) ]
+    { data = [ (4, 10), (5, 12), (6, 8), (3, 80), (4, 50), (5, 72), (1.5, 4) ]
     }
 
 
@@ -35,6 +35,9 @@ data model =
             LineData.defaultLineFromPointData "Example Chart" model.data
                 |> LineData.setBackgroundColor (ChartCommon.All Utils.red)
                 |> LineData.setShowLine False
+                |> LineData.setPointStyle (ChartCommon.All ChartCommon.RectRounded)
+                |> LineData.setPointRadius (ChartCommon.All 8)
+                |> LineData.setPointHoverRadius (ChartCommon.All 12)
                 |> ChartData.LineData
     in
     ChartData.defaultData
@@ -43,14 +46,22 @@ data model =
 options : ChartOptions.Options
 options =
     let
+        xGrid =
+            ChartScale.defaultGrid
+                |> ChartScale.setBorderWidth 2
+                |> ChartScale.setGridColor Color.black
+
         xAxis =
             ChartScale.defaultScale ChartScale.Linear "x"
                 |> ChartScale.setMin 0
                 |> ChartScale.setMax 10
+                |> ChartScale.setGrid xGrid
+                |> ChartScale.setTitle (ChartScale.defaultTitle "X AXIS TITLE")
 
         yAxis =
             ChartScale.defaultScale ChartScale.Logarithmic "y"
                 |> ChartScale.setMax 100
+                |> ChartScale.setTitle (ChartScale.defaultTitle "Y AXIS TITLE")
     in
     ChartOptions.defaultOptions
         |> ChartOptions.addScale xAxis

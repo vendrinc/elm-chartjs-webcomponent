@@ -241,7 +241,7 @@ encodePointStyle pointStyle =
             "cross"
 
         Common.CrossRot ->
-            "crossrot"
+            "crossRot"
 
         Common.Dash ->
             "dash"
@@ -253,10 +253,10 @@ encodePointStyle pointStyle =
             "rect"
 
         Common.RectRounded ->
-            "rectrounded"
+            "rectRounded"
 
         Common.RectRot ->
-            "rectrot"
+            "rectRot"
 
         Common.Star ->
             "star"
@@ -620,6 +620,7 @@ encodeScale scale =
         |> Encode.maybeFloatField "suggestedMin" scale.suggestedMin
         |> Encode.maybeFloatField "suggestedMax" scale.suggestedMax
         |> Encode.maybeCustomField "grid" encodeGrid scale.grid
+        |> Encode.maybeCustomField "title" encodeScaleTitle scale.title
         |> Encode.toValue
 
 
@@ -644,6 +645,25 @@ encodeScaleType scaleType =
 encodeGrid : Chartjs.Options.Scale.ScaleGrid -> Encode.Value
 encodeGrid grid =
     Encode.beginObject
+        |> Encode.maybeColorField "borderColor" grid.borderColor
+        |> Encode.maybeIntField "borderWidth" grid.borderWidth
+        |> Encode.maybeColorField "color" grid.gridColor
+        |> Encode.maybeBoolField "drawBorder" grid.drawBorder
+        |> Encode.maybeBoolField "drawTicks" grid.drawTicks
+        |> Encode.maybeColorField "tickColor" grid.tickColor
+        |> Encode.maybeIntField "tickLength" grid.tickLength
+        |> Encode.maybeIntField "tickWidth" grid.tickWidth
+        |> Encode.toValue
+
+
+encodeScaleTitle : Chartjs.Options.Scale.ScaleTitle -> Encode.Value
+encodeScaleTitle title =
+    Encode.beginObject
+        |> Encode.boolField "display" True
+        |> Encode.stringField "text" title.text
+        |> Encode.maybeColorField "color" title.color
+        |> Encode.maybeCustomField "font" encodeFont title.font
+        |> Encode.maybeIntField "padding" title.padding
         |> Encode.toValue
 
 

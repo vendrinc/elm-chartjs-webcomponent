@@ -16,6 +16,7 @@ type alias Scale =
     , suggestedMin : Maybe Float
     , suggestedMax : Maybe Float
     , grid : Maybe ScaleGrid
+    , title : Maybe ScaleTitle
     }
 
 
@@ -31,6 +32,7 @@ defaultScale type_ id =
     , suggestedMin = Nothing
     , suggestedMax = Nothing
     , grid = Nothing
+    , title = Nothing
     }
 
 
@@ -74,6 +76,11 @@ setGrid grid scale =
     { scale | grid = Just grid }
 
 
+setTitle : ScaleTitle -> Scale -> Scale
+setTitle title scale =
+    { scale | title = Just title }
+
+
 type ScaleType
     = Linear
     | Logarithmic
@@ -90,6 +97,19 @@ type alias ScaleGrid =
     , tickColor : Maybe Color
     , tickLength : Maybe Int
     , tickWidth : Maybe Int
+    }
+
+
+defaultGrid : ScaleGrid
+defaultGrid =
+    { borderColor = Nothing
+    , borderWidth = Nothing
+    , gridColor = Nothing
+    , drawBorder = Nothing
+    , drawTicks = Nothing
+    , tickColor = Nothing
+    , tickLength = Nothing
+    , tickWidth = Nothing
     }
 
 
