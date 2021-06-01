@@ -15,4 +15,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: npm run elm-format --validate src/ examples/src/
+      - run: npm install -g elm-format
+      - run: elm-format --validate src/ examples/src/
