@@ -7,6 +7,7 @@ import Chartjs.Data as ChartData
 import Chartjs.DataSets.Bar as BarData
 import Color
 import Html exposing (Html, div)
+import Utils
 
 type alias Model =
     { data1 : List Float
@@ -35,19 +36,19 @@ data model =
     let 
         dataset1 =
             BarData.defaultBarFromData "1A" model.data1
-                |> BarData.setBackgroundColor (ChartCommon.All Color.red)
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
                 |> BarData.setStack "Stack 1"
                 |> ChartData.BarData
 
         dataset2 =
             BarData.defaultBarFromData "1B" model.data2
-                |> BarData.setBackgroundColor (ChartCommon.All Color.blue)
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.blue)
                 |> BarData.setStack "Stack 1"
                 |> ChartData.BarData
 
         dataset3 =
             BarData.defaultBarFromData "2" model.data3
-                |> BarData.setBackgroundColor (ChartCommon.All Color.purple)
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.green)
                 |> BarData.setStack "Stack 2"
                 |> ChartData.BarData
     in

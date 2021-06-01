@@ -10,6 +10,7 @@ import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 import Random
 import List.Extra
+import Utils
 
 type alias Model =
     { datasets : List (List Float)
@@ -38,6 +39,7 @@ buildDataset dataset title color =
     LineData.defaultLineFromData title dataset
         |> LineData.setBorderColor (ChartCommon.All color)
         |> LineData.setBackgroundColor (ChartCommon.All color)
+        |> LineData.setLineTension 0.2
         |> ChartData.LineData
 
 
@@ -49,7 +51,7 @@ chartData model =
             List.Extra.cycle (List.length model.datasets) datasetTitles
 
         colors =
-            List.Extra.cycle (List.length model.datasets) ChartCommon.defaultColors
+            List.Extra.cycle (List.length model.datasets) Utils.defaultColors
         
         datasets =
             List.map3 buildDataset (List.reverse model.datasets) titles colors

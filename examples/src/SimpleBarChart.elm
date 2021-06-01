@@ -7,24 +7,19 @@ import Chartjs.Data as ChartData
 import Chartjs.DataSets.Bar as BarData
 import Color
 import Html exposing (Html, div)
+import Utils
 
-
-{-| Our model keeps track of some basic chart information
-This isn't super important right now, but it will be useful when updating the chart later
--}
 type alias Model =
     { data : List Float
     , labels : List String
-    , color : Color.Color
     }
 
-{-| Initialise the model with some basic data and examples
+{-| Initialise the model with some basic data and labels
 -}
 init : Model
 init =
     { data = [ 4, 8, 15, 16, 23, 42 ]
     , labels = [ "One", "Two", "Three", "Four", "Five", "Six" ]
-    , color = Color.red
     }
 
 
@@ -38,7 +33,7 @@ data model =
     let 
         dataset =
             BarData.defaultBarFromData "Example Chart" model.data
-                |> BarData.setBackgroundColor (ChartCommon.All model.color)
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
     in
     ChartData.dataFromLabels model.labels
         |> ChartData.addDataset (ChartData.BarData dataset)

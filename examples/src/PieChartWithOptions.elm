@@ -11,6 +11,7 @@ import Chartjs.Options.Font as ChartFont
 import Chartjs.DataSets.DoughnutAndPie as PieData
 import Color
 import Html exposing (Html, div)
+import Utils
 
 
 {-| Our model keeps track of some basic chart information
@@ -40,7 +41,7 @@ data model =
     let 
         dataset =
             PieData.defaultPieFromData "Example Chart" model.data
-                |> PieData.setBackgroundColor (ChartCommon.PerPoint ChartCommon.defaultColors)
+                |> PieData.setBackgroundColor (ChartCommon.PerPoint Utils.defaultColors)
                 |> PieData.setOffset (ChartCommon.All 10)
                 |> PieData.setCutout 100
     in

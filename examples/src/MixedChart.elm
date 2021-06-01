@@ -8,6 +8,7 @@ import Chartjs.DataSets.Bar as BarData
 import Chartjs.DataSets.Line as LineData
 import Color
 import Html exposing (Html, div)
+import Utils
 
 type alias Model =
     { data1 : List Float
@@ -36,18 +37,18 @@ data model =
     let
         dataset1 =
             BarData.defaultBarFromData "Bar One" model.data1
-                |> BarData.setBackgroundColor (ChartCommon.All Color.red)
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
                 |> ChartData.BarData
 
         dataset2 =
             BarData.defaultBarFromData "Bar Two" model.data2
-                |> BarData.setBackgroundColor (ChartCommon.All Color.blue)
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.blue)
                 |> ChartData.BarData
 
         dataset3 =
             LineData.defaultLineFromData "The Line" model.data3
-                |> LineData.setBorderColor (ChartCommon.All Color.green)
-                |> LineData.setBackgroundColor (ChartCommon.All Color.green)
+                |> LineData.setBorderColor (ChartCommon.All Utils.green)
+                |> LineData.setBackgroundColor (ChartCommon.All Utils.green)
                 |> ChartData.LineData
     in
     ChartData.dataFromLabels model.labels
