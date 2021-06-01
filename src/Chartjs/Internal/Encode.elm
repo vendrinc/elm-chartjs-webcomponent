@@ -1,36 +1,6 @@
 module Chartjs.Internal.Encode exposing
-    ( encodeAnimations
-    , encodeArc
-    , encodeAxis
-    , encodeBarChartDataSet
-    , encodeData
-    , encodeDataset
-    , encodeDoughnutAndPieDataSet
-    , encodeEasing
-    , encodeElements
-    , encodeFillMode
-    , encodeGridLines
-    , encodeLabels
-    , encodeLayout
-    , encodeLegend
-    , encodeLine
-    , encodeLineCap
-    , encodeLineChartDataSet
-    , encodeLineFill
-    , encodeLineJoin
-    , encodeMode
+    ( encodeData
     , encodeOptions
-    , encodePoint
-    , encodePointProperty
-    , encodePointStyle
-    , encodePosition
-    , encodePositionMode
-    , encodeRectangle
-    , encodeScales
-    , encodeSteppedLine
-    , encodeTicks
-    , encodeTitle
-    , encodeTooltips
     )
 
 import Chartjs.Common as Common
@@ -573,29 +543,39 @@ encodeLayout layout =
                 |> Encode.toValue
 
 
-encodeLabels : Chartjs.Options.Legend.Labels -> Encode.Value
-encodeLabels labels =
-    Encode.beginObject
-        |> Encode.maybeIntField "boxWidth" labels.boxWidth
-        |> Encode.maybeIntField "fontSize" labels.fontSize
-        |> Encode.maybeStringField "fontStyle" labels.fontStyle
-        |> Encode.maybeColorField "fontColor" labels.fontColor
-        |> Encode.maybeStringField "fontFamily" labels.fontFamily
-        |> Encode.maybeIntField "padding" labels.padding
-        |> Encode.maybeBoolField "usePointStyle" labels.usePointStyle
-        |> Encode.toValue
-
-
 encodeLegend : Chartjs.Options.Legend.Legend -> Encode.Value
 encodeLegend legend =
     Encode.beginObject
         |> Encode.maybeBoolField "display" legend.display
         |> Encode.maybeCustomField "position" encodePosition legend.position
         |> Encode.maybeBoolField "fullWidth" legend.fullWidth
-        -- onClick,
-        -- onHover,
         |> Encode.maybeBoolField "reverse" legend.reverse
-        |> Encode.maybeCustomField "labels" encodeLabels legend.labels
+        |> Encode.maybeCustomField "labels" encodeLegendLabels legend.labels
+        |> Encode.maybeCustomField "title" encodeLegendTitle legend.title
+        |> Encode.toValue
+
+
+encodeLegendLabels : Chartjs.Options.Legend.Labels -> Encode.Value
+encodeLegendLabels labels =
+    Encode.beginObject
+        |> Encode.maybeIntField "boxWidth" labels.boxWidth
+        |> Encode.maybeIntField "boxHeight" labels.boxWidth
+        |> Encode.maybeColorField "color" labels.color
+        |> Encode.maybeCustomField "font" encodeFont labels.font
+        |> Encode.maybeIntField "padding" labels.padding
+        |> Encode.maybeCustomField "pointStyle" encodePointStyle labels.pointStyle
+        |> Encode.maybeCustomField "usePointStyle" (\_ -> Encode.bool True) labels.pointStyle
+        |> Encode.toValue
+
+
+encodeLegendTitle : Chartjs.Options.Legend.Title -> Encode.Value
+encodeLegendTitle title =
+    Encode.beginObject
+        |> Encode.stringField "display" "true"
+        |> Encode.stringField "text" title.text
+        |> Encode.maybeColorField "color" title.color
+        |> Encode.maybeCustomField "font" encodeFont title.font
+        |> Encode.maybeIntField "padding" title.padding
         |> Encode.toValue
 
 

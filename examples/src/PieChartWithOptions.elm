@@ -35,7 +35,7 @@ init =
 First we need a Data container which has some basic chart information
 Then we need to make the dataset for our bar chart
 This can be done easily using pipe operators instead of record update syntax
--}
+-} 
 data : Model -> ChartData.Data
 data model =
     let 
@@ -48,11 +48,24 @@ data model =
     ChartData.dataFromLabels model.labels
         |> ChartData.addDataset (ChartData.PieData dataset)
 
+legendLabelsConfig : ChartLegend.Labels
+legendLabelsConfig =
+    ChartLegend.defaultLabels
+        |> ChartLegend.setPointStyle ChartCommon.Circle
+        |> ChartLegend.setPadding 10
+
+legendTitleConfig : ChartLegend.Title
+legendTitleConfig =
+    ChartLegend.defaultTitle "Legend Title"
+
+
 legendConfig : ChartLegend.Legend
 legendConfig =
     ChartLegend.defaultLegend
         |> ChartLegend.setDisplay True
         |> ChartLegend.setPosition ChartCommon.Left
+        |> ChartLegend.setLabels legendLabelsConfig
+        |> ChartLegend.setTitle legendTitleConfig
 
 titleConfig : ChartTitle.Title
 titleConfig =
