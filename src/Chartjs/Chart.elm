@@ -72,6 +72,7 @@ type Type
     = Bar
     | HorizontalBar
     | Line
+    | Scatter
     | Doughnut
     | Pie
     | Polar
@@ -112,6 +113,9 @@ encodeChartType chartType =
 
         Line ->
             "line"
+
+        Scatter ->
+            "scatter"
 
         Doughnut ->
             "doughnut"

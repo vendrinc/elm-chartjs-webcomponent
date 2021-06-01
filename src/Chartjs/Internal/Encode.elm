@@ -79,7 +79,7 @@ encodeLineChartDataSet lineChartDataSet =
     Encode.beginObject
         |> Encode.stringField "label" lineChartDataSet.label
         |> Encode.stringField "type" "line"
-        |> Encode.listField "data" Encode.float lineChartDataSet.data
+        |> Encode.customField "data" encodeLineData lineChartDataSet.data
         |> Encode.maybeStringField "xAxisID" lineChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" lineChartDataSet.yAxisID
         |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) lineChartDataSet.backgroundColor
@@ -106,6 +106,23 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
         |> Encode.maybeCustomField "stepped" encodeSteppedLine lineChartDataSet.steppedLine
         |> Encode.toValue
+
+
+encodeLineData : Chartjs.DataSets.Line.DataPoints -> Encode.Value
+encodeLineData data =
+    case data of
+        Chartjs.DataSets.Line.Numbers numbers ->
+            Encode.list Encode.float numbers
+
+        Chartjs.DataSets.Line.Points points ->
+            Encode.list
+                (\( x, y ) ->
+                    Encode.beginObject
+                        |> Encode.floatField "x" x
+                        |> Encode.floatField "y" y
+                        |> Encode.toValue
+                )
+                points
 
 
 encodePolarDataSet : Chartjs.DataSets.Polar.DataSet -> Encode.Value
@@ -286,7 +303,7 @@ encodeLineJoin lineJoin =
 encodeData : Chartjs.Data.Data -> Encode.Value
 encodeData data =
     Encode.beginObject
-        |> Encode.listField "labels" Encode.string data.labels
+        |> Encode.maybeListField "labels" Encode.string data.labels
         |> Encode.listField "datasets" encodeDataset data.datasets
         |> Encode.toValue
 

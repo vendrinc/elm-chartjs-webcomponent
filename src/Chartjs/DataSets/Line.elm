@@ -1,6 +1,7 @@
 module Chartjs.DataSets.Line exposing
-    ( DataSet, defaultLineFromLabel, defaultLineFromData
-    , setLabel, setData, setHidden, setOrder
+    ( DataPoints(..)
+    , DataSet, defaultLineFromLabel, defaultLineFromData, defaultLineFromPointData
+    , setLabel, setData, setPointData, setHidden, setOrder
     , setIndexAxis, setXAxisID, setYAxisID
     , SteppedLine(..), FillMode(..), FillBoundary(..)
     , setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
@@ -17,8 +18,10 @@ This dataset class can handle categorical scatter charts and area charts as well
 For categorical scatter charts, set showLine to be False
 For area datasets, ensure that the fill mode is enabled and a background color is set
 
-@docs DataSet, defaultLineFromLabel, defaultLineFromData
-@docs setLabel, setData, setHidden, setOrder
+@docs DataPoints
+
+@docs DataSet, defaultLineFromLabel, defaultLineFromData, defaultLineFromPointData
+@docs setLabel, setData, setPointData, setHidden, setOrder
 @docs setIndexAxis, setXAxisID, setYAxisID
 @docs SteppedLine, FillMode, FillBoundary
 @docs setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
@@ -31,6 +34,18 @@ For area datasets, ensure that the fill mode is enabled and a background color i
 
 import Chartjs.Common as Common
 import Color exposing (Color)
+
+
+{-| Line datasets can be made from two different data formats
+
+For the points data type, only floats are supported: if you need string keys, use Numbers + categorical labels
+
+See <https://www.chartjs.org/docs/latest/general/data-structures.html> for more info
+
+-}
+type DataPoints
+    = Numbers (List Float)
+    | Points (List ( Float, Float ))
 
 
 {-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/line.html>
@@ -47,7 +62,7 @@ Instead use the updater pipeline functions:
 -}
 type alias DataSet =
     { label : String
-    , data : List Float
+    , data : DataPoints
     , hidden : Maybe Bool
     , order : Maybe Int
     , indexAxis : Maybe Common.IndexAxis
@@ -123,12 +138,13 @@ defaultLineFromLabel label =
     defaultLineFromData label []
 
 
-{-| Create a Line dataset with a label and data
+{-| Create a Line dataset with a label and data list
+To create a dataset from points, see defaultLineFromPointData
 -}
 defaultLineFromData : String -> List Float -> DataSet
 defaultLineFromData label data =
     { label = label
-    , data = data
+    , data = Numbers data
     , hidden = Nothing
     , order = Nothing
     , indexAxis = Nothing
@@ -161,6 +177,14 @@ defaultLineFromData label data =
     }
 
 
+{-| Create a Line dataset with a label and points list
+-}
+defaultLineFromPointData : String -> List ( Float, Float ) -> DataSet
+defaultLineFromPointData label data =
+    defaultLineFromLabel label
+        |> setPointData data
+
+
 {-| Set the label for this dataset
 -}
 setLabel : String -> DataSet -> DataSet
@@ -173,7 +197,15 @@ This is a list of floats, where each float is represented as a point on the line
 -}
 setData : List Float -> DataSet -> DataSet
 setData data dataset =
-    { dataset | data = data }
+    { dataset | data = Numbers data }
+
+
+{-| Set the data displayed by this dataset, in a point based format
+This is a list of tuples, where each tuple defines the X, Y location of a point
+-}
+setPointData : List ( Float, Float ) -> DataSet -> DataSet
+setPointData data dataset =
+    { dataset | data = Points data }
 
 
 {-| Set whether this dataset should be hidden from the chart

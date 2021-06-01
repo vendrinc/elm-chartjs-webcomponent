@@ -19,7 +19,7 @@ type alias Model =
 -}
 init : Model
 init =
-    { data = [ (4, 10), (5, 12), (6, 8) ]
+    { data = [ (4, 10), (5, 12), (6, 8), (3, 80), (4, 50), (5, 72) ]
     }
 
 
@@ -34,6 +34,7 @@ data model =
         dataset =
             LineData.defaultLineFromPointData "Example Chart" model.data
                 |> LineData.setBackgroundColor (ChartCommon.All Utils.red)
+                |> LineData.setShowLine False
                 |> ChartData.LineData
     in
     ChartData.defaultData
@@ -44,9 +45,16 @@ options =
     let
         xAxis =
             ChartScale.defaultScale ChartScale.Linear "x"
+                |> ChartScale.setMin 0
+                |> ChartScale.setMax 10
+
+        yAxis =
+            ChartScale.defaultScale ChartScale.Logarithmic "y"
+                |> ChartScale.setMax 100
     in
     ChartOptions.defaultOptions
         |> ChartOptions.addScale xAxis
+        |> ChartOptions.addScale yAxis
 
 {-| Build the full chart configuration from our model
 Right now, we're only setting custom data up
@@ -56,6 +64,7 @@ chartConfig : Model -> Chart.Chart
 chartConfig model =
     Chart.defaultChart Chart.Scatter
         |> Chart.setData (data model)
+        |> Chart.setOptions options
 
 
 {-| Display the chart using the chart config
