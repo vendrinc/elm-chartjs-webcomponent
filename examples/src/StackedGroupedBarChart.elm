@@ -9,6 +9,7 @@ import Color
 import Html exposing (Html, div)
 import Utils
 
+
 type alias Model =
     { data1 : List Float
     , data2 : List Float
@@ -16,14 +17,14 @@ type alias Model =
     , labels : List String
     }
 
+
 init : Model
 init =
-    { data1 = [10, 20, 20, 10, 15]
-    , data2 = [5, 15, 10, 10, 15]
-    , data3 = [20, 20, 15, 10, 5]
-    , labels = ["Jan", "Feb", "Mar", "Apr", "May"]
+    { data1 = [ 10, 20, 20, 10, 15 ]
+    , data2 = [ 5, 15, 10, 10, 15 ]
+    , data3 = [ 20, 20, 15, 10, 5 ]
+    , labels = [ "Jan", "Feb", "Mar", "Apr", "May" ]
     }
-
 
 
 {-| Build a Chartjs data object from our model
@@ -33,7 +34,7 @@ This can be done easily using pipe operators instead of record update syntax
 -}
 data : Model -> ChartData.Data
 data model =
-    let 
+    let
         dataset1 =
             BarData.defaultBarFromData "1A" model.data1
                 |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
@@ -53,7 +54,8 @@ data model =
                 |> ChartData.BarData
     in
     ChartData.dataFromLabels model.labels
-        |> ChartData.setDatasets [dataset1, dataset2, dataset3]
+        |> ChartData.setDatasets [ dataset1, dataset2, dataset3 ]
+
 
 {-| Build the full chart configuration from our model
 Right now, we're only setting custom data up

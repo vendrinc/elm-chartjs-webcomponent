@@ -115,28 +115,36 @@ defaultLabels =
     }
 
 
-{-| Width of the coloured box
+{-| Specify the width of the coloured box / icon next to each legend entry
 -}
 setBoxWidth : Int -> Labels -> Labels
 setBoxWidth width labels =
     { labels | boxWidth = Just width }
 
 
+{-| Specify the height of the coloured box / icon next to each legend entry
+-}
 setBoxHeight : Int -> Labels -> Labels
 setBoxHeight height labels =
     { labels | boxHeight = Just height }
 
 
+{-| Set the text color to be used for legend labels
+-}
 setLabelColor : Color -> Labels -> Labels
 setLabelColor color labels =
     { labels | color = Just color }
 
 
+{-| Set the font properties to be used for legend labels
+-}
 setLabelFont : FontSpec -> Labels -> Labels
 setLabelFont font labels =
     { labels | font = Just font }
 
 
+{-| Set the padding around each legend label
+-}
 setLabelPadding : Int -> Labels -> Labels
 setLabelPadding padding labels =
     { labels | padding = Just padding }
@@ -149,6 +157,7 @@ setPointStyle style labels =
     { labels | pointStyle = Just style }
 
 
+{-| -}
 type alias Title =
     { text : String
     , color : Maybe Color
@@ -157,6 +166,8 @@ type alias Title =
     }
 
 
+{-| Create a blank legend title object that can then be updated with the below functions
+-}
 defaultTitle : String -> Title
 defaultTitle text =
     { text = text
@@ -166,16 +177,22 @@ defaultTitle text =
     }
 
 
+{-| Set the text color for the legend title
+-}
 setTitleColor : Color -> Title -> Title
 setTitleColor color title =
     { title | color = Just color }
 
 
+{-| Set the font properties for the legend title
+-}
 setTitleFont : FontSpec -> Title -> Title
 setTitleFont font title =
     { title | font = Just font }
 
 
+{-| Set the padding around the legend title
+-}
 setTitlePadding : Int -> Title -> Title
 setTitlePadding padding title =
     { title | padding = Just padding }

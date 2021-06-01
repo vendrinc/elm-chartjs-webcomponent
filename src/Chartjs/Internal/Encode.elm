@@ -638,6 +638,9 @@ encodeScaleType scaleType =
 
         Chartjs.Options.Scale.Time ->
             "time"
+
+        Chartjs.Options.Scale.RadialLinear ->
+            "radialLinear"
     )
         |> Encode.string
 

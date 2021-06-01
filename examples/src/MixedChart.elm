@@ -10,6 +10,7 @@ import Color
 import Html exposing (Html, div)
 import Utils
 
+
 type alias Model =
     { data1 : List Float
     , data2 : List Float
@@ -17,14 +18,14 @@ type alias Model =
     , labels : List String
     }
 
+
 init : Model
 init =
-    { data1 = [10, 20, 20, 10, 15]
-    , data2 = [5, 15, 10, 10, 15]
-    , data3 = [10, 15, 12, 12, 18]
-    , labels = ["Jan", "Feb", "Mar", "Apr", "May"]
+    { data1 = [ 10, 20, 20, 10, 15 ]
+    , data2 = [ 5, 15, 10, 10, 15 ]
+    , data3 = [ 10, 15, 12, 12, 18 ]
+    , labels = [ "Jan", "Feb", "Mar", "Apr", "May" ]
     }
-
 
 
 {-| Build a Chartjs data object from our model
@@ -52,7 +53,8 @@ data model =
                 |> ChartData.LineData
     in
     ChartData.dataFromLabels model.labels
-        |> ChartData.setDatasets [dataset3, dataset1, dataset2]
+        |> ChartData.setDatasets [ dataset3, dataset1, dataset2 ]
+
 
 {-| Build the full chart configuration from our model
 Right now, we're only setting custom data up

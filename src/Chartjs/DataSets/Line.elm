@@ -1,34 +1,75 @@
 module Chartjs.DataSets.Line exposing
-    ( DataPoints(..)
-    , DataSet, defaultLineFromLabel, defaultLineFromData, defaultLineFromPointData
+    ( DataPoints(..), DataSet, defaultLineFromLabel
     , setLabel, setData, setPointData, setHidden, setOrder
-    , setIndexAxis, setXAxisID, setYAxisID
-    , SteppedLine(..), FillMode(..), FillBoundary(..)
+    , defaultLineFromData
     , setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
-    , setCubicInterpolationMode, setFill, setLineTension
-    , setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation, setPointHitRadius
-    , setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
-    , setShowLine, setSpanGaps, setSteppedLine
-    , setBackgroundColor
+    , setShowLine, setCubicInterpolationMode, setLineTension, setSteppedLine, SteppedLine(..)
+    , defaultLineFromPointData
+    , setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation
+    , setPointHitRadius, setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
+    , setFill, FillMode(..), FillBoundary(..), setBackgroundColor
+    , setIndexAxis, setXAxisID, setYAxisID, setSpanGaps
     )
 
-{-| A line chart plots data points on a line. Often used to show trend data or compare data sets.
+{-| The Line dataset is the most general dataset - it can be used for line graphs, area charts, and even scatter plots
 
-This dataset class can handle categorical scatter charts and area charts as well as standard line charts.
-For categorical scatter charts, set showLine to be False
-For area datasets, ensure that the fill mode is enabled and a background color is set
+@docs DataPoints, DataSet, defaultLineFromLabel
 
-@docs DataPoints
-
-@docs DataSet, defaultLineFromLabel, defaultLineFromData, defaultLineFromPointData
 @docs setLabel, setData, setPointData, setHidden, setOrder
-@docs setIndexAxis, setXAxisID, setYAxisID
-@docs SteppedLine, FillMode, FillBoundary
+
+
+# Lines
+
+Line datasets are super easy to create - just provide a dataset label and a list of numbers:
+
+    defaultLineFromData "Dataset Label" [ 1, 2, 3, 4, 5 ]
+
+@docs defaultLineFromData
+
+You can then adjust the line styling with pipeline operators:
+
+    defaultLineFromData "Dataset Label" [ 1, 2, 3, 4, 5 ]
+        |> setBorderWidth 4
+        |> setLineTension 0.5
+
 @docs setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
-@docs setCubicInterpolationMode, setFill, setLineTension
-@docs setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation, setPointHitRadius
-@docs setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
-@docs setShowLine, setSpanGaps, setSteppedLine
+
+By default, the line will linearly connect points. You can adjust the interpolation, or set the line to produce a stepped chart instead:
+
+@docs setShowLine, setCubicInterpolationMode, setLineTension, setSteppedLine, SteppedLine
+
+
+# Scatters
+
+Scatter charts are essentially line charts without a line
+
+    defaultLineFromPointData "Scatter" [ ( 1, 2 ), ( 2, 5 ), ( 3, 8 ) ]
+        |> setShowLine False
+
+For best results, you'll also want to assign a linear scale to your chart
+
+@docs defaultLineFromPointData
+
+You can style the points in various ways.
+
+@docs setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation
+
+Certain properties are used to change how points are displayed when hovered over:
+
+@docs setPointHitRadius, setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
+
+
+# Filling Areas
+
+    defaultLineFromData "Filled Chart" [ 1, 2, 3, 4, 5 ]
+        |> setFill (Boundary Origin)
+
+@docs setFill, FillMode, FillBoundary, setBackgroundColor
+
+
+# Other
+
+@docs setIndexAxis, setXAxisID, setYAxisID, setSpanGaps
 
 -}
 
@@ -36,9 +77,8 @@ import Chartjs.Common as Common
 import Color exposing (Color)
 
 
-{-| Line datasets can be made from two different data formats
-
-For the points data type, only floats are supported: if you need string keys, use Numbers + categorical labels
+{-| These datasets can be made from two different data formats
+Either a list of numbers can be specified, or a list of (x, y) tuples
 
 See <https://www.chartjs.org/docs/latest/general/data-structures.html> for more info
 
@@ -49,16 +89,6 @@ type DataPoints
 
 
 {-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/line.html>
-
-You should not use the dataset type directly
-Instead use the updater pipeline functions:
-
-    defaultBarFromLabel "Example"
-        |> setBackgroundColor (Common.All Color.red)
-        |> setBorderColor (Common.All Color.white)
-        |> setBorderCapStyle "round"
-        |> setFill Disabled
-
 -}
 type alias DataSet =
     { label : String
@@ -95,9 +125,10 @@ type alias DataSet =
     }
 
 
-{-| Step Interpolation for lines
+{-| Step Interpolation for lines <https://www.chartjs.org/docs/3.3.2/charts/line.html#stepped>
 
 BeforeInterpolation: Step-before Interpolation
+
 AfterInterpolation: Step-after Interpolation
 
 -}
@@ -305,6 +336,15 @@ setCubicInterpolationMode interpolation dataset =
 
 
 {-| How to fill the area under the line
+
+The most common use case would be filling the area under a line. For that, you'll want to use Boundary Origin:
+
+    defaultLineFromData "Title" data
+        |> setBackgroundColor Color.red
+        |> setFill (Boundary Origin)
+
+For more information, check out <https://www.chartjs.org/docs/latest/charts/area.html>
+
 -}
 setFill : FillMode -> DataSet -> DataSet
 setFill fill dataset =

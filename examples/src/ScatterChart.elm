@@ -4,22 +4,24 @@ import Browser
 import Chartjs.Chart as Chart
 import Chartjs.Common as ChartCommon
 import Chartjs.Data as ChartData
+import Chartjs.DataSets.Line as LineData
 import Chartjs.Options as ChartOptions
 import Chartjs.Options.Scale as ChartScale
-import Chartjs.DataSets.Line as LineData
 import Color
 import Html exposing (Html, div)
 import Utils
 
+
 type alias Model =
-    { data : List (Float, Float)
+    { data : List ( Float, Float )
     }
+
 
 {-| Initialise the model with some scatter data
 -}
 init : Model
 init =
-    { data = [ (4, 10), (5, 12), (6, 8), (3, 80), (4, 50), (5, 72), (1.5, 4) ]
+    { data = [ ( 4, 10 ), ( 5, 12 ), ( 6, 8 ), ( 3, 80 ), ( 4, 50 ), ( 5, 72 ), ( 1.5, 4 ) ]
     }
 
 
@@ -42,6 +44,7 @@ data model =
     in
     ChartData.defaultData
         |> ChartData.addDataset dataset
+
 
 options : ChartOptions.Options
 options =
@@ -66,6 +69,7 @@ options =
     ChartOptions.defaultOptions
         |> ChartOptions.addScale xAxis
         |> ChartOptions.addScale yAxis
+
 
 {-| Build the full chart configuration from our model
 Right now, we're only setting custom data up

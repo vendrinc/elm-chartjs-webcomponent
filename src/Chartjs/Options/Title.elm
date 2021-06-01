@@ -6,7 +6,7 @@ module Chartjs.Options.Title exposing
 {-| For more information, see <https://www.chartjs.org/docs/latest/configuration/title.html>
 
 @docs Title, defaultTitle
-@docs setDisplay, setAlign, setPosition, setPadding, setLineHeight, setText, setFont, setColor
+@docs setDisplay, setAlign, setPosition, setPadding, setText, setFont, setColor
 
 -}
 

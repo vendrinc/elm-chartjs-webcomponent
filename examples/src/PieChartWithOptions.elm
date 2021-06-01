@@ -4,11 +4,11 @@ import Browser
 import Chartjs.Chart as Chart
 import Chartjs.Common as ChartCommon
 import Chartjs.Data as ChartData
+import Chartjs.DataSets.DoughnutAndPie as PieData
 import Chartjs.Options as ChartOptions
+import Chartjs.Options.Font as ChartFont
 import Chartjs.Options.Legend as ChartLegend
 import Chartjs.Options.Title as ChartTitle
-import Chartjs.Options.Font as ChartFont
-import Chartjs.DataSets.DoughnutAndPie as PieData
 import Color
 import Html exposing (Html, div)
 import Utils
@@ -21,6 +21,7 @@ type alias Model =
     { data : List Float
     , labels : List String
     }
+
 
 {-| Initialise the model with some basic data and examples
 -}
@@ -35,10 +36,10 @@ init =
 First we need a Data container which has some basic chart information
 Then we need to make the dataset for our bar chart
 This can be done easily using pipe operators instead of record update syntax
--} 
+-}
 data : Model -> ChartData.Data
 data model =
-    let 
+    let
         dataset =
             PieData.defaultPieFromData "Example Chart" model.data
                 |> PieData.setBackgroundColor (ChartCommon.PerPoint Utils.defaultColors)
@@ -48,11 +49,13 @@ data model =
     ChartData.dataFromLabels model.labels
         |> ChartData.addDataset (ChartData.PieData dataset)
 
+
 legendLabelsConfig : ChartLegend.Labels
 legendLabelsConfig =
     ChartLegend.defaultLabels
         |> ChartLegend.setPointStyle ChartCommon.Circle
         |> ChartLegend.setLabelPadding 10
+
 
 legendTitleConfig : ChartLegend.Title
 legendTitleConfig =
@@ -67,6 +70,7 @@ legendConfig =
         |> ChartLegend.setLabels legendLabelsConfig
         |> ChartLegend.setTitle legendTitleConfig
 
+
 titleConfig : ChartTitle.Title
 titleConfig =
     ChartTitle.defaultTitle
@@ -77,11 +81,13 @@ titleConfig =
         |> ChartTitle.setFont (ChartFont.create "sans-serif" 32)
         |> ChartTitle.setDisplay True
 
+
 chartOptions : ChartOptions.Options
 chartOptions =
     ChartOptions.defaultOptions
         |> ChartOptions.setLegend legendConfig
         |> ChartOptions.setTitle titleConfig
+
 
 {-| Build the full chart configuration from our model
 -}

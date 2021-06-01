@@ -8,26 +8,30 @@ import Chartjs.DataSets.Line as LineData
 import Color exposing (Color)
 import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
-import Random
 import List.Extra
+import Random
 import Utils
+
 
 type alias Model =
     { datasets : List (List Float)
     }
 
+
 init : () -> ( Model, Cmd Msg )
 init _ =
     let
         defaultModel =
-            { datasets = [[]]
+            { datasets = [ [] ]
             }
     in
     ( defaultModel, Random.generate RandomizedData (randomDatasets 2) )
 
+
 chartLabels : List String
 chartLabels =
     [ "One", "Two", "Three", "Four", "Five", "Six" ]
+
 
 datasetTitles : List String
 datasetTitles =
@@ -52,17 +56,19 @@ chartData model =
 
         colors =
             List.Extra.cycle (List.length model.datasets) Utils.defaultColors
-        
+
         datasets =
             List.map3 buildDataset (List.reverse model.datasets) titles colors
     in
     ChartData.dataFromLabels chartLabels
         |> ChartData.setDatasets datasets
 
+
 chartConfig : Model -> Chart.Chart
 chartConfig model =
     Chart.defaultChart Chart.Line
         |> Chart.setData (chartData model)
+
 
 type Msg
     = Randomize
@@ -70,6 +76,7 @@ type Msg
     | RemoveDataset
     | RandomizedData (List (List Float))
     | AddRandomDataset (List Float)
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -88,9 +95,9 @@ update msg model =
             let
                 newDatasets =
                     case model.datasets of
-                        [] -> 
+                        [] ->
                             []
-                            
+
                         x :: xs ->
                             xs
             in
@@ -104,15 +111,18 @@ update msg model =
                 newDatasets =
                     newDataset :: model.datasets
             in
-            ( { model | datasets = newDatasets}, Cmd.none )
+            ( { model | datasets = newDatasets }, Cmd.none )
+
 
 randomDatasets : Int -> Random.Generator (List (List Float))
 randomDatasets numDatasets =
-    Random.list numDatasets (randomDataset)
+    Random.list numDatasets randomDataset
+
 
 randomDataset : Random.Generator (List Float)
 randomDataset =
     Random.list 10 (Random.float 1 20)
+
 
 view : Model -> Html Msg
 view model =
@@ -123,10 +133,11 @@ view model =
         , Chart.chart [] (chartConfig model)
         ]
 
+
 main =
     Browser.element
         { init = init
         , update = update
         , view = view
-        , subscriptions = (\_ -> Sub.none)
+        , subscriptions = \_ -> Sub.none
         }

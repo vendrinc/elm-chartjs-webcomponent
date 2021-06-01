@@ -9,10 +9,12 @@ import Color
 import Html exposing (Html, div)
 import Utils
 
+
 type alias Model =
     { data : List Float
     , labels : List String
     }
+
 
 {-| Initialise the model with some basic data and labels
 -}
@@ -30,7 +32,7 @@ This can be done easily using pipe operators instead of record update syntax
 -}
 data : Model -> ChartData.Data
 data model =
-    let 
+    let
         dataset =
             BarData.defaultBarFromData "Example Chart" model.data
                 |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
