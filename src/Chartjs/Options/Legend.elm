@@ -1,8 +1,8 @@
 module Chartjs.Options.Legend exposing
     ( Legend, defaultLegend
     , setDisplay, setPosition, setFullWidth, setReverse, setLabels, setTitle
-    , Labels, defaultLabels, setBoxWidth, setBoxHeight, setColor, setFont, setPadding, setPointStyle
-    , Title, defaultTitle
+    , Labels, defaultLabels, setBoxWidth, setBoxHeight, setLabelColor, setLabelFont, setLabelPadding, setPointStyle
+    , Title, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
     )
 
 {-| For more information, see <https://www.chartjs.org/docs/latest/configuration/legend.html>
@@ -11,9 +11,9 @@ module Chartjs.Options.Legend exposing
 
 @docs setDisplay, setPosition, setFullWidth, setReverse, setLabels, setTitle
 
-@docs Labels, defaultLabels, setBoxWidth, setBoxHeight, setColor, setFont, setPadding, setPointStyle
+@docs Labels, defaultLabels, setBoxWidth, setBoxHeight, setLabelColor, setLabelFont, setLabelPadding, setPointStyle
 
-@docs Title, defaultTitle, setColor, setFont, setPadding
+@docs Title, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
 
 -}
 
@@ -127,20 +127,18 @@ setBoxHeight height labels =
     { labels | boxHeight = Just height }
 
 
-setColor : Color -> { a | color : Maybe Color } -> { a | color : Maybe Color }
-setColor color labels =
+setLabelColor : Color -> Labels -> Labels
+setLabelColor color labels =
     { labels | color = Just color }
 
 
-setFont : FontSpec -> { a | font : Maybe FontSpec } -> { a | font : Maybe FontSpec }
-setFont font labels =
+setLabelFont : FontSpec -> Labels -> Labels
+setLabelFont font labels =
     { labels | font = Just font }
 
 
-{-| Padding between rows of coloured boxes
--}
-setPadding : Int -> { a | padding : Maybe Int } -> { a | padding : Maybe Int }
-setPadding padding labels =
+setLabelPadding : Int -> Labels -> Labels
+setLabelPadding padding labels =
     { labels | padding = Just padding }
 
 
@@ -166,3 +164,18 @@ defaultTitle text =
     , font = Nothing
     , padding = Nothing
     }
+
+
+setTitleColor : Color -> Title -> Title
+setTitleColor color title =
+    { title | color = Just color }
+
+
+setTitleFont : FontSpec -> Title -> Title
+setTitleFont font title =
+    { title | font = Just font }
+
+
+setTitlePadding : Int -> Title -> Title
+setTitlePadding padding title =
+    { title | padding = Just padding }

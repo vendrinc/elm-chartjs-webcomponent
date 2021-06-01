@@ -16,9 +16,10 @@ import Chartjs.Options.Elements
 import Chartjs.Options.Font
 import Chartjs.Options.Layout
 import Chartjs.Options.Legend
-import Chartjs.Options.Scales
+import Chartjs.Options.Scale
 import Chartjs.Options.Title
 import Chartjs.Options.Tooltips
+import Dict
 import Json.Encode as Encode
 
 
@@ -579,46 +580,53 @@ encodeLegendTitle title =
         |> Encode.toValue
 
 
-encodeScales : Chartjs.Options.Scales.Scales -> Encode.Value
+encodeScales : List Chartjs.Options.Scale.Scale -> Encode.Value
 encodeScales scales =
+    let
+        scalesById =
+            scales
+                |> List.map (\x -> ( x.id, x ))
+                |> Dict.fromList
+    in
+    Encode.dict identity encodeScale scalesById
+
+
+encodeScale : Chartjs.Options.Scale.Scale -> Encode.Value
+encodeScale scale =
     Encode.beginObject
-        |> Encode.listField "xAxes" encodeAxis scales.xAxes
-        |> Encode.listField "yAxes" encodeAxis scales.yAxes
+        |> Encode.customField "type" encodeScaleType scale.type_
+        |> Encode.maybeCustomField "axis" encodeIndexAxis scale.axis
+        |> Encode.maybeCustomField "position" encodePosition scale.position
+        |> Encode.maybeBoolField "reverse" scale.reverse
+        |> Encode.maybeFloatField "min" scale.min
+        |> Encode.maybeFloatField "max" scale.max
+        |> Encode.maybeFloatField "suggestedMin" scale.suggestedMin
+        |> Encode.maybeFloatField "suggestedMax" scale.suggestedMax
+        |> Encode.maybeCustomField "grid" encodeGrid scale.grid
         |> Encode.toValue
 
 
-encodeAxis : Chartjs.Options.Scales.Axis -> Encode.Value
-encodeAxis axis =
+encodeScaleType : Chartjs.Options.Scale.ScaleType -> Encode.Value
+encodeScaleType scaleType =
+    (case scaleType of
+        Chartjs.Options.Scale.Linear ->
+            "linear"
+
+        Chartjs.Options.Scale.Logarithmic ->
+            "logarithmic"
+
+        Chartjs.Options.Scale.Categorical ->
+            "category"
+
+        Chartjs.Options.Scale.Time ->
+            "time"
+    )
+        |> Encode.string
+
+
+encodeGrid : Chartjs.Options.Scale.ScaleGrid -> Encode.Value
+encodeGrid grid =
     Encode.beginObject
-        |> Encode.maybeCustomField "position" encodePosition axis.position
-        |> Encode.maybeBoolField "stacked" axis.stacked
-        |> Encode.maybeCustomField "ticks" encodeTicks axis.ticks
-        |> Encode.maybeCustomField "gridLines" encodeGridLines axis.gridLines
-        |> Encode.toValue
-
-
-encodeTicks : Chartjs.Options.Scales.Ticks -> Encode.Value
-encodeTicks ticks =
-    Encode.beginObject
-        |> Encode.maybeStringField "fontFamily" ticks.fontFamily
-        |> Encode.maybeStringField "callback" ticks.callback
-        |> Encode.maybeBoolField "beginAtZero" ticks.beginAtZero
-        |> Encode.maybeFloatField "min" ticks.min
-        |> Encode.maybeFloatField "max" ticks.max
-        |> Encode.maybeIntField "maxTicksLimit" ticks.maxTicksLimit
-        |> Encode.maybeIntField "precision" ticks.precision
-        |> Encode.maybeFloatField "stepSize" ticks.stepSize
-        |> Encode.maybeFloatField "suggestedMax" ticks.suggestedMax
-        |> Encode.maybeFloatField "suggestedMin" ticks.suggestedMin
-        |> Encode.maybeColorField "fontColor" ticks.fontColor
-        |> Encode.toValue
-
-
-encodeGridLines : Chartjs.Options.Scales.GridLines -> Encode.Value
-encodeGridLines gridLines =
-    Encode.beginObject
-        |> Encode.maybeBoolField "display" gridLines.display
-        |> Encode.maybeCustomField "color" (encodePointProperty Encode.encodeColor) gridLines.color
         |> Encode.toValue
 
 

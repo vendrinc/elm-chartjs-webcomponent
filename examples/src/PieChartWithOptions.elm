@@ -52,7 +52,7 @@ legendLabelsConfig : ChartLegend.Labels
 legendLabelsConfig =
     ChartLegend.defaultLabels
         |> ChartLegend.setPointStyle ChartCommon.Circle
-        |> ChartLegend.setPadding 10
+        |> ChartLegend.setLabelPadding 10
 
 legendTitleConfig : ChartLegend.Title
 legendTitleConfig =

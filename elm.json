@@ -18,7 +18,7 @@
         "Chartjs.Options.Font",
         "Chartjs.Options.Layout",
         "Chartjs.Options.Legend",
-        "Chartjs.Options.Scales",
+        "Chartjs.Options.Scale",
         "Chartjs.Options.Title",
         "Chartjs.Options.Tooltips"
     ],

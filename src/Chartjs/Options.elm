@@ -1,6 +1,6 @@
 module Chartjs.Options exposing
     ( Options, defaultOptions
-    , setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, setTitle, setTooltips, setCircumference, setCutoutPercentage, setRotation
+    , setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, addScale, setTitle, setTooltips, setCircumference, setCutoutPercentage, setRotation
     )
 
 {-| The Options type is used for configuring how the chart behaves
@@ -8,7 +8,7 @@ This contains properties to control things like styling, fonts, etc.
 
 @docs Options, defaultOptions
 
-@docs setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, setTitle, setTooltips, setCircumference, setCutoutPercentage, setRotation
+@docs setAnimations, setElements, setLayout, setLegend, setMaintainAspectRatio, setResponsive, setScales, addScale, setTitle, setTooltips, setCircumference, setCutoutPercentage, setRotation
 
 -}
 
@@ -16,7 +16,7 @@ import Chartjs.Options.Animations as Animations
 import Chartjs.Options.Elements as Elements
 import Chartjs.Options.Layout as Layout
 import Chartjs.Options.Legend as Legend
-import Chartjs.Options.Scales as Scales
+import Chartjs.Options.Scale as Scale
 import Chartjs.Options.Title as Title
 import Chartjs.Options.Tooltips as Tooltips
 
@@ -30,7 +30,7 @@ type alias Options =
     , title : Maybe Title.Title
     , tooltips : Maybe Tooltips.Tooltips
     , elements : Maybe Elements.Elements
-    , scales : Maybe Scales.Scales
+    , scales : Maybe (List Scale.Scale)
     , maintainAspectRatio : Maybe Bool
     , responsive : Maybe Bool
     , cutoutPercentage : Maybe Int
@@ -102,9 +102,20 @@ setElements elements options =
 
 {-| Set the scales property
 -}
-setScales : Scales.Scales -> Options -> Options
+setScales : List Scale.Scale -> Options -> Options
 setScales scales options =
     { options | scales = Just scales }
+
+
+{-| -}
+addScale : Scale.Scale -> Options -> Options
+addScale scale options =
+    let
+        newScales =
+            scale
+                :: Maybe.withDefault [] options.scales
+    in
+    { options | scales = Just newScales }
 
 
 {-| Set whether to keep the aspect ratio of this chart consistent
