@@ -120,7 +120,7 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeStringField "borderJoinStyle" lineChartDataSet.borderJoinStyle
         |> Encode.maybeStringField "cubicInterpolationMode" lineChartDataSet.cubicInterpolationMode
         |> Encode.maybeCustomField "fill" encodeFillMode lineChartDataSet.fill
-        |> Encode.maybeFloatField "lineTension" lineChartDataSet.lineTension
+        |> Encode.maybeFloatField "tension" lineChartDataSet.lineTension
         |> Encode.maybeCustomField "pointBackgroundColor" (encodePointProperty Encode.encodeColor) lineChartDataSet.pointBackgroundColor
         |> Encode.maybeCustomField "pointBorderWidth" (encodePointProperty Encode.float) lineChartDataSet.pointBorderWidth
         |> Encode.maybeCustomField "pointRadius" (encodePointProperty Encode.float) lineChartDataSet.pointRadius
@@ -133,7 +133,7 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeCustomField "pointHoverRadius" (encodePointProperty Encode.float) lineChartDataSet.pointHoverRadius
         |> Encode.maybeBoolField "showLine" lineChartDataSet.showLine
         |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
-        |> Encode.maybeCustomField "steppedLine" encodeSteppedLine lineChartDataSet.steppedLine
+        |> Encode.maybeCustomField "stepped" encodeSteppedLine lineChartDataSet.steppedLine
         |> Encode.toValue
 
 

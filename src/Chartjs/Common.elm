@@ -1,17 +1,10 @@
-module Chartjs.Common exposing
-    ( PointStyle(..), LineCap(..), LineJoin(..), Position(..), Align(..), PointProperty(..), IndexAxis(..)
-    , defaultColors
-    )
+module Chartjs.Common exposing (PointStyle(..), LineCap(..), LineJoin(..), Position(..), Align(..), PointProperty(..), IndexAxis(..))
 
 {-| Common types used for various configuration properties
 
 @docs PointStyle, LineCap, LineJoin, Position, Align, PointProperty, IndexAxis
 
-@docs defaultColors
-
 -}
-
-import Color exposing (Color)
 
 
 {-| For more information, see <https://www.chartjs.org/samples/latest/charts/line/point-styles.html>
@@ -82,20 +75,3 @@ YAxis will produce a horizontal chart
 type IndexAxis
     = XAxis
     | YAxis
-
-
-{-| Need some default colours? You can use this helpful list of colours!
-
-These colours are taken from the ChartJs Utils: <https://github.com/chartjs/Chart.js/blob/master/docs/scripts/utils.js#L127>
-
--}
-defaultColors : List Color
-defaultColors =
-    [ Color.rgb255 255 99 132
-    , Color.rgb255 255 159 64
-    , Color.rgb255 255 205 86
-    , Color.rgb255 75 192 192
-    , Color.rgb255 54 162 235
-    , Color.rgb255 153 102 255
-    , Color.rgb255 201 203 207
-    ]

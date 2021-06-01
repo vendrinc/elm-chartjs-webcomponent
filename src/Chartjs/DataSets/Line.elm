@@ -1,12 +1,14 @@
 module Chartjs.DataSets.Line exposing
     ( DataSet, defaultLineFromLabel, defaultLineFromData
+    , setLabel, setData, setHidden, setOrder
+    , setIndexAxis, setXAxisID, setYAxisID
     , SteppedLine(..), FillMode(..), FillBoundary(..)
-    , setData, setXAxisID, setYAxisID, setBackgroundColor
     , setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
     , setCubicInterpolationMode, setFill, setLineTension
     , setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation, setPointHitRadius
     , setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
     , setShowLine, setSpanGaps, setSteppedLine
+    , setBackgroundColor
     )
 
 {-| A line chart plots data points on a line. Often used to show trend data or compare data sets.
@@ -16,8 +18,9 @@ For categorical scatter charts, set showLine to be False
 For area datasets, ensure that the fill mode is enabled and a background color is set
 
 @docs DataSet, defaultLineFromLabel, defaultLineFromData
+@docs setLabel, setData, setHidden, setOrder
+@docs setIndexAxis, setXAxisID, setYAxisID
 @docs SteppedLine, FillMode, FillBoundary
-@docs setData, setXAxisID, setYAxisID, setBackgroundColor
 @docs setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
 @docs setCubicInterpolationMode, setFill, setLineTension
 @docs setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation, setPointHitRadius
@@ -45,6 +48,9 @@ Instead use the updater pipeline functions:
 type alias DataSet =
     { label : String
     , data : List Float
+    , hidden : Maybe Bool
+    , order : Maybe Int
+    , indexAxis : Maybe Common.IndexAxis
     , xAxisID : Maybe String
     , yAxisID : Maybe String
     , backgroundColor : Maybe (Common.PointProperty Color)
@@ -123,6 +129,9 @@ defaultLineFromData : String -> List Float -> DataSet
 defaultLineFromData label data =
     { label = label
     , data = data
+    , hidden = Nothing
+    , order = Nothing
+    , indexAxis = Nothing
     , xAxisID = Nothing
     , yAxisID = Nothing
     , backgroundColor = Nothing
@@ -152,12 +161,42 @@ defaultLineFromData label data =
     }
 
 
+{-| Set the label for this dataset
+-}
+setLabel : String -> DataSet -> DataSet
+setLabel label dataset =
+    { dataset | label = label }
+
+
 {-| Set the data displayed by this dataset
 This is a list of floats, where each float is represented as a point on the line
 -}
 setData : List Float -> DataSet -> DataSet
 setData data dataset =
     { dataset | data = data }
+
+
+{-| Set whether this dataset should be hidden from the chart
+-}
+setHidden : Bool -> DataSet -> DataSet
+setHidden hidden dataset =
+    { dataset | hidden = Just hidden }
+
+
+{-| Set the drawing order of the dataset
+This also affects stacking, tooltips, and legends
+-}
+setOrder : Int -> DataSet -> DataSet
+setOrder order dataset =
+    { dataset | order = Just order }
+
+
+{-| Which axis to use for indexing
+Set to XAxis for a vertical chart, set to YAxis for a horizontal chart
+-}
+setIndexAxis : Common.IndexAxis -> DataSet -> DataSet
+setIndexAxis indexAxis dataset =
+    { dataset | indexAxis = Just indexAxis }
 
 
 {-| The ID of the X axis to plot this dataset on
