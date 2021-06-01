@@ -4,7 +4,7 @@
 
  For more advanced functionality, consider using native JS instead of Elm
 */
-import Chart from 'chart.js'
+import Chart from 'chart.js/auto'
 
 class ChartjsChart extends window.HTMLElement {
   constructor () {
@@ -46,7 +46,6 @@ class ChartjsChart extends window.HTMLElement {
       // Remove old datasets
       while(oldDatasets.length > newDatasets.length) {
         oldDatasets.pop()
-        console.log(oldDatasets.length, newDatasets.length)
       }
 
       // Add new datasets
