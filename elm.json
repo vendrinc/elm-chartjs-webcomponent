@@ -3,7 +3,7 @@
     "name": "indicatrix/elm-chartjs-webcomponent",
     "summary": "Elm types and pipeline functions to easily work with Chartjs",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "exposed-modules": [
         "Chartjs.Chart",
         "Chartjs.Common",
