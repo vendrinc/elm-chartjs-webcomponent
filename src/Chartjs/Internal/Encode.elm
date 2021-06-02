@@ -1,36 +1,6 @@
 module Chartjs.Internal.Encode exposing
-    ( encodeAnimations
-    , encodeArc
-    , encodeAxis
-    , encodeBarChartDataSet
-    , encodeData
-    , encodeDataset
-    , encodeDoughnutAndPieDataSet
-    , encodeEasing
-    , encodeElements
-    , encodeFillMode
-    , encodeGridLines
-    , encodeLabels
-    , encodeLayout
-    , encodeLegend
-    , encodeLine
-    , encodeLineCap
-    , encodeLineChartDataSet
-    , encodeLineFill
-    , encodeLineJoin
-    , encodeMode
+    ( encodeData
     , encodeOptions
-    , encodePoint
-    , encodePointProperty
-    , encodePointStyle
-    , encodePosition
-    , encodePositionMode
-    , encodeRectangle
-    , encodeScales
-    , encodeSteppedLine
-    , encodeTicks
-    , encodeTitle
-    , encodeTooltips
     )
 
 import Chartjs.Common as Common
@@ -43,11 +13,13 @@ import Chartjs.Internal.Util as Encode
 import Chartjs.Options
 import Chartjs.Options.Animations
 import Chartjs.Options.Elements
+import Chartjs.Options.Font
 import Chartjs.Options.Layout
 import Chartjs.Options.Legend
-import Chartjs.Options.Scales
+import Chartjs.Options.Scale
 import Chartjs.Options.Title
 import Chartjs.Options.Tooltips
+import Dict
 import Json.Encode as Encode
 
 
@@ -55,31 +27,50 @@ encodeBarChartDataSet : Chartjs.DataSets.Bar.DataSet -> Encode.Value
 encodeBarChartDataSet barChartDataSet =
     Encode.beginObject
         |> Encode.stringField "label" barChartDataSet.label
+        |> Encode.stringField "type" "bar"
         |> Encode.listField "data" Encode.float barChartDataSet.data
+        |> Encode.maybeBoolField "hidden" barChartDataSet.hidden
+        |> Encode.maybeIntField "order" barChartDataSet.order
+        |> Encode.maybeStringField "stack" barChartDataSet.stack
+        |> Encode.maybeCustomField "indexAxis" encodeIndexAxis barChartDataSet.indexAxis
         |> Encode.maybeStringField "xAxisID" barChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" barChartDataSet.yAxisID
         |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
+        |> Encode.maybeFloatField "barPercentage" barChartDataSet.barPercentage
+        |> Encode.maybeIntField "barThickness" barChartDataSet.barThickness
         |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
+        |> Encode.maybeCustomField "borderRadius" (encodePointProperty Encode.int) barChartDataSet.borderRadius
         |> Encode.maybeStringField "borderSkipped" barChartDataSet.borderSkipped
+        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
+        |> Encode.maybeFloatField "categoryPercentage" barChartDataSet.categoryPercentage
         |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
         |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
         |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
+        |> Encode.maybeIntField "maxBarThickness" barChartDataSet.maxBarThickness
+        |> Encode.maybeIntField "minBarLength" barChartDataSet.minBarLength
         |> Encode.toValue
 
 
 encodeDoughnutAndPieDataSet : Chartjs.DataSets.DoughnutAndPie.DataSet -> Encode.Value
-encodeDoughnutAndPieDataSet barChartDataSet =
+encodeDoughnutAndPieDataSet pieChartDataSet =
     Encode.beginObject
-        |> Encode.stringField "label" barChartDataSet.label
-        |> Encode.listField "data" Encode.float barChartDataSet.data
-        |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.backgroundColor
-        |> Encode.maybeStringField "borderAlign" barChartDataSet.borderAlign
-        |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.borderColor
-        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) barChartDataSet.borderWidth
-        |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBackgroundColor
-        |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) barChartDataSet.hoverBorderColor
-        |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) barChartDataSet.hoverBorderWidth
+        |> Encode.stringField "label" pieChartDataSet.label
+        |> Encode.stringField "type" "pie"
+        |> Encode.listField "data" Encode.float pieChartDataSet.data
+        |> Encode.maybeBoolField "hidden" pieChartDataSet.hidden
+        |> Encode.maybeIntField "order" pieChartDataSet.order
+        |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.backgroundColor
+        |> Encode.maybeStringField "borderAlign" pieChartDataSet.borderAlign
+        |> Encode.maybeCustomField "borderColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.borderColor
+        |> Encode.maybeCustomField "borderWidth" (encodePointProperty Encode.float) pieChartDataSet.borderWidth
+        |> Encode.maybeIntField "circumference" pieChartDataSet.circumference
+        |> Encode.maybeIntField "cutout" pieChartDataSet.cutout
+        |> Encode.maybeCustomField "hoverBackgroundColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.hoverBackgroundColor
+        |> Encode.maybeCustomField "hoverBorderColor" (encodePointProperty Encode.encodeColor) pieChartDataSet.hoverBorderColor
+        |> Encode.maybeCustomField "hoverBorderWidth" (encodePointProperty Encode.float) pieChartDataSet.hoverBorderWidth
+        |> Encode.maybeCustomField "offset" (encodePointProperty Encode.int) pieChartDataSet.offset
+        |> Encode.maybeIntField "rotation" pieChartDataSet.rotation
+        |> Encode.maybeFloatField "weight" pieChartDataSet.weight
         |> Encode.toValue
 
 
@@ -87,7 +78,8 @@ encodeLineChartDataSet : Chartjs.DataSets.Line.DataSet -> Encode.Value
 encodeLineChartDataSet lineChartDataSet =
     Encode.beginObject
         |> Encode.stringField "label" lineChartDataSet.label
-        |> Encode.listField "data" Encode.float lineChartDataSet.data
+        |> Encode.customField "type" encodeLineDatasetType lineChartDataSet.type_
+        |> Encode.customField "data" encodeLineData lineChartDataSet.data
         |> Encode.maybeStringField "xAxisID" lineChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" lineChartDataSet.yAxisID
         |> Encode.maybeCustomField "backgroundColor" (encodePointProperty Encode.encodeColor) lineChartDataSet.backgroundColor
@@ -99,7 +91,7 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeStringField "borderJoinStyle" lineChartDataSet.borderJoinStyle
         |> Encode.maybeStringField "cubicInterpolationMode" lineChartDataSet.cubicInterpolationMode
         |> Encode.maybeCustomField "fill" encodeFillMode lineChartDataSet.fill
-        |> Encode.maybeFloatField "lineTension" lineChartDataSet.lineTension
+        |> Encode.maybeFloatField "tension" lineChartDataSet.lineTension
         |> Encode.maybeCustomField "pointBackgroundColor" (encodePointProperty Encode.encodeColor) lineChartDataSet.pointBackgroundColor
         |> Encode.maybeCustomField "pointBorderWidth" (encodePointProperty Encode.float) lineChartDataSet.pointBorderWidth
         |> Encode.maybeCustomField "pointRadius" (encodePointProperty Encode.float) lineChartDataSet.pointRadius
@@ -112,8 +104,35 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeCustomField "pointHoverRadius" (encodePointProperty Encode.float) lineChartDataSet.pointHoverRadius
         |> Encode.maybeBoolField "showLine" lineChartDataSet.showLine
         |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
-        |> Encode.maybeCustomField "steppedLine" encodeSteppedLine lineChartDataSet.steppedLine
+        |> Encode.maybeCustomField "stepped" encodeSteppedLine lineChartDataSet.steppedLine
         |> Encode.toValue
+
+
+encodeLineDatasetType : Chartjs.DataSets.Line.LineDataSetType -> Encode.Value
+encodeLineDatasetType type_ =
+    case type_ of
+        Chartjs.DataSets.Line.Line ->
+            Encode.string "line"
+
+        Chartjs.DataSets.Line.Radar ->
+            Encode.string "radar"
+
+
+encodeLineData : Chartjs.DataSets.Line.DataPoints -> Encode.Value
+encodeLineData data =
+    case data of
+        Chartjs.DataSets.Line.Numbers numbers ->
+            Encode.list Encode.float numbers
+
+        Chartjs.DataSets.Line.Points points ->
+            Encode.list
+                (\( x, y ) ->
+                    Encode.beginObject
+                        |> Encode.floatField "x" x
+                        |> Encode.floatField "y" y
+                        |> Encode.toValue
+                )
+                points
 
 
 encodePolarDataSet : Chartjs.DataSets.Polar.DataSet -> Encode.Value
@@ -185,6 +204,33 @@ encodePosition position =
         |> Encode.string
 
 
+encodeAlign : Common.Align -> Encode.Value
+encodeAlign align =
+    (case align of
+        Common.Start ->
+            "start"
+
+        Common.End ->
+            "end"
+
+        Common.Center ->
+            "center"
+    )
+        |> Encode.string
+
+
+encodeIndexAxis : Common.IndexAxis -> Encode.Value
+encodeIndexAxis axis =
+    (case axis of
+        Common.XAxis ->
+            "x"
+
+        Common.YAxis ->
+            "y"
+    )
+        |> Encode.string
+
+
 encodePointProperty : (a -> Encode.Value) -> Common.PointProperty a -> Encode.Value
 encodePointProperty valueEncoder value =
     case value of
@@ -205,7 +251,7 @@ encodePointStyle pointStyle =
             "cross"
 
         Common.CrossRot ->
-            "crossrot"
+            "crossRot"
 
         Common.Dash ->
             "dash"
@@ -217,10 +263,10 @@ encodePointStyle pointStyle =
             "rect"
 
         Common.RectRounded ->
-            "rectrounded"
+            "rectRounded"
 
         Common.RectRot ->
-            "rectrot"
+            "rectRot"
 
         Common.Star ->
             "star"
@@ -267,7 +313,7 @@ encodeLineJoin lineJoin =
 encodeData : Chartjs.Data.Data -> Encode.Value
 encodeData data =
     Encode.beginObject
-        |> Encode.listField "labels" Encode.string data.labels
+        |> Encode.maybeListField "labels" Encode.string data.labels
         |> Encode.listField "datasets" encodeDataset data.datasets
         |> Encode.toValue
 
@@ -291,11 +337,9 @@ encodeDataset dataSet =
 encodeOptions : Chartjs.Options.Options -> Encode.Value
 encodeOptions options =
     Encode.beginObject
+        |> Encode.customField "plugins" encodeOptionsPlugins options
         |> Encode.maybeCustomField "animations" encodeAnimations options.animations
         |> Encode.maybeCustomField "layout" encodeLayout options.layout
-        |> Encode.maybeCustomField "legend" encodeLegend options.legend
-        |> Encode.maybeCustomField "title" encodeTitle options.title
-        |> Encode.maybeCustomField "tooltips" encodeTooltips options.tooltips
         |> Encode.maybeCustomField "elements" encodeElements options.elements
         |> Encode.maybeCustomField "scales" encodeScales options.scales
         |> Encode.maybeBoolField "maintainAspectRatio" options.maintainAspectRatio
@@ -303,6 +347,15 @@ encodeOptions options =
         |> Encode.maybeIntField "cutoutPercentage" options.cutoutPercentage
         |> Encode.maybeFloatField "rotation" options.rotation
         |> Encode.maybeFloatField "circumfernece" options.circumference
+        |> Encode.toValue
+
+
+encodeOptionsPlugins : Chartjs.Options.Options -> Encode.Value
+encodeOptionsPlugins options =
+    Encode.beginObject
+        |> Encode.maybeCustomField "legend" encodeLegend options.legend
+        |> Encode.maybeCustomField "title" encodeTitle options.title
+        |> Encode.maybeCustomField "tooltips" encodeTooltips options.tooltips
         |> Encode.toValue
 
 
@@ -415,6 +468,17 @@ encodeEasing easing =
         |> Encode.string
 
 
+encodeFont : Chartjs.Options.Font.FontSpec -> Encode.Value
+encodeFont font =
+    Encode.beginObject
+        |> Encode.maybeStringField "family" font.family
+        |> Encode.maybeFloatField "lineHeight" font.lineHeight
+        |> Encode.maybeIntField "size" font.size
+        |> Encode.maybeStringField "style" font.style
+        |> Encode.maybeStringField "weight" font.weight
+        |> Encode.toValue
+
+
 encodeElements : Chartjs.Options.Elements.Elements -> Encode.Value
 encodeElements elements =
     Encode.beginObject
@@ -507,72 +571,131 @@ encodeLayout layout =
                 |> Encode.toValue
 
 
-encodeLabels : Chartjs.Options.Legend.Labels -> Encode.Value
-encodeLabels labels =
-    Encode.beginObject
-        |> Encode.maybeIntField "boxWidth" labels.boxWidth
-        |> Encode.maybeIntField "fontSize" labels.fontSize
-        |> Encode.maybeStringField "fontStyle" labels.fontStyle
-        |> Encode.maybeColorField "fontColor" labels.fontColor
-        |> Encode.maybeStringField "fontFamily" labels.fontFamily
-        |> Encode.maybeIntField "padding" labels.padding
-        |> Encode.maybeBoolField "usePointStyle" labels.usePointStyle
-        |> Encode.toValue
-
-
 encodeLegend : Chartjs.Options.Legend.Legend -> Encode.Value
 encodeLegend legend =
     Encode.beginObject
         |> Encode.maybeBoolField "display" legend.display
         |> Encode.maybeCustomField "position" encodePosition legend.position
         |> Encode.maybeBoolField "fullWidth" legend.fullWidth
-        -- onClick,
-        -- onHover,
         |> Encode.maybeBoolField "reverse" legend.reverse
-        |> Encode.maybeCustomField "labels" encodeLabels legend.labels
+        |> Encode.maybeCustomField "labels" encodeLegendLabels legend.labels
+        |> Encode.maybeCustomField "title" encodeLegendTitle legend.title
         |> Encode.toValue
 
 
-encodeScales : Chartjs.Options.Scales.Scales -> Encode.Value
+encodeLegendLabels : Chartjs.Options.Legend.Labels -> Encode.Value
+encodeLegendLabels labels =
+    Encode.beginObject
+        |> Encode.maybeIntField "boxWidth" labels.boxWidth
+        |> Encode.maybeIntField "boxHeight" labels.boxWidth
+        |> Encode.maybeColorField "color" labels.color
+        |> Encode.maybeCustomField "font" encodeFont labels.font
+        |> Encode.maybeIntField "padding" labels.padding
+        |> Encode.maybeCustomField "pointStyle" encodePointStyle labels.pointStyle
+        |> Encode.maybeCustomField "usePointStyle" (\_ -> Encode.bool True) labels.pointStyle
+        |> Encode.toValue
+
+
+encodeLegendTitle : Chartjs.Options.Legend.Title -> Encode.Value
+encodeLegendTitle title =
+    Encode.beginObject
+        |> Encode.stringField "display" "true"
+        |> Encode.stringField "text" title.text
+        |> Encode.maybeColorField "color" title.color
+        |> Encode.maybeCustomField "font" encodeFont title.font
+        |> Encode.maybeIntField "padding" title.padding
+        |> Encode.toValue
+
+
+encodeScales : List Chartjs.Options.Scale.Scale -> Encode.Value
 encodeScales scales =
+    let
+        scalesById =
+            scales
+                |> List.map (\x -> ( x.id, x ))
+                |> Dict.fromList
+    in
+    Encode.dict identity encodeScale scalesById
+
+
+encodeScale : Chartjs.Options.Scale.Scale -> Encode.Value
+encodeScale scale =
     Encode.beginObject
-        |> Encode.listField "xAxes" encodeAxis scales.xAxes
-        |> Encode.listField "yAxes" encodeAxis scales.yAxes
+        |> Encode.customField "type" encodeScaleType scale.type_
+        |> Encode.maybeCustomField "axis" encodeIndexAxis scale.axis
+        |> Encode.maybeCustomField "position" encodePosition scale.position
+        |> Encode.maybeBoolField "reverse" scale.reverse
+        |> Encode.maybeFloatField "min" scale.min
+        |> Encode.maybeFloatField "max" scale.max
+        |> Encode.maybeFloatField "suggestedMin" scale.suggestedMin
+        |> Encode.maybeFloatField "suggestedMax" scale.suggestedMax
+        |> Encode.maybeCustomField "grid" encodeGrid scale.grid
+        |> Encode.maybeCustomField "title" encodeScaleTitle scale.title
+        |> Encode.maybeCustomField "ticks" encodeTicks scale.ticks
         |> Encode.toValue
 
 
-encodeAxis : Chartjs.Options.Scales.Axis -> Encode.Value
-encodeAxis axis =
+encodeScaleType : Chartjs.Options.Scale.ScaleType -> Encode.Value
+encodeScaleType scaleType =
+    (case scaleType of
+        Chartjs.Options.Scale.Linear ->
+            "linear"
+
+        Chartjs.Options.Scale.Logarithmic ->
+            "logarithmic"
+
+        Chartjs.Options.Scale.Categorical ->
+            "category"
+
+        Chartjs.Options.Scale.Time ->
+            "time"
+
+        Chartjs.Options.Scale.RadialLinear ->
+            "radialLinear"
+    )
+        |> Encode.string
+
+
+encodeGrid : Chartjs.Options.Scale.ScaleGrid -> Encode.Value
+encodeGrid grid =
     Encode.beginObject
-        |> Encode.maybeCustomField "position" encodePosition axis.position
-        |> Encode.maybeBoolField "stacked" axis.stacked
-        |> Encode.maybeCustomField "ticks" encodeTicks axis.ticks
-        |> Encode.maybeCustomField "gridLines" encodeGridLines axis.gridLines
+        |> Encode.maybeColorField "borderColor" grid.borderColor
+        |> Encode.maybeIntField "borderWidth" grid.borderWidth
+        |> Encode.maybeColorField "color" grid.gridColor
+        |> Encode.maybeBoolField "drawBorder" grid.drawBorder
+        |> Encode.maybeBoolField "drawOnChartArea" grid.drawOnChartArea
+        |> Encode.maybeBoolField "drawTicks" grid.drawTicks
+        |> Encode.maybeColorField "tickColor" grid.tickColor
+        |> Encode.maybeIntField "tickLength" grid.tickLength
+        |> Encode.maybeIntField "tickWidth" grid.tickWidth
         |> Encode.toValue
 
 
-encodeTicks : Chartjs.Options.Scales.Ticks -> Encode.Value
+encodeScaleTitle : Chartjs.Options.Scale.ScaleTitle -> Encode.Value
+encodeScaleTitle title =
+    Encode.beginObject
+        |> Encode.boolField "display" True
+        |> Encode.stringField "text" title.text
+        |> Encode.maybeColorField "color" title.color
+        |> Encode.maybeCustomField "font" encodeFont title.font
+        |> Encode.maybeIntField "padding" title.padding
+        |> Encode.toValue
+
+
+encodeTicks : Chartjs.Options.Scale.ScaleTicks -> Encode.Value
 encodeTicks ticks =
     Encode.beginObject
-        |> Encode.maybeStringField "fontFamily" ticks.fontFamily
-        |> Encode.maybeStringField "callback" ticks.callback
-        |> Encode.maybeBoolField "beginAtZero" ticks.beginAtZero
-        |> Encode.maybeFloatField "min" ticks.min
-        |> Encode.maybeFloatField "max" ticks.max
-        |> Encode.maybeIntField "maxTicksLimit" ticks.maxTicksLimit
-        |> Encode.maybeIntField "precision" ticks.precision
+        |> Encode.maybeColorField "backdropColor" ticks.backdropColor
+        |> Encode.maybeIntField "backdropPadding" ticks.backdropPadding
+        |> Encode.maybeCustomField "showLabelBackdrop" (\_ -> Encode.bool True) ticks.backdropColor
+        |> Encode.maybeBoolField "display" ticks.display
+        |> Encode.maybeColorField "color" ticks.color
+        |> Encode.maybeCustomField "font" encodeFont ticks.font
+        |> Encode.maybeIntField "padding" ticks.padding
+        |> Encode.maybeColorField "textStrokeColor" ticks.textStrokeColor
+        |> Encode.maybeIntField "textStrokeWidth" ticks.textStrokeWidth
+        |> Encode.maybeIntField "z" ticks.z
         |> Encode.maybeFloatField "stepSize" ticks.stepSize
-        |> Encode.maybeFloatField "suggestedMax" ticks.suggestedMax
-        |> Encode.maybeFloatField "suggestedMin" ticks.suggestedMin
-        |> Encode.maybeColorField "fontColor" ticks.fontColor
-        |> Encode.toValue
-
-
-encodeGridLines : Chartjs.Options.Scales.GridLines -> Encode.Value
-encodeGridLines gridLines =
-    Encode.beginObject
-        |> Encode.maybeBoolField "display" gridLines.display
-        |> Encode.maybeCustomField "color" (encodePointProperty Encode.encodeColor) gridLines.color
         |> Encode.toValue
 
 
@@ -580,14 +703,12 @@ encodeTitle : Chartjs.Options.Title.Title -> Encode.Value
 encodeTitle title =
     Encode.beginObject
         |> Encode.maybeBoolField "display" title.display
+        |> Encode.maybeCustomField "align" encodeAlign title.align
         |> Encode.maybeCustomField "position" encodePosition title.position
-        |> Encode.maybeIntField "fontSize" title.fontSize
-        |> Encode.maybeStringField "fontFamily" title.fontFamily
-        |> Encode.maybeColorField "fontColor" title.fontColor
-        |> Encode.maybeStringField "fontStyle" title.fontStyle
         |> Encode.maybeIntField "padding" title.padding
-        |> Encode.maybeStringField "lineHeight" title.lineHeight
         |> Encode.maybeStringField "text" title.text
+        |> Encode.maybeCustomField "font" encodeFont title.font
+        |> Encode.maybeColorField "color" title.color
         |> Encode.toValue
 
 

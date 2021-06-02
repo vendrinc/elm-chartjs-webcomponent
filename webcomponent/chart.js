@@ -4,7 +4,15 @@
 
  For more advanced functionality, consider using native JS instead of Elm
 */
-import Chart from 'chart.js'
+import Chart from 'chart.js/auto';
+
+// Update any keys in an existing object with a new object
+// Any keys in the old object but not in the new object will be left untouched
+function safeReplaceObject(oldObj, newObj) {
+  Object.keys(newObj).forEach(key => {
+    oldObj[key] = newObj[key]
+  })
+}
 
 class ChartjsChart extends window.HTMLElement {
   constructor () {
@@ -23,24 +31,37 @@ class ChartjsChart extends window.HTMLElement {
     this._chart = new Chart(ctx, this._chartConfig)
   }
 
+  // Replace a dataset without causing chart.js to think we've demolished it
+  safeReplaceDataset(oldDataset, newDataset) {
+    oldDataset.data = newDataset.data
+    oldDataset.labels = newDataset.labels
+  }
+
   set chartConfig (newValue) {
     this._chartConfig = newValue
 
     if (this._chart) {
-      const newDatasets = newValue.data.datasets
       const oldDatasets = this._chart.data.datasets
+      const newDatasets = newValue.data.datasets
 
-      // Update all datasets
-      for (let i = 0; i < newDatasets.length; i++) {
-        // Copying the meta will keep the animations between them smooth
-        if(oldDatasets[i]) {
-          newDatasets[i]._meta = oldDatasets[i]._meta
-        }
-        oldDatasets[i] = newDatasets[i]
+      // Carefully update datasets
+      for(let i = 0; i < oldDatasets.length; i++) {
+        if(i >= newDatasets.length) break
+        safeReplaceObject(oldDatasets[i], newDatasets[i])
+      }
+
+      // Remove old datasets
+      while(oldDatasets.length > newDatasets.length) {
+        oldDatasets.pop()
+      }
+
+      // Add new datasets
+      while (newDatasets.length > oldDatasets.length) {
+        oldDatasets.push(newDatasets[oldDatasets.length])
       }
 
       // Update options and then call ChartJs update
-      this._chart.options = newValue.options
+      safeReplaceObject(this._chart.options, newValue.options)
       this._chart.update()
     }
   }

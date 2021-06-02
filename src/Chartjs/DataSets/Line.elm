@@ -1,28 +1,92 @@
 module Chartjs.DataSets.Line exposing
-    ( DataSet, defaultLineFromLabel, defaultLineFromData
-    , SteppedLine(..), FillMode(..), FillBoundary(..)
-    , setData, setXAxisID, setYAxisID, setBackgroundColor
+    ( DataPoints(..), DataSet, defaultLineFromLabel
+    , setLabel, setData, setPointData, setHidden, setOrder
+    , defaultLineFromData
     , setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
-    , setCubicInterpolationMode, setFill, setLineTension
-    , setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation, setPointHitRadius
-    , setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
-    , setShowLine, setSpanGaps, setSteppedLine
+    , setShowLine, setCubicInterpolationMode, setLineTension, setSteppedLine, SteppedLine(..)
+    , defaultRadarFromLabel, defaultRadarFromData, LineDataSetType(..), setLineDatasetType
+    , defaultLineFromPointData
+    , setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation
+    , setPointHitRadius, setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
+    , setFill, FillMode(..), FillBoundary(..), setBackgroundColor
+    , setIndexAxis, setXAxisID, setYAxisID, setSpanGaps
     )
 
-{-| A line chart plots data points on a line. Often used to show trend data or compare data sets.
+{-| The Line dataset is the most general dataset - it can be used for line graphs, area charts, and even scatter plots
 
-This dataset class can handle categorical scatter charts and area charts as well as standard line charts.
-For categorical scatter charts, set showLine to be False
-For area datasets, ensure that the fill mode is enabled and a background color is set
+@docs DataPoints, DataSet, defaultLineFromLabel
 
-@docs DataSet, defaultLineFromLabel, defaultLineFromData
-@docs SteppedLine, FillMode, FillBoundary
-@docs setData, setXAxisID, setYAxisID, setBackgroundColor
+@docs setLabel, setData, setPointData, setHidden, setOrder
+
+
+# Lines
+
+Line datasets are super easy to create - just provide a dataset label and a list of numbers:
+
+    defaultLineFromData "Dataset Label" [ 1, 2, 3, 4, 5 ]
+
+@docs defaultLineFromData
+
+You can then adjust the line styling with pipeline operators:
+
+    defaultLineFromData "Dataset Label" [ 1, 2, 3, 4, 5 ]
+        |> setBorderWidth 4
+        |> setLineTension 0.5
+
 @docs setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
-@docs setCubicInterpolationMode, setFill, setLineTension
-@docs setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation, setPointHitRadius
-@docs setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
-@docs setShowLine, setSpanGaps, setSteppedLine
+
+By default, the line will linearly connect points. You can adjust the interpolation, or set the line to produce a stepped chart instead:
+
+@docs setShowLine, setCubicInterpolationMode, setLineTension, setSteppedLine, SteppedLine
+
+
+# Radars
+
+Radars are esentially a line dataset, but on a radial axis. These are slightly different internally, so you will need to create them slightly differently:
+
+    defaultRadarFromData "DatasetLabel" [ 1, 2, 3, 4, 5 ]
+
+Alternatively:
+
+    defaultLineFromData "Dataset Label" [ 1, 2, 3, 4, 5 ]
+        |> setLineDatasetType Radar
+
+@docs defaultRadarFromLabel, defaultRadarFromData, LineDataSetType, setLineDatasetType
+
+
+# Scatters
+
+Scatter charts are essentially line charts without a line
+
+    defaultLineFromPointData "Scatter" [ ( 1, 2 ), ( 2, 5 ), ( 3, 8 ) ]
+        |> setShowLine False
+
+For best results, you'll also want to assign a linear scale to your chart
+
+@docs defaultLineFromPointData
+
+You can style the points in various ways.
+
+@docs setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation
+
+Certain properties are used to change how points are displayed when hovered over:
+
+@docs setPointHitRadius, setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
+
+
+# Filling Areas
+
+    defaultLineFromData "Filled Chart" [ 1, 2, 3, 4, 5 ]
+        |> setFill (Boundary Origin)
+
+@docs setFill, FillMode, FillBoundary, setBackgroundColor
+
+
+# Other
+
+See the [`Scale`](Chartjs-Options-Scale) module for more information on custom axes
+
+@docs setIndexAxis, setXAxisID, setYAxisID, setSpanGaps
 
 -}
 
@@ -30,21 +94,36 @@ import Chartjs.Common as Common
 import Color exposing (Color)
 
 
-{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/line.html>
+{-| These datasets can be made from two different data formats
+Either a list of numbers can be specified, or a list of (x, y) tuples
 
-You should not use the dataset type directly
-Instead use the updater pipeline functions:
-
-    defaultBarFromLabel "Example"
-        |> setBackgroundColor (Common.All Color.red)
-        |> setBorderColor (Common.All Color.white)
-        |> setBorderCapStyle "round"
-        |> setFill Disabled
+See <https://www.chartjs.org/docs/latest/general/data-structures.html> for more info
 
 -}
+type DataPoints
+    = Numbers (List Float)
+    | Points (List ( Float, Float ))
+
+
+{-| Chart.js requires the type to be specified for datasets and trying to have a line type on a radar chart causes some issues
+
+This type allows explicitness whether this dataset is a line dataset or a radar dataset
+
+-}
+type LineDataSetType
+    = Line
+    | Radar
+
+
+{-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/line.html>
+-}
 type alias DataSet =
-    { label : String
-    , data : List Float
+    { type_ : LineDataSetType
+    , label : String
+    , data : DataPoints
+    , hidden : Maybe Bool
+    , order : Maybe Int
+    , indexAxis : Maybe Common.IndexAxis
     , xAxisID : Maybe String
     , yAxisID : Maybe String
     , backgroundColor : Maybe (Common.PointProperty Color)
@@ -74,9 +153,10 @@ type alias DataSet =
     }
 
 
-{-| Step Interpolation for lines
+{-| Step Interpolation for lines <https://www.chartjs.org/docs/3.3.2/charts/line.html#stepped>
 
 BeforeInterpolation: Step-before Interpolation
+
 AfterInterpolation: Step-after Interpolation
 
 -}
@@ -117,12 +197,17 @@ defaultLineFromLabel label =
     defaultLineFromData label []
 
 
-{-| Create a Line dataset with a label and data
+{-| Create a Line dataset with a label and data list
+To create a dataset from points, see defaultLineFromPointData
 -}
 defaultLineFromData : String -> List Float -> DataSet
 defaultLineFromData label data =
-    { label = label
-    , data = data
+    { type_ = Line
+    , label = label
+    , data = Numbers data
+    , hidden = Nothing
+    , order = Nothing
+    , indexAxis = Nothing
     , xAxisID = Nothing
     , yAxisID = Nothing
     , backgroundColor = Nothing
@@ -152,12 +237,85 @@ defaultLineFromData label data =
     }
 
 
+{-| Create a Line dataset with a label and points list
+-}
+defaultLineFromPointData : String -> List ( Float, Float ) -> DataSet
+defaultLineFromPointData label data =
+    defaultLineFromLabel label
+        |> setPointData data
+
+
+{-| Create a Radar dataset with a label
+-}
+defaultRadarFromLabel : String -> DataSet
+defaultRadarFromLabel label =
+    defaultLineFromData label []
+        |> setLineDatasetType Radar
+
+
+{-| Create a Radar dataset with a label
+-}
+defaultRadarFromData : String -> List Float -> DataSet
+defaultRadarFromData label data =
+    defaultLineFromData label data
+        |> setLineDatasetType Radar
+
+
+{-| Set the dataset type for this dataset
+
+For most cases (yes, even scatter plots), Line works fine
+For radar datasets, this needs to be set to Radar
+
+-}
+setLineDatasetType : LineDataSetType -> DataSet -> DataSet
+setLineDatasetType type_ dataset =
+    { dataset | type_ = type_ }
+
+
+{-| Set the label for this dataset
+-}
+setLabel : String -> DataSet -> DataSet
+setLabel label dataset =
+    { dataset | label = label }
+
+
 {-| Set the data displayed by this dataset
 This is a list of floats, where each float is represented as a point on the line
 -}
 setData : List Float -> DataSet -> DataSet
 setData data dataset =
-    { dataset | data = data }
+    { dataset | data = Numbers data }
+
+
+{-| Set the data displayed by this dataset, in a point based format
+This is a list of tuples, where each tuple defines the X, Y location of a point
+-}
+setPointData : List ( Float, Float ) -> DataSet -> DataSet
+setPointData data dataset =
+    { dataset | data = Points data }
+
+
+{-| Set whether this dataset should be hidden from the chart
+-}
+setHidden : Bool -> DataSet -> DataSet
+setHidden hidden dataset =
+    { dataset | hidden = Just hidden }
+
+
+{-| Set the drawing order of the dataset
+This also affects stacking, tooltips, and legends
+-}
+setOrder : Int -> DataSet -> DataSet
+setOrder order dataset =
+    { dataset | order = Just order }
+
+
+{-| Which axis to use for indexing
+Set to XAxis for a vertical chart, set to YAxis for a horizontal chart
+-}
+setIndexAxis : Common.IndexAxis -> DataSet -> DataSet
+setIndexAxis indexAxis dataset =
+    { dataset | indexAxis = Just indexAxis }
 
 
 {-| The ID of the X axis to plot this dataset on
@@ -234,6 +392,15 @@ setCubicInterpolationMode interpolation dataset =
 
 
 {-| How to fill the area under the line
+
+The most common use case would be filling the area under a line. For that, you'll want to use Boundary Origin:
+
+    defaultLineFromData "Title" data
+        |> setBackgroundColor Color.red
+        |> setFill (Boundary Origin)
+
+For more information, check out <https://www.chartjs.org/docs/latest/charts/area.html>
+
 -}
 setFill : FillMode -> DataSet -> DataSet
 setFill fill dataset =

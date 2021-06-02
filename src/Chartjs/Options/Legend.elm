@@ -1,20 +1,24 @@
 module Chartjs.Options.Legend exposing
     ( Legend, defaultLegend
-    , setDisplay, setPosition, setFullWidth, setReverse, setLabels
-    , Labels, defaultLabels, setBoxWidth, setFontSize, setFontStyle, setFontColor, setFontFamily, setPadding, setUsePointStyle
+    , setDisplay, setPosition, setFullWidth, setReverse, setLabels, setTitle
+    , Labels, defaultLabels, setBoxWidth, setBoxHeight, setLabelColor, setLabelFont, setLabelPadding, setPointStyle
+    , Title, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
     )
 
 {-| For more information, see <https://www.chartjs.org/docs/latest/configuration/legend.html>
 
 @docs Legend, defaultLegend
 
-@docs setDisplay, setPosition, setFullWidth, setReverse, setLabels
+@docs setDisplay, setPosition, setFullWidth, setReverse, setLabels, setTitle
 
-@docs Labels, defaultLabels, setBoxWidth, setFontSize, setFontStyle, setFontColor, setFontFamily, setPadding, setUsePointStyle
+@docs Labels, defaultLabels, setBoxWidth, setBoxHeight, setLabelColor, setLabelFont, setLabelPadding, setPointStyle
+
+@docs Title, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
 
 -}
 
 import Chartjs.Common as Common
+import Chartjs.Options.Font exposing (FontSpec)
 import Color exposing (Color)
 
 
@@ -26,19 +30,7 @@ type alias Legend =
     , fullWidth : Maybe Bool
     , reverse : Maybe Bool
     , labels : Maybe Labels
-    }
-
-
-{-| Properties for the labels that make up the legend
--}
-type alias Labels =
-    { boxWidth : Maybe Int
-    , fontSize : Maybe Int
-    , fontStyle : Maybe String
-    , fontColor : Maybe Color
-    , fontFamily : Maybe String
-    , padding : Maybe Int
-    , usePointStyle : Maybe Bool
+    , title : Maybe Title
     }
 
 
@@ -51,6 +43,7 @@ defaultLegend =
     , fullWidth = Nothing
     , reverse = Nothing
     , labels = Nothing
+    , title = Nothing
     }
 
 
@@ -90,64 +83,116 @@ setLabels labels legend =
     { legend | labels = Just labels }
 
 
+{-| Set properties for the title of this legend
+-}
+setTitle : Title -> Legend -> Legend
+setTitle title legend =
+    { legend | title = Just title }
+
+
+{-| Properties for the labels that make up the legend
+-}
+type alias Labels =
+    { boxWidth : Maybe Int
+    , boxHeight : Maybe Int
+    , color : Maybe Color
+    , font : Maybe FontSpec
+    , padding : Maybe Int
+    , pointStyle : Maybe Common.PointStyle
+    }
+
+
 {-| Create a blank labels object that can then be updated with the below functions
 -}
 defaultLabels : Labels
 defaultLabels =
     { boxWidth = Nothing
-    , fontSize = Nothing
-    , fontStyle = Nothing
-    , fontColor = Nothing
-    , fontFamily = Nothing
+    , boxHeight = Nothing
+    , color = Nothing
+    , font = Nothing
     , padding = Nothing
-    , usePointStyle = Nothing
+    , pointStyle = Nothing
     }
 
 
-{-| Width of the coloured box
+{-| Specify the width of the coloured box / icon next to each legend entry
 -}
 setBoxWidth : Int -> Labels -> Labels
 setBoxWidth width labels =
     { labels | boxWidth = Just width }
 
 
-{-| Font size of the label text
+{-| Specify the height of the coloured box / icon next to each legend entry
 -}
-setFontSize : Int -> Labels -> Labels
-setFontSize size labels =
-    { labels | fontSize = Just size }
+setBoxHeight : Int -> Labels -> Labels
+setBoxHeight height labels =
+    { labels | boxHeight = Just height }
 
 
-{-| Font style of the label text (normal, bold, etc.)
+{-| Set the text color to be used for legend labels
 -}
-setFontStyle : String -> Labels -> Labels
-setFontStyle style labels =
-    { labels | fontStyle = Just style }
+setLabelColor : Color -> Labels -> Labels
+setLabelColor color labels =
+    { labels | color = Just color }
 
 
-{-| Color of the label text
+{-| Set the font properties to be used for legend labels
 -}
-setFontColor : Color -> Labels -> Labels
-setFontColor color labels =
-    { labels | fontColor = Just color }
+setLabelFont : FontSpec -> Labels -> Labels
+setLabelFont font labels =
+    { labels | font = Just font }
 
 
-{-| Font family to use for label text
+{-| Set the padding around each legend label
 -}
-setFontFamily : String -> Labels -> Labels
-setFontFamily family labels =
-    { labels | fontFamily = Just family }
-
-
-{-| Padding between rows of coloured boxes
--}
-setPadding : Int -> Labels -> Labels
-setPadding padding labels =
+setLabelPadding : Int -> Labels -> Labels
+setLabelPadding padding labels =
     { labels | padding = Just padding }
 
 
-{-| Label style will match corresponding point style
+{-| Set a special point style for the legend label boxes
 -}
-setUsePointStyle : Bool -> Labels -> Labels
-setUsePointStyle bool labels =
-    { labels | usePointStyle = Just bool }
+setPointStyle : Common.PointStyle -> Labels -> Labels
+setPointStyle style labels =
+    { labels | pointStyle = Just style }
+
+
+{-| -}
+type alias Title =
+    { text : String
+    , color : Maybe Color
+    , font : Maybe FontSpec
+    , padding : Maybe Int
+    }
+
+
+{-| Create a blank legend title object that can then be updated with the below functions
+-}
+defaultTitle : String -> Title
+defaultTitle text =
+    { text = text
+    , color = Nothing
+    , font = Nothing
+    , padding = Nothing
+    }
+
+
+{-| Set the text color for the legend title
+-}
+setTitleColor : Color -> Title -> Title
+setTitleColor color title =
+    { title | color = Just color }
+
+
+{-| Set the font properties for the legend title
+-}
+setTitleFont : FontSpec -> Title -> Title
+setTitleFont font title =
+    { title | font = Just font }
+
+
+{-| Set the padding around the legend title
+-}
+setTitlePadding : Int -> Title -> Title
+setTitlePadding padding title =
+    { title | padding = Just padding }

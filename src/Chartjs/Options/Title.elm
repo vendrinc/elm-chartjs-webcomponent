@@ -1,16 +1,17 @@
 module Chartjs.Options.Title exposing
     ( Title, defaultTitle
-    , setDisplay, setPosition, setFontSize, setFontFamily, setFontColor, setFontStyle, setPadding, setLineHeight, setText
+    , setDisplay, setAlign, setPosition, setPadding, setText, setFont, setColor
     )
 
 {-| For more information, see <https://www.chartjs.org/docs/latest/configuration/title.html>
 
 @docs Title, defaultTitle
-@docs setDisplay, setPosition, setFontSize, setFontFamily, setFontColor, setFontStyle, setPadding, setLineHeight, setText
+@docs setDisplay, setAlign, setPosition, setPadding, setText, setFont, setColor
 
 -}
 
 import Chartjs.Common as Common
+import Chartjs.Options.Font exposing (FontSpec)
 import Color exposing (Color)
 
 
@@ -18,14 +19,12 @@ import Color exposing (Color)
 -}
 type alias Title =
     { display : Maybe Bool
+    , align : Maybe Common.Align
     , position : Maybe Common.Position
-    , fontSize : Maybe Int
-    , fontFamily : Maybe String
-    , fontColor : Maybe Color
-    , fontStyle : Maybe String
     , padding : Maybe Int
-    , lineHeight : Maybe String
     , text : Maybe String
+    , font : Maybe FontSpec
+    , color : Maybe Color
     }
 
 
@@ -34,14 +33,12 @@ type alias Title =
 defaultTitle : Title
 defaultTitle =
     { display = Nothing
+    , align = Nothing
     , position = Nothing
-    , fontSize = Nothing
-    , fontFamily = Nothing
-    , fontColor = Nothing
-    , fontStyle = Nothing
     , padding = Nothing
-    , lineHeight = Nothing
     , text = Nothing
+    , font = Nothing
+    , color = Nothing
     }
 
 
@@ -52,40 +49,18 @@ setDisplay bool title =
     { title | display = Just bool }
 
 
+{-| Text alignment of the title
+-}
+setAlign : Common.Align -> Title -> Title
+setAlign align title =
+    { title | align = Just align }
+
+
 {-| Position of the title
 -}
 setPosition : Common.Position -> Title -> Title
 setPosition position title =
     { title | position = Just position }
-
-
-{-| Size of the title text
--}
-setFontSize : Int -> Title -> Title
-setFontSize size title =
-    { title | fontSize = Just size }
-
-
-{-| Font family for the title text
--}
-setFontFamily : String -> Title -> Title
-setFontFamily family title =
-    { title | fontFamily = Just family }
-
-
-{-| Font color for the title text
--}
-setFontColor : Color -> Title -> Title
-setFontColor color title =
-    { title | fontColor = Just color }
-
-
-{-| Font style for the title text
-eg. normal, bold, italic
--}
-setFontStyle : String -> Title -> Title
-setFontStyle style title =
-    { title | fontStyle = Just style }
 
 
 {-| Padding (in pixels) above and below the title text
@@ -95,16 +70,22 @@ setPadding padding title =
     { title | padding = Just padding }
 
 
-{-| Height of each individual line of text
-See <https://developer.mozilla.org/en-US/docs/Web/CSS/line-height>
--}
-setLineHeight : String -> Title -> Title
-setLineHeight height title =
-    { title | lineHeight = Just height }
-
-
 {-| Title text to be displayed
 -}
 setText : String -> Title -> Title
 setText text title =
     { title | text = Just text }
+
+
+{-| Color for the title text
+-}
+setColor : Color -> Title -> Title
+setColor color title =
+    { title | color = Just color }
+
+
+{-| Font properties to use for the title text
+-}
+setFont : FontSpec -> Title -> Title
+setFont font title =
+    { title | font = Just font }

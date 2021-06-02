@@ -72,9 +72,11 @@ type Type
     = Bar
     | HorizontalBar
     | Line
+    | Scatter
     | Doughnut
     | Pie
     | Polar
+    | Radar
 
 
 {-| Given attributes and a chart, creates an HTML node using the web component
@@ -113,6 +115,9 @@ encodeChartType chartType =
         Line ->
             "line"
 
+        Scatter ->
+            "scatter"
+
         Doughnut ->
             "doughnut"
 
@@ -121,5 +126,8 @@ encodeChartType chartType =
 
         Polar ->
             "polarArea"
+
+        Radar ->
+            "radar"
     )
         |> Encode.string

@@ -1,6 +1,6 @@
 module Chartjs.Data exposing
     ( DataSet(..), Data, defaultData
-    , dataFromLabels, buildData, addDataset
+    , dataFromLabels, buildData, addDataset, setDatasets, setLabels
     )
 
 {-| The Data type is used as a basic container for all the chart datasets,
@@ -8,7 +8,7 @@ along with the corresponding labels
 
 @docs DataSet, Data, defaultData
 
-@docs dataFromLabels, buildData, addDataset
+@docs dataFromLabels, buildData, addDataset, setDatasets, setLabels
 
 -}
 
@@ -36,7 +36,7 @@ This also specifies the category labels, which are shared across datasets
 (eg. multiple bar charts with the same categories)
 -}
 type alias Data =
-    { labels : List String
+    { labels : Maybe (List String)
     , datasets : List DataSet
     }
 
@@ -45,7 +45,7 @@ type alias Data =
 -}
 defaultData : Data
 defaultData =
-    { labels = []
+    { labels = Nothing
     , datasets = []
     }
 
@@ -61,7 +61,7 @@ dataFromLabels labels =
 -}
 buildData : List String -> List DataSet -> Data
 buildData labels datasets =
-    { labels = labels
+    { labels = Just labels
     , datasets = datasets
     }
 
@@ -81,3 +81,17 @@ addDataset dataset data =
             dataset :: data.datasets
     in
     { data | datasets = newDatasets }
+
+
+{-| Set the labels for a Data object
+-}
+setLabels : List String -> Data -> Data
+setLabels labels data =
+    { data | labels = Just labels }
+
+
+{-| Set all the datasets for a Data object
+-}
+setDatasets : List DataSet -> Data -> Data
+setDatasets datasets data =
+    { data | datasets = datasets }

@@ -1,8 +1,8 @@
-module Chartjs.Common exposing (PointStyle(..), LineCap(..), LineJoin(..), Position(..), PointProperty(..))
+module Chartjs.Common exposing (PointStyle(..), LineCap(..), LineJoin(..), Position(..), Align(..), PointProperty(..), IndexAxis(..))
 
 {-| Common types used for various configuration properties
 
-@docs PointStyle, LineCap, LineJoin, Position, PointProperty
+@docs PointStyle, LineCap, LineJoin, Position, Align, PointProperty, IndexAxis
 
 -}
 
@@ -48,6 +48,14 @@ type Position
     | Right
 
 
+{-| Alignment for certain text properties, such as title
+-}
+type Align
+    = Start
+    | End
+    | Center
+
+
 {-| Many properties that apply to datasets
 can either be applied to the whole dataset, or to each individual point
 
@@ -58,3 +66,12 @@ For using a list of properties on a per-point basis, use the PerPoint type
 type PointProperty a
     = All a
     | PerPoint (List a)
+
+
+{-| Some charts can be transformed from horizontal to vertical by setting the index axis
+XAxis will produce a vertical chart (this is the default)
+YAxis will produce a horizontal chart
+-}
+type IndexAxis
+    = XAxis
+    | YAxis
