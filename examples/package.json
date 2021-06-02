@@ -9,7 +9,7 @@
         "start": "PARCEL_ELM_NO_DEBUG=true parcel serve index.html"
     },
     "dependencies": {
-        "@indicatrix/elm-chartjs-webcomponent": "^1.1.1",
+        "@indicatrix/elm-chartjs-webcomponent": "file:..",
         "chart.js": "^3.3.2",
         "elm": "^0.19.1-5"
     },
