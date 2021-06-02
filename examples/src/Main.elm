@@ -12,6 +12,8 @@ import PieChartWithOptions
 import ScatterChart
 import SimpleBarChart
 import StackedBarChart
+import PolarAreaChart
+import RadarChart
 
 
 examplesList : List (Example.Example Msg)
@@ -20,6 +22,8 @@ examplesList =
     , StackedBarChart.example
     , MixedChart.example
     , PieChartWithOptions.example
+    , PolarAreaChart.example
+    , RadarChart.example
     , ScatterChart.example
     , MultipleAxes.example
     ]

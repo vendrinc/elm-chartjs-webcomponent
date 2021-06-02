@@ -78,7 +78,7 @@ encodeLineChartDataSet : Chartjs.DataSets.Line.DataSet -> Encode.Value
 encodeLineChartDataSet lineChartDataSet =
     Encode.beginObject
         |> Encode.stringField "label" lineChartDataSet.label
-        |> Encode.stringField "type" "line"
+        |> Encode.customField "type" encodeLineDatasetType lineChartDataSet.type_
         |> Encode.customField "data" encodeLineData lineChartDataSet.data
         |> Encode.maybeStringField "xAxisID" lineChartDataSet.xAxisID
         |> Encode.maybeStringField "yAxisID" lineChartDataSet.yAxisID
@@ -106,6 +106,16 @@ encodeLineChartDataSet lineChartDataSet =
         |> Encode.maybeBoolField "spanGaps" lineChartDataSet.spanGaps
         |> Encode.maybeCustomField "stepped" encodeSteppedLine lineChartDataSet.steppedLine
         |> Encode.toValue
+
+
+encodeLineDatasetType : Chartjs.DataSets.Line.LineDataSetType -> Encode.Value
+encodeLineDatasetType type_ =
+    case type_ of
+        Chartjs.DataSets.Line.Line ->
+            Encode.string "line"
+
+        Chartjs.DataSets.Line.Radar ->
+            Encode.string "radar"
 
 
 encodeLineData : Chartjs.DataSets.Line.DataPoints -> Encode.Value

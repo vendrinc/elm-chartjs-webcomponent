@@ -4,6 +4,7 @@ module Chartjs.DataSets.Line exposing
     , defaultLineFromData
     , setBorderColor, setBorderWidth, setBorderDash, setBorderDashOffset, setBorderCapStyle, setBorderJoinStyle
     , setShowLine, setCubicInterpolationMode, setLineTension, setSteppedLine, SteppedLine(..)
+    , defaultRadarFromLabel, defaultRadarFromData, LineDataSetType(..), setLineDatasetType
     , defaultLineFromPointData
     , setPointBackgroundColor, setPointBorderColor, setPointBorderWidth, setPointRadius, setPointStyle, setPointRotation
     , setPointHitRadius, setPointHoverBackgroundColor, setPointHoverBorderColor, setPointHoverBorderWidth, setPointHoverRadius
@@ -37,6 +38,20 @@ You can then adjust the line styling with pipeline operators:
 By default, the line will linearly connect points. You can adjust the interpolation, or set the line to produce a stepped chart instead:
 
 @docs setShowLine, setCubicInterpolationMode, setLineTension, setSteppedLine, SteppedLine
+
+
+# Radars
+
+Radars are esentially a line dataset, but on a radial axis. These are slightly different internally, so you will need to create them slightly differently:
+
+    defaultRadarFromData "DatasetLabel" [ 1, 2, 3, 4, 5 ]
+
+Alternatively:
+
+    defaultLineFromData "Dataset Label" [ 1, 2, 3, 4, 5 ]
+        |> setLineDatasetType Radar
+
+@docs defaultRadarFromLabel, defaultRadarFromData, LineDataSetType, setLineDatasetType
 
 
 # Scatters
@@ -90,10 +105,21 @@ type DataPoints
     | Points (List ( Float, Float ))
 
 
+{-| Chart.js requires the type to be specified for datasets and trying to have a line type on a radar chart causes some issues
+
+This type allows explicitness whether this dataset is a line dataset or a radar dataset
+
+-}
+type LineDataSetType
+    = Line
+    | Radar
+
+
 {-| For further information on these properties, see <https://www.chartjs.org/docs/latest/charts/line.html>
 -}
 type alias DataSet =
-    { label : String
+    { type_ : LineDataSetType
+    , label : String
     , data : DataPoints
     , hidden : Maybe Bool
     , order : Maybe Int
@@ -176,7 +202,8 @@ To create a dataset from points, see defaultLineFromPointData
 -}
 defaultLineFromData : String -> List Float -> DataSet
 defaultLineFromData label data =
-    { label = label
+    { type_ = Line
+    , label = label
     , data = Numbers data
     , hidden = Nothing
     , order = Nothing
@@ -216,6 +243,33 @@ defaultLineFromPointData : String -> List ( Float, Float ) -> DataSet
 defaultLineFromPointData label data =
     defaultLineFromLabel label
         |> setPointData data
+
+
+{-| Create a Radar dataset with a label
+-}
+defaultRadarFromLabel : String -> DataSet
+defaultRadarFromLabel label =
+    defaultLineFromData label []
+        |> setLineDatasetType Radar
+
+
+{-| Create a Radar dataset with a label
+-}
+defaultRadarFromData : String -> List Float -> DataSet
+defaultRadarFromData label data =
+    defaultLineFromData label data
+        |> setLineDatasetType Radar
+
+
+{-| Set the dataset type for this dataset
+
+For most cases (yes, even scatter plots), Line works fine
+For radar datasets, this needs to be set to Radar
+
+-}
+setLineDatasetType : LineDataSetType -> DataSet -> DataSet
+setLineDatasetType type_ dataset =
+    { dataset | type_ = type_ }
 
 
 {-| Set the label for this dataset

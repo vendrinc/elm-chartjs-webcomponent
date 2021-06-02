@@ -31,7 +31,7 @@ view =
 
         data =
             ChartData.dataFromLabels [ "Jan", "Feb", "Mar", "Apr", "May" ]
-                |> ChartData.setDatasets [ dataset1, dataset2, dataset3 ]
+                |> ChartData.setDatasets [ dataset3, dataset2, dataset1 ]
     in
     Chart.chart []
         (Chart.defaultChart Chart.Bar
