@@ -653,6 +653,7 @@ encodeGrid grid =
         |> Encode.maybeIntField "borderWidth" grid.borderWidth
         |> Encode.maybeColorField "color" grid.gridColor
         |> Encode.maybeBoolField "drawBorder" grid.drawBorder
+        |> Encode.maybeBoolField "drawOnChartArea" grid.drawOnChartArea
         |> Encode.maybeBoolField "drawTicks" grid.drawTicks
         |> Encode.maybeColorField "tickColor" grid.tickColor
         |> Encode.maybeIntField "tickLength" grid.tickLength

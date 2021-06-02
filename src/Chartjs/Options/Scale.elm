@@ -1,23 +1,86 @@
 module Chartjs.Options.Scale exposing
     ( ScaleType(..), Scale, defaultScale
     , setAxis, setPosition, setReverse, setMin, setMax, setSuggestedMin, setSuggestedMax, setGrid, setTitle, setTicks
-    , ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
+    , ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawOnChartArea, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
     , ScaleTitle, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
-    , ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
+    , ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickPadding, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
     )
 
 {-| Axes are an integral part of a chart.
 
 For more information, see <<https://www.chartjs.org/docs/3.3.2/axes/>
 
+
+## Scale IDs
+
+Each scale requires an identifier. This is used to determine the axis, and can also be used to assign datasets to specific axises.
+
+By default, ChartJs determines the axis based on the first letter of the axis id -> eg using the id "x" will create an x axis.
+For best results, you can explicitly set an axis using setAxis
+
+
+## Example Scales
+
+Create a Linear x-axis, ranging from 0 to 100
+
+    defaultScale Linear "x"
+        |> setMin 0
+        |> setMax 100
+
+Create a Logarithmic y-axis, aligned to the right hand side, suggesting to start at 0:
+
+    defaultScale Logarithmic "y"
+        |> setPosition Common.Right
+        |> setSuggestedMin 0
+
+To adjust the step size of ticks, you will need to set a ScaleTicks object (see below)
+
 @docs ScaleType, Scale, defaultScale
 @docs setAxis, setPosition, setReverse, setMin, setMax, setSuggestedMin, setSuggestedMax, setGrid, setTitle, setTicks
 
-@docs ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
+
+## Styling the Grid
+
+@docs ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawOnChartArea, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
+
+
+## Titles / Axis Labels
+
+To help tell users what they're looking at, you can set a title to label each axis.
+
+    defaultScale Linear "x"
+        |> setTitle
+            (defaultTitle "The X Axis"
+                |> setTitleColor Color.red
+            )
 
 @docs ScaleTitle, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
 
-@docs ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
+
+## Styling the Tick Labels
+
+    defaultScale Linear "y"
+        |> setMin 0
+        |> setMax 100
+        |> setTicks
+            (defaultTicks
+                |> setTickTextColor Color.white
+                |> setTickStrokeColor Color.red
+                |> setTickStrokeWidth 2
+                |> setTickPadding 4
+            )
+
+ScaleTicks also contains the stepSize property, which can be used to explicitly set the gap between ticks:
+
+    defaultScale Linear "y"
+        |> setMin 0
+        |> setMax 100
+        |> setTicks
+            (defaultTicks
+                |> setStepSize 20
+            )
+
+@docs ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickPadding, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
 
 -}
 
@@ -163,6 +226,7 @@ type alias ScaleGrid =
     , borderWidth : Maybe Int
     , gridColor : Maybe Color
     , drawBorder : Maybe Bool
+    , drawOnChartArea : Maybe Bool
     , drawTicks : Maybe Bool
     , tickColor : Maybe Color
     , tickLength : Maybe Int
@@ -178,6 +242,7 @@ defaultGrid =
     , borderWidth = Nothing
     , gridColor = Nothing
     , drawBorder = Nothing
+    , drawOnChartArea = Nothing
     , drawTicks = Nothing
     , tickColor = Nothing
     , tickLength = Nothing
@@ -211,6 +276,13 @@ setGridColor color grid =
 setDrawBorder : Bool -> ScaleGrid -> ScaleGrid
 setDrawBorder bool grid =
     { grid | drawBorder = Just bool }
+
+
+{-| Set whether the border should be drawn
+-}
+setDrawOnChartArea : Bool -> ScaleGrid -> ScaleGrid
+setDrawOnChartArea bool grid =
+    { grid | drawOnChartArea = Just bool }
 
 
 {-| Set whether to draw the tick dashes
@@ -309,10 +381,10 @@ defaultTicks =
     , display = Nothing
     , font = Nothing
     , padding = Nothing
-    , stepSize = Nothing
     , textStrokeColor = Nothing
     , textStrokeWidth = Nothing
     , z = Nothing
+    , stepSize = Nothing
     }
 
 
@@ -349,6 +421,13 @@ setTickDisplay bool ticks =
 setTickFont : FontSpec -> ScaleTicks -> ScaleTicks
 setTickFont font ticks =
     { ticks | font = Just font }
+
+
+{-| Set the padding around the tick labels
+-}
+setTickPadding : Int -> ScaleTicks -> ScaleTicks
+setTickPadding padding ticks =
+    { ticks | padding = Just padding }
 
 
 {-| Set the tick stroke color

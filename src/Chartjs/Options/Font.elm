@@ -5,6 +5,37 @@ module Chartjs.Options.Font exposing
 
 {-| For more information, see <https://www.chartjs.org/docs/3.3.2/api/interfaces/fontspec.html>
 
+FontSpec objects are used throughout chart.js to style text
+
+
+## Examples
+
+To create a simple font spec, just specify a font-family and a size:
+
+    create "sans-serif" 16
+
+Any CSS font-family option will work, allowing for fallbacks:
+
+    create "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+
+For more advanced styling, you can adjust the style and weight:
+
+    create "sans-serif" 16
+        |> setStyle "italic"
+        |> setWeight "600"
+
+You can then apply this to a title, legend, or axis label:
+
+    let
+        font =
+            create "sans-serif" 24
+                |> setWeight "600"
+    in
+    ChartTitle.defaultTitle
+        |> ChartTitle.setText "My Cool Chart"
+        |> ChartTitle.setDisplay True
+        |> ChartTitle.setFont font
+
 @docs FontSpec, defaultFont, create
 
 @docs setFamily, setLineHeight, setSize, setStyle, setWeight
