@@ -4,7 +4,15 @@
 
  For more advanced functionality, consider using native JS instead of Elm
 */
-import Chart from 'chart.js/auto'
+import Chart from 'chart.js/auto';
+
+// Update any keys in an existing object with a new object
+// Any keys in the old object but not in the new object will be left untouched
+function safeReplaceObject(oldObj, newObj) {
+  Object.keys(newObj).forEach(key => {
+    oldObj[key] = newObj[key]
+  })
+}
 
 class ChartjsChart extends window.HTMLElement {
   constructor () {
@@ -38,9 +46,8 @@ class ChartjsChart extends window.HTMLElement {
 
       // Carefully update datasets
       for(let i = 0; i < oldDatasets.length; i++) {
-        console.log(i, oldDatasets.length, newDatasets.length)
         if(i >= newDatasets.length) break
-        this.safeReplaceDataset(oldDatasets[i], newDatasets[i])
+        safeReplaceObject(oldDatasets[i], newDatasets[i])
       }
 
       // Remove old datasets
@@ -54,7 +61,7 @@ class ChartjsChart extends window.HTMLElement {
       }
 
       // Update options and then call ChartJs update
-      this._chart.options = newValue.options
+      safeReplaceObject(this._chart.options, newValue.options)
       this._chart.update()
     }
   }
