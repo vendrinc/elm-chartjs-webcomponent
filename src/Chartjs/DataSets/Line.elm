@@ -69,6 +69,8 @@ Certain properties are used to change how points are displayed when hovered over
 
 # Other
 
+See the [`Scale`](Chartjs-Options-Scale) module for more information on custom axes
+
 @docs setIndexAxis, setXAxisID, setYAxisID, setSpanGaps
 
 -}

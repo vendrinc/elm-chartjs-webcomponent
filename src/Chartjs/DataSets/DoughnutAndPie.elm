@@ -1,9 +1,9 @@
 module Chartjs.DataSets.DoughnutAndPie exposing
     ( DataSet, defaultPieFromLabel, defaultPieFromData
     , setLabel, setData, setHidden, setOrder
+    , setCircumference, setCutout, setOffset, setRotation, setWeight
     , setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
     , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
-    , setCircumference, setCutout, setOffset, setRotation, setWeight
     )
 
 {-| Pie and doughnut charts are divided into segments, where the arc of each segment shows the proportion of each data.
@@ -13,9 +13,46 @@ This dataset class will work for either pie or doughtnut charts interchangably
 
 @docs DataSet, defaultPieFromLabel, defaultPieFromData
 @docs setLabel, setData, setHidden, setOrder
+
+
+## Pies
+
+Pie datasets are quite similar to bar dataset - provide a dataset label and a list of floats
+
+    defaultPieFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
+
+When grouping datasets into a chart data object, the labels specified will be used as the categories:
+
+    dataset =
+        defaultPieFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
+            |> ChartData.PieData
+
+    data =
+        ChartData.dataFromLabels [ "One", "Two", "Three", "Four", "Five", "Six" ]
+            |> ChartData.addDataset dataset
+
+
+## Doughnuts, Arcs, and Other Shapes
+
+There are a wide variety of methods that can be used to adjust the shape of your pie chart.
+By setting a cutout value, a pie dataset will be transformed into a doughnut dataset.
+
+    defaultPieFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
+        |> setCutout 50
+
+To create an arc, set the circumference and initial rotation (both in degrees) to adjust the extents of the chart:
+
+    defaultPieFromData "Bottom Half Pie" [ 4, 8, 15, 16, 23, 42 ]
+        |> setCircumference 180
+        |> setRotation 90
+
+@docs setCircumference, setCutout, setOffset, setRotation, setWeight
+
+
+## Colors and Borders
+
 @docs setBackgroundColor, setBorderAlign, setBorderColor, setBorderWidth
 @docs setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
-@docs setCircumference, setCutout, setOffset, setRotation, setWeight
 
 -}
 

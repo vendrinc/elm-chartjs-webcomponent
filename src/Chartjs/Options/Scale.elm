@@ -8,7 +8,7 @@ module Chartjs.Options.Scale exposing
 
 {-| Axes are an integral part of a chart.
 
-For more information, see <<https://www.chartjs.org/docs/3.3.2/axes/>
+For more information, see <https://www.chartjs.org/docs/3.3.2/axes/>
 
 
 ## Scale IDs

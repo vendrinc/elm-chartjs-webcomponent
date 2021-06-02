@@ -1,20 +1,71 @@
 module Chartjs.DataSets.Bar exposing
     ( DataSet, defaultBarFromLabel, defaultBarFromData
-    , setData, setLabel, setHidden, setOrder, setStack
+    , setData, setLabel, setHidden, setOrder
+    , setStack
     , setIndexAxis, setXAxisID, setYAxisID
+    , setBarPercentage, setBarThickness, setCategoryPercentage, setMaxBarThickness, setMinBarLength
     , setBackgroundColor, setBorderColor, setBorderRadius, setBorderSkipped, setBorderWidth
     , setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
-    , setBarPercentage, setBarThickness, setCategoryPercentage, setMaxBarThickness, setMinBarLength
     )
 
 {-| A bar chart provides a way of showing data values represented as vertical bars.
 
+
+## Bars
+
+Bar datasets are easy to create - just provide a dataset label and a list of floats
+
+    defaultBarFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
+
+When grouping datasets into a chart data object, the labels specified will be used as the bar chart categories:
+
+    dataset =
+        defaultBarFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
+            |> ChartData.BarData
+
+    data =
+        ChartData.dataFromLabels [ "One", "Two", "Three", "Four", "Five", "Six" ]
+            |> ChartData.addDataset dataset
+
 @docs DataSet, defaultBarFromLabel, defaultBarFromData
-@docs setData, setLabel, setHidden, setOrder, setStack
+@docs setData, setLabel, setHidden, setOrder
+
+
+## Stacking
+
+To stack bars, use setStack to assign each dataset to a stacking group. In this example, dataset1 and dataset2 will be stacked together:
+
+    dataset1 =
+        BarData.defaultBarFromData [ 10, 20, 30 ]
+            |> setStack "Stack 1"
+
+    dataset2 =
+        BarData.defaultBarFromData [ 5, 15, 25 ]
+            |> setStack "Stack 1"
+
+    dataset3 =
+        BarData.defaultBarFromData [ 20, 40, 30 ]
+            |> setStack "Stack 2"
+
+@docs setStack
+
+
+## Axes
+
+See the [`Scale`](Chartjs-Options-Scale) module for more information on custom axes
+
 @docs setIndexAxis, setXAxisID, setYAxisID
+
+
+## Bar Sizing
+
+@docs setBarPercentage, setBarThickness, setCategoryPercentage, setMaxBarThickness, setMinBarLength
+
+
+## Colors and Borders
+
 @docs setBackgroundColor, setBorderColor, setBorderRadius, setBorderSkipped, setBorderWidth
 @docs setHoverBackgroundColor, setHoverBorderColor, setHoverBorderWidth
-@docs setBarPercentage, setBarThickness, setCategoryPercentage, setMaxBarThickness, setMinBarLength
 
 -}
 
