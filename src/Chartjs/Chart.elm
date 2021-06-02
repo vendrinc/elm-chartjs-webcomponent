@@ -76,6 +76,7 @@ type Type
     | Doughnut
     | Pie
     | Polar
+    | Radar
 
 
 {-| Given attributes and a chart, creates an HTML node using the web component
@@ -125,5 +126,8 @@ encodeChartType chartType =
 
         Polar ->
             "polarArea"
+
+        Radar ->
+            "radar"
     )
         |> Encode.string
