@@ -1,76 +1,59 @@
-module SimpleBarChart exposing (main)
+module SimpleBarChart exposing (example)
 
-import Browser
 import Chartjs.Chart as Chart
 import Chartjs.Common as ChartCommon
 import Chartjs.Data as ChartData
 import Chartjs.DataSets.Bar as BarData
-import Color
+import Example exposing (Example)
 import Html exposing (Html, div)
 import Utils
 
 
-type alias Model =
-    { data : List Float
-    , labels : List String
-    }
-
-
-{-| Initialise the model with some basic data and labels
--}
-init : Model
-init =
-    { data = [ 4, 8, 15, 16, 23, 42 ]
-    , labels = [ "One", "Two", "Three", "Four", "Five", "Six" ]
-    }
-
-
-{-| Build a Chartjs data object from our model
-First we need a Data container which has some basic chart information
-Then we need to make the dataset for our bar chart
-This can be done easily using pipe operators instead of record update syntax
--}
-data : Model -> ChartData.Data
-data model =
+view : Html msg
+view =
     let
         dataset =
-            BarData.defaultBarFromData "Example Chart" model.data
+            BarData.defaultBarFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
                 |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
+                |> ChartData.BarData
+
+        data =
+            ChartData.dataFromLabels [ "One", "Two", "Three", "Four", "Five", "Six" ]
+                |> ChartData.addDataset dataset
     in
-    ChartData.dataFromLabels model.labels
-        |> ChartData.addDataset (ChartData.BarData dataset)
+    Chart.chart []
+        (Chart.defaultChart Chart.Bar
+            |> Chart.setData data
+        )
 
 
-{-| Build the full chart configuration from our model
-Right now, we're only setting custom data up
-When we have more complicated chart options, we'd add it to the config here
--}
-chartConfig : Model -> Chart.Chart
-chartConfig model =
-    Chart.defaultChart Chart.Bar
-        |> Chart.setData (data model)
+code : String
+code =
+    """
+import Chartjs.Chart as Chart
+import Chartjs.Common as ChartCommon
+import Chartjs.Data as ChartData
+import Chartjs.DataSets.Bar as BarData
 
 
-{-| Display the chart using the chart config
-If we wanted to resize the chart or add other attributes, we can do that here
--}
-view : Model -> Html msg
-view model =
-    Chart.chart [] (chartConfig model)
+let
+    dataset =
+        BarData.defaultBarFromData "Example Chart" [ 4, 8, 15, 16, 23, 42 ]
+            |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
+            |> ChartData.BarData
+    
+    data =
+        ChartData.dataFromLabels [ "One", "Two", "Three", "Four", "Five", "Six"]
+            |> ChartData.addDataset dataset
+in
+ChartData.defaultChart Chart.Bar
+    |> Chart.setData data
+    """
 
 
-{-| There's nothing to update in this example, so this is a dummy update function
--}
-update : Model -> msg -> Model
-update model _ =
-    model
-
-
-{-| Simple browser sandbox to run this example
--}
-main =
-    Browser.sandbox
-        { init = init
-        , update = update
-        , view = view
-        }
+example : Example msg
+example =
+    { title = "Simple Bar Chart"
+    , view = view
+    , code = code
+    }

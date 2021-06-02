@@ -1,12 +1,12 @@
-module MixedChart exposing (example)
+module StackedBarChart exposing (example)
 
 import Chartjs.Chart as Chart
 import Chartjs.Common as ChartCommon
 import Chartjs.Data as ChartData
 import Chartjs.DataSets.Bar as BarData
-import Chartjs.DataSets.Line as LineData
+import Color
 import Example exposing (Example)
-import Html exposing (Html, div)
+import Html exposing (Html)
 import Utils
 
 
@@ -14,20 +14,22 @@ view : Html msg
 view =
     let
         dataset1 =
-            BarData.defaultBarFromData "Bar One" [ 10, 20, 20, 10, 15 ]
+            BarData.defaultBarFromData "1A" [ 10, 20, 20, 10, 15 ]
                 |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
+                |> BarData.setStack "Stack 1"
                 |> ChartData.BarData
 
         dataset2 =
-            BarData.defaultBarFromData "Bar Two" [ 5, 15, 10, 10, 15 ]
+            BarData.defaultBarFromData "1B" [ 5, 15, 10, 10, 15 ]
                 |> BarData.setBackgroundColor (ChartCommon.All Utils.blue)
+                |> BarData.setStack "Stack 1"
                 |> ChartData.BarData
 
         dataset3 =
-            LineData.defaultLineFromData "The Line" [ 10, 15, 12, 12, 18 ]
-                |> LineData.setBorderColor (ChartCommon.All Utils.green)
-                |> LineData.setBackgroundColor (ChartCommon.All Utils.green)
-                |> ChartData.LineData
+            BarData.defaultBarFromData "2" [ 20, 20, 15, 10, 5 ]
+                |> BarData.setBackgroundColor (ChartCommon.All Utils.green)
+                |> BarData.setStack "Stack 2"
+                |> ChartData.BarData
 
         data =
             ChartData.dataFromLabels [ "Jan", "Feb", "Mar", "Apr", "May" ]
@@ -42,41 +44,39 @@ view =
 code : String
 code =
     """
-import Chartjs.Chart as Chart
-import Chartjs.Common as ChartCommon
-import Chartjs.Data as ChartData
-import Chartjs.DataSets.Bar as BarData
-import Chartjs.DataSets.Line as LineData
-
 let
     dataset1 =
-        BarData.defaultBarFromData "Bar One" [ 10, 20, 20, 10, 15 ]
+        BarData.defaultBarFromData "1A" [ 10, 20, 20, 10, 15 ]
             |> BarData.setBackgroundColor (ChartCommon.All Utils.red)
+            |> BarData.setStack "Stack 1"
             |> ChartData.BarData
 
     dataset2 =
-        BarData.defaultBarFromData "Bar Two" [ 5, 15, 10, 10, 15 ]
+        BarData.defaultBarFromData "1B" [ 5, 15, 10, 10, 15 ]
             |> BarData.setBackgroundColor (ChartCommon.All Utils.blue)
+            |> BarData.setStack "Stack 1"
             |> ChartData.BarData
 
     dataset3 =
-        LineData.defaultLineFromData "The Line" [ 10, 15, 12, 12, 18 ]
-            |> LineData.setBorderColor (ChartCommon.All Utils.green)
-            |> LineData.setBackgroundColor (ChartCommon.All Utils.green)
-            |> ChartData.LineData
+        BarData.defaultBarFromData "2" [ 20, 20, 15, 10, 5 ]
+            |> BarData.setBackgroundColor (ChartCommon.All Utils.green)
+            |> BarData.setStack "Stack 2"
+            |> ChartData.BarData
 
     data =
         ChartData.dataFromLabels [ "Jan", "Feb", "Mar", "Apr", "May" ]
             |> ChartData.setDatasets [ dataset1, dataset2, dataset3 ]
 in
-ChartData.defaultChart Chart.Bar
-    |> Chart.setData data
+Chart.chart []
+    (Chart.defaultChart Chart.Bar
+        |> Chart.setData data
+    )
     """
 
 
 example : Example msg
 example =
-    { title = "Mixed Chart"
+    { title = "Stacked Bar Chart"
     , view = view
     , code = code
     }
