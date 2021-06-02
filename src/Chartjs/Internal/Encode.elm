@@ -676,6 +676,7 @@ encodeTicks ticks =
     Encode.beginObject
         |> Encode.maybeColorField "backdropColor" ticks.backdropColor
         |> Encode.maybeIntField "backdropPadding" ticks.backdropPadding
+        |> Encode.maybeCustomField "showLabelBackdrop" (\_ -> Encode.bool True) ticks.backdropColor
         |> Encode.maybeBoolField "display" ticks.display
         |> Encode.maybeColorField "color" ticks.color
         |> Encode.maybeCustomField "font" encodeFont ticks.font
