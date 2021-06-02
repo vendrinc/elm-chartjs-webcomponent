@@ -5,7 +5,7 @@ import Chartjs.Common as ChartCommon
 import Chartjs.Data as ChartData
 import Chartjs.DataSets.Bar as BarData
 import Example exposing (Example)
-import Html exposing (Html, div)
+import Html exposing (Html)
 import Utils
 
 

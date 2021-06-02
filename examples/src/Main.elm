@@ -9,11 +9,11 @@ import Html.Keyed as HtmlKeyed
 import MixedChart
 import MultipleAxes
 import PieChartWithOptions
+import PolarAreaChart
+import RadarChart
 import ScatterChart
 import SimpleBarChart
 import StackedBarChart
-import PolarAreaChart
-import RadarChart
 
 
 examplesList : List (Example.Example Msg)

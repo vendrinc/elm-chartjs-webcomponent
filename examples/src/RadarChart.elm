@@ -4,10 +4,6 @@ import Chartjs.Chart as Chart
 import Chartjs.Common as ChartCommon
 import Chartjs.Data as ChartData
 import Chartjs.DataSets.Line as LineData
-import Chartjs.Options as ChartOptions
-import Chartjs.Options.Font as ChartFont
-import Chartjs.Options.Legend as ChartLegend
-import Chartjs.Options.Title as ChartTitle
 import Color
 import Example exposing (Example)
 import Html exposing (Html)
@@ -35,6 +31,18 @@ view =
 code : String
 code =
     """
+    let
+        dataset =
+            LineData.defaultRadarFromData "Attributes" [ 8, 9, 12, 12, 15, 11 ]
+                |> LineData.setBackgroundColor (ChartCommon.All Utils.blue)
+                |> ChartData.LineData
+
+        data =
+            ChartData.dataFromLabels [ "Strength", "Constitution", "Dexterity", "Intelligence", "Wisdom", "Charisma" ]
+                |> ChartData.addDataset dataset
+    in
+    Chart.defaultChart Chart.Radar
+        |> Chart.setData data
     """
 
 
