@@ -621,6 +621,7 @@ encodeScale scale =
         |> Encode.maybeFloatField "suggestedMax" scale.suggestedMax
         |> Encode.maybeCustomField "grid" encodeGrid scale.grid
         |> Encode.maybeCustomField "title" encodeScaleTitle scale.title
+        |> Encode.maybeCustomField "ticks" encodeTicks scale.ticks
         |> Encode.toValue
 
 
@@ -667,6 +668,22 @@ encodeScaleTitle title =
         |> Encode.maybeColorField "color" title.color
         |> Encode.maybeCustomField "font" encodeFont title.font
         |> Encode.maybeIntField "padding" title.padding
+        |> Encode.toValue
+
+
+encodeTicks : Chartjs.Options.Scale.ScaleTicks -> Encode.Value
+encodeTicks ticks =
+    Encode.beginObject
+        |> Encode.maybeColorField "backdropColor" ticks.backdropColor
+        |> Encode.maybeIntField "backdropPadding" ticks.backdropPadding
+        |> Encode.maybeBoolField "display" ticks.display
+        |> Encode.maybeColorField "color" ticks.color
+        |> Encode.maybeCustomField "font" encodeFont ticks.font
+        |> Encode.maybeIntField "padding" ticks.padding
+        |> Encode.maybeColorField "textStrokeColor" ticks.textStrokeColor
+        |> Encode.maybeIntField "textStrokeWidth" ticks.textStrokeWidth
+        |> Encode.maybeIntField "z" ticks.z
+        |> Encode.maybeFloatField "stepSize" ticks.stepSize
         |> Encode.toValue
 
 

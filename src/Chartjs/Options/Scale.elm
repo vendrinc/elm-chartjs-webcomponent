@@ -1,8 +1,9 @@
 module Chartjs.Options.Scale exposing
     ( ScaleType(..), Scale, defaultScale
-    , setAxis, setPosition, setReverse, setMin, setMax, setSuggestedMin, setSuggestedMax, setGrid, setTitle
+    , setAxis, setPosition, setReverse, setMin, setMax, setSuggestedMin, setSuggestedMax, setGrid, setTitle, setTicks
     , ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
     , ScaleTitle, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
+    , ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
     )
 
 {-| Axes are an integral part of a chart.
@@ -10,10 +11,13 @@ module Chartjs.Options.Scale exposing
 For more information, see <<https://www.chartjs.org/docs/3.3.2/axes/>
 
 @docs ScaleType, Scale, defaultScale
-@docs setAxis, setPosition, setReverse, setMin, setMax, setSuggestedMin, setSuggestedMax, setGrid, setTitle
+@docs setAxis, setPosition, setReverse, setMin, setMax, setSuggestedMin, setSuggestedMax, setGrid, setTitle, setTicks
 
 @docs ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
+
 @docs ScaleTitle, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
+
+@docs ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
 
 -}
 
@@ -35,6 +39,7 @@ type alias Scale =
     , suggestedMax : Maybe Float
     , grid : Maybe ScaleGrid
     , title : Maybe ScaleTitle
+    , ticks : Maybe ScaleTicks
     }
 
 
@@ -57,6 +62,7 @@ defaultScale type_ id =
     , suggestedMax = Nothing
     , grid = Nothing
     , title = Nothing
+    , ticks = Nothing
     }
 
 
@@ -128,6 +134,11 @@ setTitle : ScaleTitle -> Scale -> Scale
 setTitle title scale =
     { scale | title = Just title }
 
+{-| Set the tick properties for this scale 
+-}
+setTicks : ScaleTicks -> Scale -> Scale
+setTicks ticks scale =
+    { scale | ticks = Just ticks }
 
 {-| Linear and logarithmic scales work best
 
@@ -268,3 +279,92 @@ setTitlePadding padding title =
 setTitleFont : FontSpec -> ScaleTitle -> ScaleTitle
 setTitleFont font title =
     { title | font = Just font }
+
+
+{-| Styling properties for the tick labels of a scale
+-}
+type alias ScaleTicks =
+    { backdropColor : Maybe Color
+    , backdropPadding : Maybe Int
+    , color : Maybe Color
+    , display : Maybe Bool
+    , font : Maybe FontSpec
+    , padding : Maybe Int
+    , stepSize : Maybe Float
+    , textStrokeColor : Maybe Color
+    , textStrokeWidth : Maybe Int
+    , z : Maybe Int
+    }
+
+
+{-| Create a blank ticks properties object that can then be manipulated
+-}
+defaultTicks : ScaleTicks
+defaultTicks =
+    { backdropColor = Nothing
+    , backdropPadding = Nothing
+    , color = Nothing
+    , display = Nothing
+    , font = Nothing
+    , padding = Nothing
+    , stepSize = Nothing
+    , textStrokeColor = Nothing
+    , textStrokeWidth = Nothing
+    , z = Nothing
+    }
+
+{-| Set the color of tick label backdrops
+-}
+setBackdropColor : Color -> ScaleTicks -> ScaleTicks
+setBackdropColor color ticks =
+    { ticks | backdropColor = Just color }
+
+{-| Set the padding around tick label backdrops
+-}
+setBackdropPadding : Int -> ScaleTicks -> ScaleTicks
+setBackdropPadding padding ticks =
+    { ticks | backdropPadding = Just padding }
+
+{-| Set the color for the tick labels
+-}
+setTickTextColor : Color -> ScaleTicks -> ScaleTicks
+setTickTextColor color ticks =
+    { ticks | color = Just color }
+
+{-| Set whether or not these ticks should be displayed
+-}
+setTickDisplay : Bool -> ScaleTicks -> ScaleTicks
+setTickDisplay bool ticks =
+    { ticks | display = Just bool }
+
+{-| Set the font properties for the tick labels
+-}
+setTickFont : FontSpec -> ScaleTicks -> ScaleTicks
+setTickFont font ticks =
+    { ticks | font = Just font }
+
+{-| Set the tick stroke color
+-}
+setTickStrokeColor : Color -> ScaleTicks -> ScaleTicks
+setTickStrokeColor color ticks =
+    { ticks | textStrokeColor = Just color }
+
+{-| Set the tick stroke width
+-}
+setTickStrokeWidth : Int -> ScaleTicks -> ScaleTicks
+setTickStrokeWidth width ticks =
+    { ticks | textStrokeWidth = Just width }
+
+{-| Set a fixed step size for these ticks
+-}
+setStepSize : Float -> ScaleTicks -> ScaleTicks
+setStepSize step ticks =
+    { ticks | stepSize = Just step }
+
+{-| Set the z-index of the tick layer
+
+Values <= 0 are under datasets, > 0 are drawn on top
+-}
+setTickZ : Int -> ScaleTicks -> ScaleTicks
+setTickZ z ticks =
+    { ticks | z = Just z }
