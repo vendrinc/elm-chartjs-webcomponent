@@ -1,6 +1,6 @@
 {
   "name": "@indicatrix/elm-chartjs-webcomponent",
-  "version": "1.1.1",
+  "version": "2.0.1",
   "description": "Web component bridge to Chartjs for Elm Chartjs bindings",
   "main": "webcomponent/chart.js",
   "files": [
@@ -31,6 +31,6 @@
     "elm-format": "^0.8.5"
   },
   "dependencies": {
-    "chart.js": "^3.3.2"
+    "chart.js": "^3.4.1"
   }
 }
