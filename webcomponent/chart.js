@@ -67,4 +67,9 @@ class ChartjsChart extends window.HTMLElement {
   }
 }
 
-window.customElements.define('chart-component', ChartjsChart)
+function registerChartComponent() {
+  window.customElements.define('chart-component', ChartjsChart)
+}
+
+registerChartComponent()
+export { Chart, registerChartComponent }
