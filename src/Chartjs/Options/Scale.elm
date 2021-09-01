@@ -174,14 +174,14 @@ setMax max scale =
 -}
 setSuggestedMin : Float -> Scale -> Scale
 setSuggestedMin min scale =
-    { scale | min = Just min }
+    { scale | suggestedMin = Just min }
 
 
 {-| Set a suggestion, used when calculating the maximum extent
 -}
 setSuggestedMax : Float -> Scale -> Scale
 setSuggestedMax max scale =
-    { scale | max = Just max }
+    { scale | suggestedMax = Just max }
 
 
 {-| Set the grid properties for this scale
