@@ -4,6 +4,7 @@ module Chartjs.Options.Scale exposing
     , ScaleGrid, defaultGrid, setBorderColor, setBorderWidth, setDrawBorder, setDrawOnChartArea, setDrawTicks, setGridColor, setTickColor, setTickLength, setTickWidth
     , ScaleTitle, defaultTitle, setTitleColor, setTitleFont, setTitlePadding
     , ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickPadding, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
+    , TickFormat(..), setTickPrefix, setTickSuffix
     )
 
 {-| Axes are an integral part of a chart.
@@ -81,6 +82,13 @@ ScaleTicks also contains the stepSize property, which can be used to explicitly 
             )
 
 @docs ScaleTicks, defaultTicks, setStepSize, setBackdropColor, setBackdropPadding, setTickDisplay, setTickPadding, setTickTextColor, setTickFont, setTickStrokeColor, setTickStrokeWidth, setTickZ
+
+
+## Label Formatting
+
+You can additionally add prefixes or suffixes to a tick label.
+
+@docs TickFormat, setTickPrefix, setTickSuffix
 
 -}
 
@@ -368,7 +376,16 @@ type alias ScaleTicks =
     , textStrokeColor : Maybe Color
     , textStrokeWidth : Maybe Int
     , z : Maybe Int
+    , tickFormat : Maybe TickFormat
     }
+
+
+{-| Formatting callbacks for the scale ticks
+Use setPrefix and setSuffix instead
+-}
+type TickFormat
+    = Prefix String
+    | Suffix String
 
 
 {-| Create a blank ticks properties object that can then be manipulated
@@ -385,6 +402,7 @@ defaultTicks =
     , textStrokeWidth = Nothing
     , z = Nothing
     , stepSize = Nothing
+    , tickFormat = Nothing
     }
 
 
@@ -459,3 +477,17 @@ Values <= 0 are under datasets, > 0 are drawn on top
 setTickZ : Int -> ScaleTicks -> ScaleTicks
 setTickZ z ticks =
     { ticks | z = Just z }
+
+
+{-| Set a prefix to apply to all the tick labels
+-}
+setTickPrefix : String -> ScaleTicks -> ScaleTicks
+setTickPrefix prefix ticks =
+    { ticks | tickFormat = Just <| Prefix prefix }
+
+
+{-| Set a suffix to apply to all the tick labels
+-}
+setTickSuffix : String -> ScaleTicks -> ScaleTicks
+setTickSuffix suffix ticks =
+    { ticks | tickFormat = Just <| Suffix suffix }

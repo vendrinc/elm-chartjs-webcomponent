@@ -355,7 +355,7 @@ encodeOptionsPlugins options =
     Encode.beginObject
         |> Encode.maybeCustomField "legend" encodeLegend options.legend
         |> Encode.maybeCustomField "title" encodeTitle options.title
-        |> Encode.maybeCustomField "tooltips" encodeTooltips options.tooltips
+        |> Encode.maybeCustomField "tooltip" encodeTooltips options.tooltips
         |> Encode.toValue
 
 
@@ -696,7 +696,18 @@ encodeTicks ticks =
         |> Encode.maybeIntField "textStrokeWidth" ticks.textStrokeWidth
         |> Encode.maybeIntField "z" ticks.z
         |> Encode.maybeFloatField "stepSize" ticks.stepSize
+        |> Encode.maybeCustomField "tickFormat" encodeTickFormat ticks.tickFormat
         |> Encode.toValue
+
+
+encodeTickFormat : Chartjs.Options.Scale.TickFormat -> Encode.Value
+encodeTickFormat tickFormat =
+    case tickFormat of
+        Chartjs.Options.Scale.Prefix prefix ->
+            Encode.object [ ( "prefix", Encode.string prefix ) ]
+
+        Chartjs.Options.Scale.Suffix suffix ->
+            Encode.object [ ( "suffix", Encode.string suffix ) ]
 
 
 encodeTitle : Chartjs.Options.Title.Title -> Encode.Value
@@ -719,33 +730,29 @@ encodeTooltips tooltips =
         |> Encode.maybeCustomField "mode" encodeMode tooltips.mode
         |> Encode.maybeBoolField "intersect" tooltips.intersect
         |> Encode.maybeCustomField "position" encodePositionMode tooltips.position
-        --|> Encode.maybeCustomField "callbacks" encodeCallbacks tooltips.callbacks
+        |> Encode.maybeCustomField "labelFormat" encodeLabelFormat tooltips.labelFormat
         |> Encode.maybeColorField "backgroundColor" tooltips.backgroundColor
-        |> Encode.maybeStringField "titleFontFamily" tooltips.titleFontFamily
-        |> Encode.maybeIntField "titleFontSize" tooltips.titleFontSize
-        |> Encode.maybeStringField "titleFontStyle" tooltips.titleFontStyle
-        |> Encode.maybeColorField "titleFontColor" tooltips.titleFontColor
+        |> Encode.maybeColorField "titleColor" tooltips.titleColor
+        |> Encode.maybeCustomField "titleFont" encodeFont tooltips.titleFont
+        |> Encode.maybeCustomField "titleAlign" encodeTooltipAlign tooltips.titleAlign
         |> Encode.maybeIntField "titleSpacing" tooltips.titleSpacing
         |> Encode.maybeIntField "titleMarginBottom" tooltips.titleMarginBottom
-        |> Encode.maybeStringField "bodyFontFamily" tooltips.bodyFontFamily
-        |> Encode.maybeIntField "bodyFontSize" tooltips.bodyFontSize
-        |> Encode.maybeStringField "bodyFontStyle" tooltips.bodyFontStyle
-        |> Encode.maybeColorField "bodyFontColor" tooltips.bodyFontColor
+        |> Encode.maybeColorField "bodyColor" tooltips.bodyColor
+        |> Encode.maybeCustomField "bodyFont" encodeFont tooltips.bodyFont
+        |> Encode.maybeCustomField "bodyAlign" encodeTooltipAlign tooltips.bodyAlign
         |> Encode.maybeIntField "bodySpacing" tooltips.bodySpacing
-        |> Encode.maybeStringField "footerFontFamily" tooltips.footerFontFamily
-        |> Encode.maybeIntField "footerFontSize" tooltips.footerFontSize
-        |> Encode.maybeStringField "footerFontStyle" tooltips.footerFontStyle
-        |> Encode.maybeColorField "footerFontColor" tooltips.footerFontColor
+        |> Encode.maybeStringField "footerText" tooltips.footerText
+        |> Encode.maybeColorField "footerColor" tooltips.footerColor
+        |> Encode.maybeCustomField "footerFont" encodeFont tooltips.footerFont
+        |> Encode.maybeCustomField "footerAlign" encodeTooltipAlign tooltips.footerAlign
         |> Encode.maybeIntField "footerSpacing" tooltips.footerSpacing
         |> Encode.maybeIntField "footerMarginTop" tooltips.footerMarginTop
-        |> Encode.maybeIntField "xPadding" tooltips.xPadding
-        |> Encode.maybeIntField "yPadding" tooltips.yPadding
         |> Encode.maybeIntField "caretPadding" tooltips.caretPadding
-        |> Encode.maybeIntField "carretSize" tooltips.carretSize
+        |> Encode.maybeIntField "caretSize" tooltips.caretSize
         |> Encode.maybeIntField "cornerRadius" tooltips.cornerRadius
         |> Encode.maybeColorField "multiKeyBackground" tooltips.multiKeyBackground
         |> Encode.maybeBoolField "displayColors" tooltips.displayColors
-        |> Encode.maybeBoolField "borderColor" tooltips.borderColor
+        |> Encode.maybeColorField "borderColor" tooltips.borderColor
         |> Encode.maybeIntField "borderWidth" tooltips.borderWidth
         |> Encode.toValue
 
@@ -786,11 +793,26 @@ encodePositionMode positionMode =
         |> Encode.string
 
 
+encodeTooltipAlign : Chartjs.Options.Tooltips.TooltipTextAlign -> Encode.Value
+encodeTooltipAlign align =
+    (case align of
+        Chartjs.Options.Tooltips.Left ->
+            "left"
 
-{-
-   encodeCallbacks : Chartjs.Options.Tooltips.Callbacks -> Encode.Value
-   encodeCallbacks callbacks =
-       Encode.beginObject
-           |> Encode.maybeStringField "label" callbacks.label
-           |> Encode.toValue
--}
+        Chartjs.Options.Tooltips.Center ->
+            "center"
+
+        Chartjs.Options.Tooltips.Right ->
+            "right"
+    )
+        |> Encode.string
+
+
+encodeLabelFormat : Chartjs.Options.Tooltips.LabelFormat -> Encode.Value
+encodeLabelFormat labelFormat =
+    case labelFormat of
+        Chartjs.Options.Tooltips.Prefix prefix ->
+            Encode.object [ ( "prefix", Encode.string prefix ) ]
+
+        Chartjs.Options.Tooltips.Suffix suffix ->
+            Encode.object [ ( "suffix", Encode.string suffix ) ]

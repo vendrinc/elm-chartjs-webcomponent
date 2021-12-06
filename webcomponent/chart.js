@@ -14,6 +14,75 @@ function safeReplaceObject(oldObj, newObj) {
   })
 }
 
+// Preprocess a config
+// This turns some of our fancy elm objects into neat callback functions, giving us finer control over labels etc.
+function preprocessConfig(config) {
+  if (!config.options) return
+
+  // Callbacks for tooltips
+  if (config.options.plugins && config.options.plugins.tooltip) {
+    const tooltipConfig = config.options.plugins.tooltip
+    tooltipConfig.callbacks = tooltipConfig.callbacks || {}
+
+    if (tooltipConfig.labelFormat) {
+      generateTooltipLabelCallbackFunction(tooltipConfig.labelFormat, tooltipConfig)
+    }
+
+    if (tooltipConfig.footerText) {
+      tooltipConfig.callbacks.footer = function() { return tooltipConfig.footerText }
+    }
+  }
+
+  // Generate callback functions for any scales with a tick format specified
+  if (config.options.scales) {
+    Object.values(config.options.scales).forEach(function(scaleConfig) {
+      if (scaleConfig.ticks && scaleConfig.ticks.tickFormat) {
+        generateScaleTickCallbackFunction(scaleConfig.ticks.tickFormat, scaleConfig.ticks)
+      }
+    })
+  }
+}
+
+// Generate a callback function for a tooltip label
+function generateTooltipLabelCallbackFunction(labelFormat, config) {
+  if (labelFormat.prefix) { 
+    // Add a prefix to the tooltip labels
+    config.callbacks.label = function(context) {
+      let label = context.dataset.label || ''
+      if (label) {
+        label += ': '
+      }
+
+      if (context.parsed.y !== null) {
+        label += labelFormat.prefix + context.parsed.y 
+      }
+      return label
+    }
+  } else if (labelFormat.suffix) {
+    // Add a suffix to the tooltip labels
+    config.callbacks.label = function(context) {
+      let label = context.dataset.label || ''
+      if (label) {
+        label += ': '
+      }
+
+      if (context.parsed.y !== null) {
+        label += context.parsed.y + labelFormat.suffix
+      }
+      return label
+    }
+  }
+}
+
+// Generate a callback function for a scale tick
+function generateScaleTickCallbackFunction(tickFormat, config) {
+  if (tickFormat.prefix) {
+    config.callback = function(value, _, _) { return tickFormat.prefix + value }
+  } else if (tickFormat.suffix) {
+    config.callback = function(value, _, _) { return value + tickFormat.suffix }
+  }
+}
+
 class ChartjsChart extends window.HTMLElement {
   constructor () {
     const self = super()
@@ -38,6 +107,7 @@ class ChartjsChart extends window.HTMLElement {
   }
 
   set chartConfig (newValue) {
+    preprocessConfig(newValue)
     this._chartConfig = newValue
 
     if (this._chart) {
