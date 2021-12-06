@@ -1,6 +1,7 @@
 module Chartjs.Options.Tooltips exposing
     ( Tooltips, defaultTooltips
     , PositionMode(..), Mode(..)
+    , setBackgroundColor, setEnabled, setIntersect, setMode, setPosition
     , LabelFormat(..), setLabelPrefix, setLabelSuffix
     , TooltipTextAlign(..)
     , setTitleColor, setTitleFont, setTitleAlign, setTitleSpacing, setTitleMarginBottom
@@ -9,7 +10,6 @@ module Chartjs.Options.Tooltips exposing
     , setCaretPadding, setCaretSize
     , setCornerRadius, setBorderColor, setBorderWidth
     , setMultiKeyBackground, setDisplayColors
-    , setBackgroundColor, setEnabled, setIntersect, setMode, setPosition
     )
 
 {-| For more information, see <https://www.chartjs.org/docs/latest/configuration/tooltip.html>
@@ -18,7 +18,7 @@ module Chartjs.Options.Tooltips exposing
 
 @docs PositionMode, Mode
 
-@docs backgroundColor
+@docs setBackgroundColor, setEnabled, setIntersect, setMode, setPosition
 
 
 ## Label Formatting
@@ -202,11 +202,27 @@ setPosition position tooltip =
     { tooltip | position = Just position }
 
 
+{-| Set a prefix that should be added to all labels in the tooltip
+
+example: To format values as currency:
+
+    defaultTooltips
+        |> setLabelPrefix "$"
+
+-}
 setLabelPrefix : String -> Tooltips -> Tooltips
 setLabelPrefix prefix tooltip =
     { tooltip | labelFormat = Just <| Prefix prefix }
 
 
+{-| Set a suffix that should be added to all labels in the tooltip
+
+example: To format values as percentages:
+
+    defaultTooltips
+        |> setLabelSuffix "%"
+
+-}
 setLabelSuffix : String -> Tooltips -> Tooltips
 setLabelSuffix suffix tooltip =
     { tooltip | labelFormat = Just <| Suffix suffix }
