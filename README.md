@@ -21,8 +21,8 @@ An example setup is provided in **examples/**. This example uses [Parcel](https:
 To get started:
 ```
 cd examples
-npm install
-npm run start
+yarn install
+yarn start
 ```
 
 ## Documentation

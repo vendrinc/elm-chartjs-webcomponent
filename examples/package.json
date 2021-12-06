@@ -10,7 +10,6 @@
     },
     "dependencies": {
         "@indicatrix/elm-chartjs-webcomponent": "file:..",
-        "chart.js": "^3.3.2",
         "elm": "^0.19.1-5"
     },
     "devDependencies": {

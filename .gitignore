@@ -1,5 +1,7 @@
 elm-stuff
 node_modules
 .parcel-cache
-examples/dist/
 .DS_Store
+
+examples/dist
+examples/yarn.lock
